@@ -18,6 +18,7 @@ import {
   setOrderSettlement,
   unlockProgress,
   updateOrderPrice,
+  generateReportOrder,
 } from "../../../api/Order/order";
 import { handleFormChange } from "../../../utils";
 import AdminNavbar from "../../components/AdminNavbar";
@@ -38,6 +39,7 @@ function ActionDropdown({
   onSettlement,
   onLockProgress,
   onUnlockProgress,
+  onGenerate,
 }) {
   const [open, setOpen] = useState(false);
   const btnRef = React.useRef(null);
@@ -86,13 +88,18 @@ function ActionDropdown({
     },
     lockProgress: {
       label: "Lock Progress",
-      style: { backgroundColor: "#6B7280" }, // gray
+      style: { backgroundColor: "#6B7280" },
       onClick: onLockProgress,
     },
     unlockProgress: {
       label: "Unlock Progress",
-      style: { backgroundColor: "#22C55E" }, // green
+      style: { backgroundColor: "#22C55E" },
       onClick: onUnlockProgress,
+    },
+    generate: {
+      label: "Generate PDF",
+      style: { backgroundColor: "#3B82F6" },
+      onClick: onGenerate,
     },
   };
 
@@ -149,64 +156,64 @@ function ActionDropdown({
 
   const buttonRules = {
     // Setelah Reject (approval 4, apapun payment status)
-    "4-*-*-*-*": ["view", "rab"],
+    "4-*-*-*-*": ["view", "rab", "generate"],
 
     // Order Masuk (approval 1, belum ada pembayaran)
-    "1-1-0-N-N": ["view", "rab", "reject"],
+    "1-1-0-N-N": ["view", "rab", "generate", "reject"],
 
     // Setelah dibuat RAB (approval 2, payment belum ada)
     // "1-1-0-Y-N": ["view", "rab", "reject", "approve"],
-    "1-1-0-Y-N": ["view", "rab", "reject", "approve", "skema"],
+    "1-1-0-Y-N": ["view", "rab", "generate", "reject", "approve", "skema"],
 
     // Setelah di Approve (approval 2, payment belum ada tapi siap skema)
-    "2-1-0-Y-N": ["view", "rab", "progress", "lockProgress", "reject", "skema"],
+    "2-1-0-Y-N": ["view", "rab", "generate", "progress", "lockProgress", "reject", "skema"],
 
     // Setelah di Approve (approval 2, payment belum ada tapi siap skema)
-    "2-1-1-Y-N": ["view", "rab", "progress", "unlockProgress", "reject", "skema"],
+    "2-1-1-Y-N": ["view", "rab", "generate", "progress", "unlockProgress", "reject", "skema"],
 
     // Setelah skema pembayaran dibuat (approval 2, payment belum dibayar)
-    "2-1-0-Y-Y": ["view", "rab", "progress", "lockProgress", "reject", "downPayment", "settlement"],
+    "2-1-0-Y-Y": ["view", "rab", "generate", "progress", "lockProgress", "reject", "downPayment", "settlement"],
 
     // Setelah skema pembayaran dibuat (approval 2, payment belum dibayar)
-    "2-1-1-Y-Y": ["view", "rab", "progress", "unlockProgress", "reject", "downPayment", "settlement"],
+    "2-1-1-Y-Y": ["view", "rab", "generate", "progress", "unlockProgress", "reject", "downPayment", "settlement"],
 
     // Setelah Down Payment (approval 2, payment 2)
-    "2-2-0-Y-Y": ["view", "rab", "progress", "lockProgress", "reject", "settlement"],
+    "2-2-0-Y-Y": ["view", "rab", "generate", "progress", "lockProgress", "reject", "settlement"],
 
     // Setelah Down Payment (approval 2, payment 2)
-    "2-2-1-Y-Y": ["view", "rab", "progress", "unlockProgress", "reject", "settlement"],
+    "2-2-1-Y-Y": ["view", "rab", "generate", "progress", "unlockProgress", "reject", "settlement"],
 
     // Setelah Settlement (approval 2, payment 3)
-    "2-3-0-Y-Y": ["view", "rab", "progress", "lockProgress"],
+    "2-3-0-Y-Y": ["view", "rab", "generate", "progress", "lockProgress"],
 
     // Setelah Settlement (approval 2, payment 3)
-    "2-3-1-Y-Y": ["view", "rab", "progress", "unlockProgress"],
+    "2-3-1-Y-Y": ["view", "rab", "generate", "progress", "unlockProgress"],
 
     //
 
     // Setelah di Approve (approval 2, payment belum ada tapi siap skema)
-    "3-1-0-Y-N": ["view", "rab", "progress", "skema"],
+    "3-1-0-Y-N": ["view", "rab", "generate", "progress", "skema"],
 
     // Setelah di Approve (approval 2, payment belum ada tapi siap skema)
-    "3-1-1-Y-N": ["view", "rab", "progress", "skema"],
+    "3-1-1-Y-N": ["view", "rab", "generate", "progress", "skema"],
 
     // Setelah skema pembayaran dibuat (approval 2, payment belum dibayar)
-    "3-1-0-Y-Y": ["view", "rab", "progress", "downPayment", "settlement"],
+    "3-1-0-Y-Y": ["view", "rab", "generate", "progress", "downPayment", "settlement"],
 
     // Setelah skema pembayaran dibuat (approval 2, payment belum dibayar)
-    "3-1-1-Y-Y": ["view", "rab", "progress", "downPayment", "settlement"],
+    "3-1-1-Y-Y": ["view", "rab", "generate", "progress", "downPayment", "settlement"],
 
     // Setelah Down Payment (approval 2, payment 2)
-    "3-2-0-Y-Y": ["view", "rab", "progress", "settlement"],
+    "3-2-0-Y-Y": ["view", "rab", "generate", "progress", "settlement"],
 
     // Setelah Down Payment (approval 2, payment 2)
-    "3-2-1-Y-Y": ["view", "rab", "progress", "settlement"],
+    "3-2-1-Y-Y": ["view", "rab", "generate", "progress", "settlement"],
 
     // Setelah Settlement (approval 2, payment 3)
-    "3-3-0-Y-Y": ["view", "rab", "progress"],
+    "3-3-0-Y-Y": ["view", "rab", "generate", "progress"],
 
     // Setelah Settlement (approval 2, payment 3)
-    "3-3-1-Y-Y": ["view", "rab", "progress"],
+    "3-3-1-Y-Y": ["view", "rab", "generate", "progress"],
   };
 
   useEffect(() => {
@@ -432,6 +439,23 @@ const OrderList = () => {
           break;
         case "unlock":
           await unlockProgress(selectedOrder.oId);
+          break;
+        case "generate":
+          const res = await generateReportOrder(selectedOrder.oId);
+          const originUrl = res.data.data.url;
+          const fileUrl = "https://ga-image-proxy.firnasreyhan.workers.dev/?url="+originUrl;
+
+          const fileName = originUrl.split("/").pop();
+
+          const response = await fetch(fileUrl);
+          const blob = await response.blob();
+          const blobUrl = window.URL.createObjectURL(blob);
+
+          const link = document.createElement("a");
+          link.href = blobUrl;
+          link.download = fileName;
+          link.click();
+          window.URL.revokeObjectURL(blobUrl);
           break;
         default:
           throw new Error("Unknown action");
@@ -800,6 +824,14 @@ const OrderList = () => {
                                     "Apakah Anda yakin ingin membuka kunci progres pesanan ini?",
                                 })
                               }
+                              onGenerate={() =>
+                                handleOrderAction(order, {
+                                  type: "generate",
+                                  title: "Generate",
+                                  message:
+                                    "Apakah Anda yakin ingin mengunduh data pesanan ini?",
+                                }
+                              )}
                             />
                           </td>
                           <td className="px-3 py-3 font-medium whitespace-nowrap text-sm">

@@ -95,6 +95,16 @@ export const unlockProgress = async (oId) => {
   }
 };
 
+export const generateReportOrder = async (oId) => {
+  try {
+    const response = await api.post('/api/order/generate-report', null, { params: { oId } });
+    return response;
+  } catch (error) {
+    console.error('Error generate report:', error);
+    throw error;
+  }
+};
+
 /**
  * Approve order
  * @param {string|number} oId - Order ID to approve
