@@ -38,7 +38,11 @@ const getProfitDetails = (data) => {
   ];
 };
 
+<<<<<<< HEAD
 export function OrderAndFinancialStatus({ filterDateStart, filterDateEnd, onDataLoaded, onCategoryDataLoaded }) {
+=======
+export function OrderAndFinancialStatus({ filterDateStart, filterDateEnd }) {
+>>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
   const [dashboardAutoData, setDashboardAutoData] = React.useState(null);
   const [catalogueCategoryResume, setCatalogueCategoryResume] =
     React.useState(null);
@@ -67,9 +71,12 @@ export function OrderAndFinancialStatus({ filterDateStart, filterDateEnd, onData
 
       setDashboardAutoData(dashboardResponse.data.data);
       setCatalogueCategoryResume(catalogueCategoryResume.data.data);
+<<<<<<< HEAD
       
       if (onDataLoaded) onDataLoaded(dashboardResponse.data.data);
       if (onCategoryDataLoaded) onCategoryDataLoaded(catalogueCategoryResume.data.data);
+=======
+>>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
     } catch (error) {
       setError("Gagal memuat data dashboard");
       console.error(error);

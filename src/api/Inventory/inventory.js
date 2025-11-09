@@ -1,6 +1,10 @@
 import api from '../axios';
 
+<<<<<<< HEAD
 export const getInventories = ({ pageLimit, pageNumber, search = '', orderBy = '', ordering = '', filterIcId, filterIsId, filterIwId }) => {
+=======
+export const getInventories = ({ pageLimit, pageNumber, search = '', orderBy = '', ordering = '', filterIcId, filterIsId }) => {
+>>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
   const params = {};
   
   if (pageLimit !== undefined && pageLimit !== null) {
@@ -14,7 +18,10 @@ export const getInventories = ({ pageLimit, pageNumber, search = '', orderBy = '
   if (ordering) params.ordering = ordering;
   if (filterIcId) params.filterIcId = filterIcId;
   if (filterIsId) params.filterIsId = filterIsId;
+<<<<<<< HEAD
   if (filterIwId) params.filterIwId = filterIwId;
+=======
+>>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
   
   return api.get('/api/inventory', { params });
 };

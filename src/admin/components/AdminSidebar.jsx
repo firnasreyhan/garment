@@ -1,15 +1,23 @@
 import {
   ArchiveBoxIcon,
+<<<<<<< HEAD
   ArrowPathIcon,
   BuildingStorefrontIcon,
   ChartBarIcon,
+=======
+  BuildingStorefrontIcon,
+>>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
   ChevronDownIcon,
   ChevronUpIcon,
   ClipboardDocumentListIcon,
   CreditCardIcon,
+<<<<<<< HEAD
   CurrencyDollarIcon,
   DocumentIcon,
   DocumentTextIcon,
+=======
+  DocumentIcon,
+>>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
   HomeIcon,
   PresentationChartBarIcon,
   RectangleGroupIcon,
@@ -134,6 +142,7 @@ const DROPDOWN_MENUS = [
       },
     ],
   },
+<<<<<<< HEAD
   {
     name: "Pelaporan",
     icon: <ClipboardDocumentListIcon className="w-5 h-5" />,
@@ -160,6 +169,8 @@ const DROPDOWN_MENUS = [
       },
     ],
   },
+=======
+>>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 ];
 
 const AdminSidebar = ({
@@ -170,7 +181,11 @@ const AdminSidebar = ({
 }) => {
   const location = useLocation();
   const isActive = React.useCallback(
+<<<<<<< HEAD
     (path) => location.pathname === path,
+=======
+    (path) => location.pathname.startsWith(path),
+>>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
     [location.pathname],
   );
   const [openDropdown, setOpenDropdown] = React.useState(null);
