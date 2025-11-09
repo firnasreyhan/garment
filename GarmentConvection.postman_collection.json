@@ -1,0 +1,6867 @@
+{
+	"info": {
+		"_postman_id": "0ac5348a-468a-4203-9971-fe629da59f9d",
+		"name": "GarmentConvection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27425242"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "register",
+							"item": [
+								{
+									"name": "/api/auth/register",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"uAddress\": \"string\",\n  \"uEmail\": \"string\",\n  \"uName\": \"string\",\n  \"uPassword\": \"string\",\n  \"uPhone\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/auth/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"register"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"uAddress\": \"string\",\n  \"uEmail\": \"string\",\n  \"uName\": \"string\",\n  \"uPassword\": \"string\",\n  \"uPhone\": \"string\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/auth/register",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"auth",
+														"register"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "login",
+							"item": [
+								{
+									"name": "/api/auth/login",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"uEmail\": \"string\",\n  \"uPassword\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"uEmail\": \"string\",\n  \"uPassword\": \"string\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/auth/login",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"auth",
+														"login"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "catalogue-category",
+					"item": [
+						{
+							"name": "detail",
+							"item": [
+								{
+									"name": "/api/catalogue-category/detail",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-category/detail?ccId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-category",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "ccId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/catalogue-category/detail?ccId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"catalogue-category",
+														"detail"
+													],
+													"query": [
+														{
+															"key": "ccId",
+															"value": "5594",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/catalogue-category",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/catalogue-category?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"catalogue-category"
+									],
+									"query": [
+										{
+											"key": "pageLimit",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "pageNumber",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "search",
+											"value": "string"
+										},
+										{
+											"key": "orderBy",
+											"value": "string"
+										},
+										{
+											"key": "ordering",
+											"value": "string"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-category?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-category"
+											],
+											"query": [
+												{
+													"key": "pageLimit",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "pageNumber",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "search",
+													"value": "string"
+												},
+												{
+													"key": "orderBy",
+													"value": "string"
+												},
+												{
+													"key": "ordering",
+													"value": "string"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/catalogue-category",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ccDescription\": \"string\",\n  \"ccName\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/catalogue-category",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"catalogue-category"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ccDescription\": \"string\",\n  \"ccName\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-category",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-category"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/catalogue-category",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ccDescription\": \"string\",\n  \"ccId\": 8660,\n  \"ccName\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/catalogue-category",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"catalogue-category"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ccDescription\": \"string\",\n  \"ccId\": 8660,\n  \"ccName\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-category",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-category"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/catalogue-category",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/catalogue-category?ccId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"catalogue-category"
+									],
+									"query": [
+										{
+											"key": "ccId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-category?ccId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-category"
+											],
+											"query": [
+												{
+													"key": "ccId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "catalogue-product",
+					"item": [
+						{
+							"name": "detail",
+							"item": [
+								{
+									"name": "/api/catalogue-product/detail",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-product/detail?cpId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-product",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "cpId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/catalogue-product/detail?cpId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"catalogue-product",
+														"detail"
+													],
+													"query": [
+														{
+															"key": "cpId",
+															"value": "5594",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "upload-image",
+							"item": [
+								{
+									"name": "/api/catalogue-product/upload-image",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "multipart/form-data"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "ContentType",
+													"value": "string",
+													"type": "text"
+												},
+												{
+													"key": "ContentDisposition",
+													"value": "string",
+													"type": "text"
+												},
+												{
+													"key": "Headers",
+													"value": "[object Object]",
+													"type": "text"
+												},
+												{
+													"key": "Length",
+													"value": "1319",
+													"type": "text"
+												},
+												{
+													"key": "Name",
+													"value": "string",
+													"type": "text"
+												},
+												{
+													"key": "FileName",
+													"value": "string",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-product/upload-image",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-product",
+												"upload-image"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "multipart/form-data"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "formdata",
+													"formdata": [
+														{
+															"key": "ContentType",
+															"value": "string",
+															"type": "text"
+														},
+														{
+															"key": "ContentDisposition",
+															"value": "string",
+															"type": "text"
+														},
+														{
+															"key": "Headers",
+															"value": "[object Object]",
+															"type": "text"
+														},
+														{
+															"key": "Length",
+															"value": "1319",
+															"type": "text"
+														},
+														{
+															"key": "Name",
+															"value": "string",
+															"type": "text"
+														},
+														{
+															"key": "FileName",
+															"value": "string",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/catalogue-product/upload-image",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"catalogue-product",
+														"upload-image"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/catalogue-product",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/catalogue-product?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string&filterCsId=5594&filterCcId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"catalogue-product"
+									],
+									"query": [
+										{
+											"key": "pageLimit",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "pageNumber",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "search",
+											"value": "string"
+										},
+										{
+											"key": "orderBy",
+											"value": "string"
+										},
+										{
+											"key": "ordering",
+											"value": "string"
+										},
+										{
+											"key": "filterCsId",
+											"value": "5594"
+										},
+										{
+											"key": "filterCcId",
+											"value": "5594"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-product?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string&filterCsId=5594&filterCcId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-product"
+											],
+											"query": [
+												{
+													"key": "pageLimit",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "pageNumber",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "search",
+													"value": "string"
+												},
+												{
+													"key": "orderBy",
+													"value": "string"
+												},
+												{
+													"key": "ordering",
+													"value": "string"
+												},
+												{
+													"key": "filterCsId",
+													"value": "5594"
+												},
+												{
+													"key": "filterCcId",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/catalogue-product",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cpDescription\": \"string\",\n  \"cpName\": \"string\",\n  \"csId\": 6052,\n  \"cpImage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/catalogue-product",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"catalogue-product"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"cpDescription\": \"string\",\n  \"cpName\": \"string\",\n  \"csId\": 6052,\n  \"cpImage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-product",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-product"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/catalogue-product",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cpDescription\": \"string\",\n  \"cpId\": 1969,\n  \"csId\": 6448,\n  \"cpName\": \"string\",\n  \"cpImageExisting\": [\n    \"string\",\n    \"string\"\n  ],\n  \"cpImageNew\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/catalogue-product",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"catalogue-product"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"cpDescription\": \"string\",\n  \"cpId\": 1969,\n  \"csId\": 6448,\n  \"cpName\": \"string\",\n  \"cpImageExisting\": [\n    \"string\",\n    \"string\"\n  ],\n  \"cpImageNew\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-product",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-product"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/catalogue-product",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/catalogue-product?cpId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"catalogue-product"
+									],
+									"query": [
+										{
+											"key": "cpId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-product?cpId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-product"
+											],
+											"query": [
+												{
+													"key": "cpId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "catalogue-subcategory",
+					"item": [
+						{
+							"name": "detail",
+							"item": [
+								{
+									"name": "/api/catalogue-subcategory/detail",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-subcategory/detail?csId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-subcategory",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "csId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/catalogue-subcategory/detail?csId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"catalogue-subcategory",
+														"detail"
+													],
+													"query": [
+														{
+															"key": "csId",
+															"value": "5594",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/catalogue-subcategory",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/catalogue-subcategory?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string&filterCcId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"catalogue-subcategory"
+									],
+									"query": [
+										{
+											"key": "pageLimit",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "pageNumber",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "search",
+											"value": "string"
+										},
+										{
+											"key": "orderBy",
+											"value": "string"
+										},
+										{
+											"key": "ordering",
+											"value": "string"
+										},
+										{
+											"key": "filterCcId",
+											"value": "5594"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-subcategory?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string&filterCcId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-subcategory"
+											],
+											"query": [
+												{
+													"key": "pageLimit",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "pageNumber",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "search",
+													"value": "string"
+												},
+												{
+													"key": "orderBy",
+													"value": "string"
+												},
+												{
+													"key": "ordering",
+													"value": "string"
+												},
+												{
+													"key": "filterCcId",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/catalogue-subcategory",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ccId\": 3148,\n  \"csDescription\": \"string\",\n  \"csName\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/catalogue-subcategory",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"catalogue-subcategory"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ccId\": 3148,\n  \"csDescription\": \"string\",\n  \"csName\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-subcategory",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-subcategory"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/catalogue-subcategory",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ccId\": 4217,\n  \"csDescription\": \"string\",\n  \"csId\": 7604,\n  \"csName\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/catalogue-subcategory",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"catalogue-subcategory"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ccId\": 4217,\n  \"csDescription\": \"string\",\n  \"csId\": 7604,\n  \"csName\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-subcategory",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-subcategory"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/catalogue-subcategory",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/catalogue-subcategory?csId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"catalogue-subcategory"
+									],
+									"query": [
+										{
+											"key": "csId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/catalogue-subcategory?csId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"catalogue-subcategory"
+											],
+											"query": [
+												{
+													"key": "csId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "dashboard",
+					"item": [
+						{
+							"name": "rank-user-order",
+							"item": [
+								{
+									"name": "/api/dashboard/rank-user-order",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/dashboard/rank-user-order",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"dashboard",
+												"rank-user-order"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/dashboard/rank-user-order",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"dashboard",
+														"rank-user-order"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "get-manual",
+							"item": [
+								{
+									"name": "/api/dashboard/get-manual",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/dashboard/get-manual?filterDateStart=string&filterDateFinish=string",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"dashboard",
+												"get-manual"
+											],
+											"query": [
+												{
+													"key": "filterDateStart",
+													"value": "string"
+												},
+												{
+													"key": "filterDateFinish",
+													"value": "string"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/dashboard/get-manual?filterDateStart=string&filterDateFinish=string",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"dashboard",
+														"get-manual"
+													],
+													"query": [
+														{
+															"key": "filterDateStart",
+															"value": "string"
+														},
+														{
+															"key": "filterDateFinish",
+															"value": "string"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "get-auto",
+							"item": [
+								{
+									"name": "/api/dashboard/get-auto",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/dashboard/get-auto?filterDateStart=string&filterDateFinish=string",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"dashboard",
+												"get-auto"
+											],
+											"query": [
+												{
+													"key": "filterDateStart",
+													"value": "string"
+												},
+												{
+													"key": "filterDateFinish",
+													"value": "string"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/dashboard/get-auto?filterDateStart=string&filterDateFinish=string",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"dashboard",
+														"get-auto"
+													],
+													"query": [
+														{
+															"key": "filterDateStart",
+															"value": "string"
+														},
+														{
+															"key": "filterDateFinish",
+															"value": "string"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "get-progress-resume",
+							"item": [
+								{
+									"name": "/api/dashboard/get-progress-resume",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/dashboard/get-progress-resume?oId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"dashboard",
+												"get-progress-resume"
+											],
+											"query": [
+												{
+													"key": "oId",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/dashboard/get-progress-resume?oId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"dashboard",
+														"get-progress-resume"
+													],
+													"query": [
+														{
+															"key": "oId",
+															"value": "5594"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "inventory",
+					"item": [
+						{
+							"name": "detail",
+							"item": [
+								{
+									"name": "/api/inventory/detail",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory/detail?iId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "iId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/inventory/detail?iId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"inventory",
+														"detail"
+													],
+													"query": [
+														{
+															"key": "iId",
+															"value": "5594",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/inventory",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string&filterIcId=5594&filterIsId=5594&filterIwId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory"
+									],
+									"query": [
+										{
+											"key": "pageLimit",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "pageNumber",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "search",
+											"value": "string"
+										},
+										{
+											"key": "orderBy",
+											"value": "string"
+										},
+										{
+											"key": "ordering",
+											"value": "string"
+										},
+										{
+											"key": "filterIcId",
+											"value": "5594"
+										},
+										{
+											"key": "filterIsId",
+											"value": "5594"
+										},
+										{
+											"key": "filterIwId",
+											"value": "5594"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string&filterIcId=5594&filterIsId=5594&filterIwId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory"
+											],
+											"query": [
+												{
+													"key": "pageLimit",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "pageNumber",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "search",
+													"value": "string"
+												},
+												{
+													"key": "orderBy",
+													"value": "string"
+												},
+												{
+													"key": "ordering",
+													"value": "string"
+												},
+												{
+													"key": "filterIcId",
+													"value": "5594"
+												},
+												{
+													"key": "filterIsId",
+													"value": "5594"
+												},
+												{
+													"key": "filterIwId",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/inventory",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"iAmount\": 6652.470065982088,\n  \"iCode\": \"string\",\n  \"iDescription\": \"string\",\n  \"isId\": 10,\n  \"iUnit\": \"string\",\n  \"iwId\": 8655\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"iAmount\": 6652.470065982088,\n  \"iCode\": \"string\",\n  \"iDescription\": \"string\",\n  \"isId\": 10,\n  \"iUnit\": \"string\",\n  \"iwId\": 8655\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/inventory",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"iAmount\": 3896,\n  \"iCode\": \"string\",\n  \"iDescription\": \"string\",\n  \"iId\": 3203,\n  \"isId\": 731,\n  \"iUnit\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"iAmount\": 3896,\n  \"iCode\": \"string\",\n  \"iDescription\": \"string\",\n  \"iId\": 3203,\n  \"isId\": 731,\n  \"iUnit\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/inventory",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory?iId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory"
+									],
+									"query": [
+										{
+											"key": "iId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory?iId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory"
+											],
+											"query": [
+												{
+													"key": "iId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "inventory-category",
+					"item": [
+						{
+							"name": "detail",
+							"item": [
+								{
+									"name": "/api/inventory-category/detail",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-category/detail?icId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-category",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "icId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/inventory-category/detail?icId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"inventory-category",
+														"detail"
+													],
+													"query": [
+														{
+															"key": "icId",
+															"value": "5594",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/inventory-category",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory-category?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory-category"
+									],
+									"query": [
+										{
+											"key": "pageLimit",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "pageNumber",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "search",
+											"value": "string"
+										},
+										{
+											"key": "orderBy",
+											"value": "string"
+										},
+										{
+											"key": "ordering",
+											"value": "string"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-category?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-category"
+											],
+											"query": [
+												{
+													"key": "pageLimit",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "pageNumber",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "search",
+													"value": "string"
+												},
+												{
+													"key": "orderBy",
+													"value": "string"
+												},
+												{
+													"key": "ordering",
+													"value": "string"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/inventory-category",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"icName\": \"string\",\n  \"icType\": 8554\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory-category",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory-category"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"icName\": \"string\",\n  \"icType\": 8554\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-category",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-category"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/inventory-category",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"icId\": 1353,\n  \"icName\": \"string\",\n  \"icType\": 4115\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory-category",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory-category"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"icId\": 1353,\n  \"icName\": \"string\",\n  \"icType\": 4115\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-category",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-category"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/inventory-category",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory-category?icId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory-category"
+									],
+									"query": [
+										{
+											"key": "icId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-category?icId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-category"
+											],
+											"query": [
+												{
+													"key": "icId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "inventory-relocation",
+					"item": [
+						{
+							"name": "detail",
+							"item": [
+								{
+									"name": "/api/inventory-relocation/detail",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-relocation/detail?irId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-relocation",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "irId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/inventory-relocation/detail?irId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"inventory-relocation",
+														"detail"
+													],
+													"query": [
+														{
+															"key": "irId",
+															"value": "5594",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "approve",
+							"item": [
+								{
+									"name": "/api/inventory-relocation/approve",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"irId\": 2336,\n  \"irReceivedBy\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-relocation/approve",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-relocation",
+												"approve"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"irId\": 2336,\n  \"irReceivedBy\": \"string\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/inventory-relocation/approve",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"inventory-relocation",
+														"approve"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "reject",
+							"item": [
+								{
+									"name": "/api/inventory-relocation/reject",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"irId\": 8514\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-relocation/reject",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-relocation",
+												"reject"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"irId\": 8514\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/inventory-relocation/reject",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"inventory-relocation",
+														"reject"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/inventory-relocation",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory-relocation?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string&filterIcId=5594&filterIsId=5594&filterIwIdFrom=5594&filterIwIdTo=5594&filterApprovalStatus=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory-relocation"
+									],
+									"query": [
+										{
+											"key": "pageLimit",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "pageNumber",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "search",
+											"value": "string"
+										},
+										{
+											"key": "orderBy",
+											"value": "string"
+										},
+										{
+											"key": "ordering",
+											"value": "string"
+										},
+										{
+											"key": "filterIcId",
+											"value": "5594"
+										},
+										{
+											"key": "filterIsId",
+											"value": "5594"
+										},
+										{
+											"key": "filterIwIdFrom",
+											"value": "5594"
+										},
+										{
+											"key": "filterIwIdTo",
+											"value": "5594"
+										},
+										{
+											"key": "filterApprovalStatus",
+											"value": "5594"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-relocation?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string&filterIcId=5594&filterIsId=5594&filterIwIdFrom=5594&filterIwIdTo=5594&filterApprovalStatus=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-relocation"
+											],
+											"query": [
+												{
+													"key": "pageLimit",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "pageNumber",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "search",
+													"value": "string"
+												},
+												{
+													"key": "orderBy",
+													"value": "string"
+												},
+												{
+													"key": "ordering",
+													"value": "string"
+												},
+												{
+													"key": "filterIcId",
+													"value": "5594"
+												},
+												{
+													"key": "filterIsId",
+													"value": "5594"
+												},
+												{
+													"key": "filterIwIdFrom",
+													"value": "5594"
+												},
+												{
+													"key": "filterIwIdTo",
+													"value": "5594"
+												},
+												{
+													"key": "filterApprovalStatus",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/inventory-relocation",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"iCode\": \"string\",\n  \"iId\": 9689,\n  \"irAmount\": 7622.056336400223,\n  \"iwIdTo\": 6387\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory-relocation",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory-relocation"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"iCode\": \"string\",\n  \"iId\": 9689,\n  \"irAmount\": 7622.056336400223,\n  \"iwIdTo\": 6387\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-relocation",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-relocation"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "inventory-subcategory",
+					"item": [
+						{
+							"name": "detail",
+							"item": [
+								{
+									"name": "/api/inventory-subcategory/detail",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-subcategory/detail?isId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-subcategory",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "isId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/inventory-subcategory/detail?isId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"inventory-subcategory",
+														"detail"
+													],
+													"query": [
+														{
+															"key": "isId",
+															"value": "5594",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/inventory-subcategory",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory-subcategory?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string&filterIcId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory-subcategory"
+									],
+									"query": [
+										{
+											"key": "pageLimit",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "pageNumber",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "search",
+											"value": "string"
+										},
+										{
+											"key": "orderBy",
+											"value": "string"
+										},
+										{
+											"key": "ordering",
+											"value": "string"
+										},
+										{
+											"key": "filterIcId",
+											"value": "5594"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-subcategory?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string&filterIcId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-subcategory"
+											],
+											"query": [
+												{
+													"key": "pageLimit",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "pageNumber",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "search",
+													"value": "string"
+												},
+												{
+													"key": "orderBy",
+													"value": "string"
+												},
+												{
+													"key": "ordering",
+													"value": "string"
+												},
+												{
+													"key": "filterIcId",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/inventory-subcategory",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"icId\": 8402,\n  \"isName\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory-subcategory",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory-subcategory"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"icId\": 8402,\n  \"isName\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-subcategory",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-subcategory"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/inventory-subcategory",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"icId\": 6241,\n  \"isId\": 4998,\n  \"isName\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory-subcategory",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory-subcategory"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"icId\": 6241,\n  \"isId\": 4998,\n  \"isName\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-subcategory",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-subcategory"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/inventory-subcategory",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory-subcategory?isId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory-subcategory"
+									],
+									"query": [
+										{
+											"key": "isId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-subcategory?isId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-subcategory"
+											],
+											"query": [
+												{
+													"key": "isId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "inventory-warehouse",
+					"item": [
+						{
+							"name": "detail",
+							"item": [
+								{
+									"name": "/api/inventory-warehouse/detail",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-warehouse/detail?iwId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-warehouse",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "iwId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/inventory-warehouse/detail?iwId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"inventory-warehouse",
+														"detail"
+													],
+													"query": [
+														{
+															"key": "iwId",
+															"value": "5594",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/inventory-warehouse",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory-warehouse?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory-warehouse"
+									],
+									"query": [
+										{
+											"key": "pageLimit",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "pageNumber",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "search",
+											"value": "string"
+										},
+										{
+											"key": "orderBy",
+											"value": "string"
+										},
+										{
+											"key": "ordering",
+											"value": "string"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-warehouse?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-warehouse"
+											],
+											"query": [
+												{
+													"key": "pageLimit",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "pageNumber",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "search",
+													"value": "string"
+												},
+												{
+													"key": "orderBy",
+													"value": "string"
+												},
+												{
+													"key": "ordering",
+													"value": "string"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/inventory-warehouse",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"iwName\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory-warehouse",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory-warehouse"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"iwName\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-warehouse",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-warehouse"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/inventory-warehouse",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"iwId\": 4050,\n  \"iwName\": \"stri\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory-warehouse",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory-warehouse"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"iwId\": 4050,\n  \"iwName\": \"stri\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-warehouse",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-warehouse"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/inventory-warehouse",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory-warehouse?iwId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory-warehouse"
+									],
+									"query": [
+										{
+											"key": "iwId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventory-warehouse?iwId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventory-warehouse"
+											],
+											"query": [
+												{
+													"key": "iwId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "order",
+					"item": [
+						{
+							"name": "detail",
+							"item": [
+								{
+									"name": "/api/order/detail",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/order/detail?oId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "oId",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/order/detail?oId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"order",
+														"detail"
+													],
+													"query": [
+														{
+															"key": "oId",
+															"value": "5594"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "upload-mockup-image",
+							"item": [
+								{
+									"name": "/api/order/upload-mockup-image",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "multipart/form-data"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "ContentType",
+													"value": "string",
+													"type": "text"
+												},
+												{
+													"key": "ContentDisposition",
+													"value": "string",
+													"type": "text"
+												},
+												{
+													"key": "Headers",
+													"value": "[object Object]",
+													"type": "text"
+												},
+												{
+													"key": "Length",
+													"value": "1319",
+													"type": "text"
+												},
+												{
+													"key": "Name",
+													"value": "string",
+													"type": "text"
+												},
+												{
+													"key": "FileName",
+													"value": "string",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/order/upload-mockup-image",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order",
+												"upload-mockup-image"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "multipart/form-data"
+													},
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "formdata",
+													"formdata": [
+														{
+															"key": "ContentType",
+															"value": "string",
+															"type": "text"
+														},
+														{
+															"key": "ContentDisposition",
+															"value": "string",
+															"type": "text"
+														},
+														{
+															"key": "Headers",
+															"value": "[object Object]",
+															"type": "text"
+														},
+														{
+															"key": "Length",
+															"value": "1319",
+															"type": "text"
+														},
+														{
+															"key": "Name",
+															"value": "string",
+															"type": "text"
+														},
+														{
+															"key": "FileName",
+															"value": "string",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/order/upload-mockup-image",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"order",
+														"upload-mockup-image"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "approve",
+							"item": [
+								{
+									"name": "/api/order/approve",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/order/approve?oId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order",
+												"approve"
+											],
+											"query": [
+												{
+													"key": "oId",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/order/approve?oId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"order",
+														"approve"
+													],
+													"query": [
+														{
+															"key": "oId",
+															"value": "5594"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "update-price",
+							"item": [
+								{
+									"name": "/api/order/update-price",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/order/update-price?oId=5594&oPrice=5594&oDownPayment=5594&oPaid=5594&oCogs=5594&oMargin=5594&oProfitRemaining=5594&oMarketing=5594&oIncentive=5594&oMainDevelop=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order",
+												"update-price"
+											],
+											"query": [
+												{
+													"key": "oId",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "oPrice",
+													"value": "5594"
+												},
+												{
+													"key": "oDownPayment",
+													"value": "5594"
+												},
+												{
+													"key": "oPaid",
+													"value": "5594"
+												},
+												{
+													"key": "oCogs",
+													"value": "5594"
+												},
+												{
+													"key": "oMargin",
+													"value": "5594"
+												},
+												{
+													"key": "oProfitRemaining",
+													"value": "5594"
+												},
+												{
+													"key": "oMarketing",
+													"value": "5594"
+												},
+												{
+													"key": "oIncentive",
+													"value": "5594"
+												},
+												{
+													"key": "oMainDevelop",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/order/update-price?oId=5594&oPrice=5594&oDownPayment=5594&oPaid=5594&oCogs=5594&oMargin=5594&oProfitRemaining=5594&oMarketing=5594&oIncentive=5594&oMainDevelop=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"order",
+														"update-price"
+													],
+													"query": [
+														{
+															"key": "oId",
+															"value": "5594",
+															"description": "(Required) "
+														},
+														{
+															"key": "oPrice",
+															"value": "5594"
+														},
+														{
+															"key": "oDownPayment",
+															"value": "5594"
+														},
+														{
+															"key": "oPaid",
+															"value": "5594"
+														},
+														{
+															"key": "oCogs",
+															"value": "5594"
+														},
+														{
+															"key": "oMargin",
+															"value": "5594"
+														},
+														{
+															"key": "oProfitRemaining",
+															"value": "5594"
+														},
+														{
+															"key": "oMarketing",
+															"value": "5594"
+														},
+														{
+															"key": "oIncentive",
+															"value": "5594"
+														},
+														{
+															"key": "oMainDevelop",
+															"value": "5594"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "done",
+							"item": [
+								{
+									"name": "/api/order/done",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/order/done?oId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order",
+												"done"
+											],
+											"query": [
+												{
+													"key": "oId",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/order/done?oId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"order",
+														"done"
+													],
+													"query": [
+														{
+															"key": "oId",
+															"value": "5594"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "reject",
+							"item": [
+								{
+									"name": "/api/order/reject",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/order/reject?oId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order",
+												"reject"
+											],
+											"query": [
+												{
+													"key": "oId",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/order/reject?oId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"order",
+														"reject"
+													],
+													"query": [
+														{
+															"key": "oId",
+															"value": "5594"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "down-payment",
+							"item": [
+								{
+									"name": "/api/order/down-payment",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/order/down-payment?oId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order",
+												"down-payment"
+											],
+											"query": [
+												{
+													"key": "oId",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/order/down-payment?oId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"order",
+														"down-payment"
+													],
+													"query": [
+														{
+															"key": "oId",
+															"value": "5594"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "settlement",
+							"item": [
+								{
+									"name": "/api/order/settlement",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/order/settlement?oId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order",
+												"settlement"
+											],
+											"query": [
+												{
+													"key": "oId",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/order/settlement?oId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"order",
+														"settlement"
+													],
+													"query": [
+														{
+															"key": "oId",
+															"value": "5594"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/order",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/order?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string&filterOApprovalStatus=5594&filterOStatusPayment=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order"
+									],
+									"query": [
+										{
+											"key": "pageLimit",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "pageNumber",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "search",
+											"value": "string"
+										},
+										{
+											"key": "orderBy",
+											"value": "string"
+										},
+										{
+											"key": "ordering",
+											"value": "string"
+										},
+										{
+											"key": "filterOApprovalStatus",
+											"value": "5594"
+										},
+										{
+											"key": "filterOStatusPayment",
+											"value": "5594"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/order?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string&filterOApprovalStatus=5594&filterOStatusPayment=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order"
+											],
+											"query": [
+												{
+													"key": "pageLimit",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "pageNumber",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "search",
+													"value": "string"
+												},
+												{
+													"key": "orderBy",
+													"value": "string"
+												},
+												{
+													"key": "ordering",
+													"value": "string"
+												},
+												{
+													"key": "filterOApprovalStatus",
+													"value": "5594"
+												},
+												{
+													"key": "filterOStatusPayment",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/order",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"oPoNumber\": \"string\",\n  \"oNotes\": \"string\",\n  \"oName\": \"string\",\n  \"oPhone\": \"string\",\n  \"oAddress\": \"string\",\n  \"oDeadlineAt\": \"2024-03-22T13:15:24.309Z\",\n  \"oItems\": [\n    {\n      \"cpId\": 1218,\n      \"isId\": 5236,\n      \"oiMockupImage\": [\n        \"string\",\n        \"string\"\n      ],\n      \"oiSizes\": [\n        {\n          \"sId\": 986,\n          \"oisAmount\": 2216\n        },\n        {\n          \"sId\": 4855,\n          \"oisAmount\": 726\n        }\n      ]\n    },\n    {\n      \"cpId\": 8393,\n      \"isId\": 3437,\n      \"oiMockupImage\": [\n        \"string\",\n        \"string\"\n      ],\n      \"oiSizes\": [\n        {\n          \"sId\": 4321,\n          \"oisAmount\": 4429\n        },\n        {\n          \"sId\": 4581,\n          \"oisAmount\": 5589\n        }\n      ]\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/order",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"oPoNumber\": \"string\",\n  \"oNotes\": \"string\",\n  \"oName\": \"string\",\n  \"oPhone\": \"string\",\n  \"oAddress\": \"string\",\n  \"oDeadlineAt\": \"2024-03-22T13:15:24.309Z\",\n  \"oItems\": [\n    {\n      \"cpId\": 1218,\n      \"isId\": 5236,\n      \"oiMockupImage\": [\n        \"string\",\n        \"string\"\n      ],\n      \"oiSizes\": [\n        {\n          \"sId\": 986,\n          \"oisAmount\": 2216\n        },\n        {\n          \"sId\": 4855,\n          \"oisAmount\": 726\n        }\n      ]\n    },\n    {\n      \"cpId\": 8393,\n      \"isId\": 3437,\n      \"oiMockupImage\": [\n        \"string\",\n        \"string\"\n      ],\n      \"oiSizes\": [\n        {\n          \"sId\": 4321,\n          \"oisAmount\": 4429\n        },\n        {\n          \"sId\": 4581,\n          \"oisAmount\": 5589\n        }\n      ]\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/order",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "order-item-size",
+					"item": [
+						{
+							"name": "/api/order-item-size",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/order-item-size?filterOId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order-item-size"
+									],
+									"query": [
+										{
+											"key": "filterOId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/order-item-size?filterOId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order-item-size"
+											],
+											"query": [
+												{
+													"key": "filterOId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "order-progress",
+					"item": [
+						{
+							"name": "detail",
+							"item": [
+								{
+									"name": "/api/order-progress/detail",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/order-progress/detail?opId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order-progress",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "opId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/order-progress/detail?opId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"order-progress",
+														"detail"
+													],
+													"query": [
+														{
+															"key": "opId",
+															"value": "5594",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/order-progress",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/order-progress?filterOpmId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order-progress"
+									],
+									"query": [
+										{
+											"key": "filterOpmId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/order-progress?filterOpmId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order-progress"
+											],
+											"query": [
+												{
+													"key": "filterOpmId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/order-progress",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"opItems\": [\n    {\n      \"oisId\": 8417,\n      \"opAmount\": 1972,\n      \"opDeadlineAt\": \"1999-05-08T18:52:43.471Z\",\n      \"uId\": \"strin\"\n    },\n    {\n      \"oisId\": 2649,\n      \"opAmount\": 4978,\n      \"opDeadlineAt\": \"2015-05-24T14:33:38.121Z\",\n      \"uId\": \"string\"\n    }\n  ],\n  \"opmId\": 5820\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/order-progress",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order-progress"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"opItems\": [\n    {\n      \"oisId\": 8417,\n      \"opAmount\": 1972,\n      \"opDeadlineAt\": \"1999-05-08T18:52:43.471Z\",\n      \"uId\": \"strin\"\n    },\n    {\n      \"oisId\": 2649,\n      \"opAmount\": 4978,\n      \"opDeadlineAt\": \"2015-05-24T14:33:38.121Z\",\n      \"uId\": \"string\"\n    }\n  ],\n  \"opmId\": 5820\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/order-progress",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order-progress"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/order-progress",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/order-progress?opId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order-progress"
+									],
+									"query": [
+										{
+											"key": "opId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/order-progress?opId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order-progress"
+											],
+											"query": [
+												{
+													"key": "opId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "order-progress-detail",
+					"item": [
+						{
+							"name": "detail",
+							"item": [
+								{
+									"name": "/api/order-progress-detail/detail",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/order-progress-detail/detail?opdId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order-progress-detail",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "opdId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/order-progress-detail/detail?opdId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"order-progress-detail",
+														"detail"
+													],
+													"query": [
+														{
+															"key": "opdId",
+															"value": "5594",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/order-progress-detail",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/order-progress-detail?filterOpId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order-progress-detail"
+									],
+									"query": [
+										{
+											"key": "filterOpId",
+											"value": "5594"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/order-progress-detail?filterOpId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order-progress-detail"
+											],
+											"query": [
+												{
+													"key": "filterOpId",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/order-progress-detail",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"opId\": 8656,\n  \"opdItems\": [\n    {\n      \"opdAmount\": 5763,\n      \"opdFinishedAt\": \"1986-10-23T12:14:26.386Z\"\n    },\n    {\n      \"opdAmount\": 5749,\n      \"opdFinishedAt\": \"1979-02-11T22:01:32.499Z\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/order-progress-detail",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order-progress-detail"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"opId\": 8656,\n  \"opdItems\": [\n    {\n      \"opdAmount\": 5763,\n      \"opdFinishedAt\": \"1986-10-23T12:14:26.386Z\"\n    },\n    {\n      \"opdAmount\": 5749,\n      \"opdFinishedAt\": \"1979-02-11T22:01:32.499Z\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/order-progress-detail",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order-progress-detail"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/order-progress-detail",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"opdItems\": [\n    {\n      \"opdAmount\": 1857,\n      \"opdFinishedAt\": \"1983-08-02T12:15:51.840Z\",\n      \"opdId\": 1128\n    },\n    {\n      \"opdAmount\": 55,\n      \"opdFinishedAt\": \"2006-09-27T02:48:24.827Z\",\n      \"opdId\": 9387\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/order-progress-detail",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order-progress-detail"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"opdItems\": [\n    {\n      \"opdAmount\": 1857,\n      \"opdFinishedAt\": \"1983-08-02T12:15:51.840Z\",\n      \"opdId\": 1128\n    },\n    {\n      \"opdAmount\": 55,\n      \"opdFinishedAt\": \"2006-09-27T02:48:24.827Z\",\n      \"opdId\": 9387\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/order-progress-detail",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order-progress-detail"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/api/order-progress-detail",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/order-progress-detail?opdId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order-progress-detail"
+									],
+									"query": [
+										{
+											"key": "opdId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/order-progress-detail?opdId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order-progress-detail"
+											],
+											"query": [
+												{
+													"key": "opdId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "order-progress-main",
+					"item": [
+						{
+							"name": "detail",
+							"item": [
+								{
+									"name": "/api/order-progress-main/detail",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/order-progress-main/detail?opmId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order-progress-main",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "opmId",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/order-progress-main/detail?opmId=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"order-progress-main",
+														"detail"
+													],
+													"query": [
+														{
+															"key": "opmId",
+															"value": "5594"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/order-progress-main",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/order-progress-main?filterOId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order-progress-main"
+									],
+									"query": [
+										{
+											"key": "filterOId",
+											"value": "5594"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/order-progress-main?filterOId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"order-progress-main"
+											],
+											"query": [
+												{
+													"key": "filterOId",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "size",
+					"item": [
+						{
+							"name": "detail",
+							"item": [
+								{
+									"name": "/api/size/detail",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/size/detail?id=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"size",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "5594"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/size/detail?id=5594",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"size",
+														"detail"
+													],
+													"query": [
+														{
+															"key": "id",
+															"value": "5594"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/size",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/size?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"size"
+									],
+									"query": [
+										{
+											"key": "pageLimit",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "pageNumber",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "search",
+											"value": "string"
+										},
+										{
+											"key": "orderBy",
+											"value": "string"
+										},
+										{
+											"key": "ordering",
+											"value": "string"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/size?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"size"
+											],
+											"query": [
+												{
+													"key": "pageLimit",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "pageNumber",
+													"value": "5594",
+													"description": "(Required) "
+												},
+												{
+													"key": "search",
+													"value": "string"
+												},
+												{
+													"key": "orderBy",
+													"value": "string"
+												},
+												{
+													"key": "ordering",
+													"value": "string"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "dummy-order-cost-budget-plan",
+			"item": [
+				{
+					"name": "detail",
+					"item": [
+						{
+							"name": "/dummy-order-cost-budget-plan/detail",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/dummy-order-cost-budget-plan/detail?docbpId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dummy-order-cost-budget-plan",
+										"detail"
+									],
+									"query": [
+										{
+											"key": "docbpId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/dummy-order-cost-budget-plan/detail?docbpId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"dummy-order-cost-budget-plan",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "docbpId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "/dummy-order-cost-budget-plan",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"docbpsId\": 6226,\n  \"docbpItems\": [\n    {\n      \"docbpName\": \"string\",\n      \"docbpSize\": \"string\",\n      \"docbpAmount\": 3557,\n      \"docbpMaterialName\": \"string\",\n      \"docbpMaterialCode\": \"string\",\n      \"docbpMaterialNeed\": 9720.271385635608,\n      \"docbpMaterialPrice\": 6171,\n      \"docbpOperationalServiceColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpOperationalServiceValue\": [\n        1965,\n        6871\n      ],\n      \"docbpUtilityColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpUtilityValue\": [\n        4878,\n        2382\n      ],\n      \"docbpPriceOff\": 6168,\n      \"docbpSettingMarginPercentage\": 3174.2687715400075\n    },\n    {\n      \"docbpName\": \"string\",\n      \"docbpSize\": \"string\",\n      \"docbpAmount\": 3259,\n      \"docbpMaterialName\": \"string\",\n      \"docbpMaterialCode\": \"string\",\n      \"docbpMaterialNeed\": 4062.5396654060773,\n      \"docbpMaterialPrice\": 9297,\n      \"docbpOperationalServiceColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpOperationalServiceValue\": [\n        5617,\n        1167\n      ],\n      \"docbpUtilityColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpUtilityValue\": [\n        444,\n        6184\n      ],\n      \"docbpPriceOff\": 9180,\n      \"docbpSettingMarginPercentage\": 3809.1601884681904\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/dummy-order-cost-budget-plan",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dummy-order-cost-budget-plan"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"docbpsId\": 6226,\n  \"docbpItems\": [\n    {\n      \"docbpName\": \"string\",\n      \"docbpSize\": \"string\",\n      \"docbpAmount\": 3557,\n      \"docbpMaterialName\": \"string\",\n      \"docbpMaterialCode\": \"string\",\n      \"docbpMaterialNeed\": 9720.271385635608,\n      \"docbpMaterialPrice\": 6171,\n      \"docbpOperationalServiceColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpOperationalServiceValue\": [\n        1965,\n        6871\n      ],\n      \"docbpUtilityColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpUtilityValue\": [\n        4878,\n        2382\n      ],\n      \"docbpPriceOff\": 6168,\n      \"docbpSettingMarginPercentage\": 3174.2687715400075\n    },\n    {\n      \"docbpName\": \"string\",\n      \"docbpSize\": \"string\",\n      \"docbpAmount\": 3259,\n      \"docbpMaterialName\": \"string\",\n      \"docbpMaterialCode\": \"string\",\n      \"docbpMaterialNeed\": 4062.5396654060773,\n      \"docbpMaterialPrice\": 9297,\n      \"docbpOperationalServiceColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpOperationalServiceValue\": [\n        5617,\n        1167\n      ],\n      \"docbpUtilityColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpUtilityValue\": [\n        444,\n        6184\n      ],\n      \"docbpPriceOff\": 9180,\n      \"docbpSettingMarginPercentage\": 3809.1601884681904\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dummy-order-cost-budget-plan",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dummy-order-cost-budget-plan"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "/dummy-order-cost-budget-plan",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"docbpsId\": 5310,\n  \"docbpItems\": [\n    {\n      \"docbpId\": 1596,\n      \"docbpName\": \"string\",\n      \"docbpSize\": \"string\",\n      \"docbpAmount\": 9582,\n      \"docbpMaterialName\": \"string\",\n      \"docbpMaterialCode\": \"string\",\n      \"docbpMaterialNeed\": 46.15020608646159,\n      \"docbpMaterialPrice\": 683,\n      \"docbpOperationalServiceColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpOperationalServiceValue\": [\n        5829,\n        5329\n      ],\n      \"docbpUtilityColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpUtilityValue\": [\n        8631,\n        5368\n      ],\n      \"docbpPriceOff\": 5368,\n      \"docbpSettingMarginPercentage\": 9107.592557591868\n    },\n    {\n      \"docbpId\": 2068,\n      \"docbpName\": \"string\",\n      \"docbpSize\": \"string\",\n      \"docbpAmount\": 3475,\n      \"docbpMaterialName\": \"string\",\n      \"docbpMaterialCode\": \"string\",\n      \"docbpMaterialNeed\": 6584.412801936425,\n      \"docbpMaterialPrice\": 4624,\n      \"docbpOperationalServiceColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpOperationalServiceValue\": [\n        7064,\n        3522\n      ],\n      \"docbpUtilityColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpUtilityValue\": [\n        7607,\n        854\n      ],\n      \"docbpPriceOff\": 4216,\n      \"docbpSettingMarginPercentage\": 1583.4951354159243\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/dummy-order-cost-budget-plan",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dummy-order-cost-budget-plan"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"docbpsId\": 5310,\n  \"docbpItems\": [\n    {\n      \"docbpId\": 1596,\n      \"docbpName\": \"string\",\n      \"docbpSize\": \"string\",\n      \"docbpAmount\": 9582,\n      \"docbpMaterialName\": \"string\",\n      \"docbpMaterialCode\": \"string\",\n      \"docbpMaterialNeed\": 46.15020608646159,\n      \"docbpMaterialPrice\": 683,\n      \"docbpOperationalServiceColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpOperationalServiceValue\": [\n        5829,\n        5329\n      ],\n      \"docbpUtilityColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpUtilityValue\": [\n        8631,\n        5368\n      ],\n      \"docbpPriceOff\": 5368,\n      \"docbpSettingMarginPercentage\": 9107.592557591868\n    },\n    {\n      \"docbpId\": 2068,\n      \"docbpName\": \"string\",\n      \"docbpSize\": \"string\",\n      \"docbpAmount\": 3475,\n      \"docbpMaterialName\": \"string\",\n      \"docbpMaterialCode\": \"string\",\n      \"docbpMaterialNeed\": 6584.412801936425,\n      \"docbpMaterialPrice\": 4624,\n      \"docbpOperationalServiceColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpOperationalServiceValue\": [\n        7064,\n        3522\n      ],\n      \"docbpUtilityColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"docbpUtilityValue\": [\n        7607,\n        854\n      ],\n      \"docbpPriceOff\": 4216,\n      \"docbpSettingMarginPercentage\": 1583.4951354159243\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dummy-order-cost-budget-plan",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dummy-order-cost-budget-plan"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "/dummy-order-cost-budget-plan",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"docbpId\": 1029\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/dummy-order-cost-budget-plan",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dummy-order-cost-budget-plan"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"docbpId\": 1029\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dummy-order-cost-budget-plan",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dummy-order-cost-budget-plan"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "dummy-order-cost-budget-plan-summary",
+			"item": [
+				{
+					"name": "detail",
+					"item": [
+						{
+							"name": "/dummy-order-cost-budget-plan-summary/detail",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/dummy-order-cost-budget-plan-summary/detail?docbpsId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dummy-order-cost-budget-plan-summary",
+										"detail"
+									],
+									"query": [
+										{
+											"key": "docbpsId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/dummy-order-cost-budget-plan-summary/detail?docbpsId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"dummy-order-cost-budget-plan-summary",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "docbpsId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "setting-percentage",
+					"item": [
+						{
+							"name": "/dummy-order-cost-budget-plan-summary/setting-percentage",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"docbpsId\": 3723,\n  \"docbpsSettingMainDevelopPercentage\": 8016.159561704121,\n  \"docbpsSettingIncentivePercentage\": 6097.557977672097,\n  \"docbpsSettingMarketingPercentage\": 1386.6453110581656\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dummy-order-cost-budget-plan-summary/setting-percentage",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dummy-order-cost-budget-plan-summary",
+										"setting-percentage"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"docbpsId\": 3723,\n  \"docbpsSettingMainDevelopPercentage\": 8016.159561704121,\n  \"docbpsSettingIncentivePercentage\": 6097.557977672097,\n  \"docbpsSettingMarketingPercentage\": 1386.6453110581656\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/dummy-order-cost-budget-plan-summary/setting-percentage",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"dummy-order-cost-budget-plan-summary",
+												"setting-percentage"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "/dummy-order-cost-budget-plan-summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/dummy-order-cost-budget-plan-summary",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dummy-order-cost-budget-plan-summary"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/dummy-order-cost-budget-plan-summary",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dummy-order-cost-budget-plan-summary"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "/dummy-order-cost-budget-plan-summary",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/dummy-order-cost-budget-plan-summary",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dummy-order-cost-budget-plan-summary"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/dummy-order-cost-budget-plan-summary",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dummy-order-cost-budget-plan-summary"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "/dummy-order-cost-budget-plan-summary",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/dummy-order-cost-budget-plan-summary?docbpsId=5594",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dummy-order-cost-budget-plan-summary"
+							],
+							"query": [
+								{
+									"key": "docbpsId",
+									"value": "5594"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/dummy-order-cost-budget-plan-summary?docbpsId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dummy-order-cost-budget-plan-summary"
+									],
+									"query": [
+										{
+											"key": "docbpsId",
+											"value": "5594"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "/",
+			"item": [
+				{
+					"name": "/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "report",
+			"item": [
+				{
+					"name": "/report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/report",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"report"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/report",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"report"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "operational-service",
+			"item": [
+				{
+					"name": "/operational-service",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/operational-service",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"operational-service"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/operational-service",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"operational-service"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "order-cost-budget-plan",
+			"item": [
+				{
+					"name": "detail",
+					"item": [
+						{
+							"name": "/order-cost-budget-plan/detail",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/order-cost-budget-plan/detail?ocbpId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order-cost-budget-plan",
+										"detail"
+									],
+									"query": [
+										{
+											"key": "ocbpId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/order-cost-budget-plan/detail?ocbpId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"order-cost-budget-plan",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "ocbpId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "/order-cost-budget-plan",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ocbpsId\": 8763,\n  \"ocbpItems\": [\n    {\n      \"ocbpId\": 2541,\n      \"ocbpMaterialName\": \"string\",\n      \"ocbpMaterialCode\": \"string\",\n      \"ocbpMaterialNeed\": 9090.63215339998,\n      \"ocbpMaterialPrice\": 6310,\n      \"ocbpOperationalServiceColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"ocbpOperationalServiceValue\": [\n        6472,\n        347\n      ],\n      \"ocbpUtilityColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"ocbpUtilityValue\": [\n        4001,\n        8214\n      ],\n      \"ocbpPriceOff\": 3020,\n      \"ocbpSettingMarginPercentage\": 6445.327568072304\n    },\n    {\n      \"ocbpId\": 5627,\n      \"ocbpMaterialName\": \"string\",\n      \"ocbpMaterialCode\": \"string\",\n      \"ocbpMaterialNeed\": 1099.1370650300403,\n      \"ocbpMaterialPrice\": 5376,\n      \"ocbpOperationalServiceColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"ocbpOperationalServiceValue\": [\n        9945,\n        8526\n      ],\n      \"ocbpUtilityColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"ocbpUtilityValue\": [\n        3635,\n        4599\n      ],\n      \"ocbpPriceOff\": 5918,\n      \"ocbpSettingMarginPercentage\": 6329.045934242652\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order-cost-budget-plan",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order-cost-budget-plan"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ocbpsId\": 8763,\n  \"ocbpItems\": [\n    {\n      \"ocbpId\": 2541,\n      \"ocbpMaterialName\": \"string\",\n      \"ocbpMaterialCode\": \"string\",\n      \"ocbpMaterialNeed\": 9090.63215339998,\n      \"ocbpMaterialPrice\": 6310,\n      \"ocbpOperationalServiceColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"ocbpOperationalServiceValue\": [\n        6472,\n        347\n      ],\n      \"ocbpUtilityColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"ocbpUtilityValue\": [\n        4001,\n        8214\n      ],\n      \"ocbpPriceOff\": 3020,\n      \"ocbpSettingMarginPercentage\": 6445.327568072304\n    },\n    {\n      \"ocbpId\": 5627,\n      \"ocbpMaterialName\": \"string\",\n      \"ocbpMaterialCode\": \"string\",\n      \"ocbpMaterialNeed\": 1099.1370650300403,\n      \"ocbpMaterialPrice\": 5376,\n      \"ocbpOperationalServiceColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"ocbpOperationalServiceValue\": [\n        9945,\n        8526\n      ],\n      \"ocbpUtilityColumn\": [\n        \"string\",\n        \"string\"\n      ],\n      \"ocbpUtilityValue\": [\n        3635,\n        4599\n      ],\n      \"ocbpPriceOff\": 5918,\n      \"ocbpSettingMarginPercentage\": 6329.045934242652\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/order-cost-budget-plan",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order-cost-budget-plan"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "order-cost-budget-plan-summary",
+			"item": [
+				{
+					"name": "detail",
+					"item": [
+						{
+							"name": "/order-cost-budget-plan-summary/detail",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/order-cost-budget-plan-summary/detail?oId=5594",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order-cost-budget-plan-summary",
+										"detail"
+									],
+									"query": [
+										{
+											"key": "oId",
+											"value": "5594",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/order-cost-budget-plan-summary/detail?oId=5594",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"order-cost-budget-plan-summary",
+												"detail"
+											],
+											"query": [
+												{
+													"key": "oId",
+													"value": "5594",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "setting-percentage",
+					"item": [
+						{
+							"name": "/order-cost-budget-plan-summary/setting-percentage",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ocbpsId\": 3844,\n  \"ocbpsSettingMainDevelopPercentage\": 80.94204997505238,\n  \"ocbpsSettingIncentivePercentage\": 9149.152873640347,\n  \"ocbpsSettingMarketingPercentage\": 2463.7938869496256\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/order-cost-budget-plan-summary/setting-percentage",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"order-cost-budget-plan-summary",
+										"setting-percentage"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ocbpsId\": 3844,\n  \"ocbpsSettingMainDevelopPercentage\": 80.94204997505238,\n  \"ocbpsSettingIncentivePercentage\": 9149.152873640347,\n  \"ocbpsSettingMarketingPercentage\": 2463.7938869496256\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/order-cost-budget-plan-summary/setting-percentage",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"order-cost-budget-plan-summary",
+												"setting-percentage"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "/user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user"
+							],
+							"query": [
+								{
+									"key": "pageLimit",
+									"value": "5594",
+									"description": "(Required) "
+								},
+								{
+									"key": "pageNumber",
+									"value": "5594",
+									"description": "(Required) "
+								},
+								{
+									"key": "search",
+									"value": "string"
+								},
+								{
+									"key": "orderBy",
+									"value": "string"
+								},
+								{
+									"key": "ordering",
+									"value": "string"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/user?pageLimit=5594&pageNumber=5594&search=string&orderBy=string&ordering=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user"
+									],
+									"query": [
+										{
+											"key": "pageLimit",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "pageNumber",
+											"value": "5594",
+											"description": "(Required) "
+										},
+										{
+											"key": "search",
+											"value": "string"
+										},
+										{
+											"key": "orderBy",
+											"value": "string"
+										},
+										{
+											"key": "ordering",
+											"value": "string"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1X2lkIjoiZWU5MzRlNjktY2FjZi00YzJlLWEzYTAtM2U0OGFlMWU4MmFiIiwidV9uYW1lIjoiQWxlc2NvIiwidV9lbWFpbCI6ImRoaW1hcy51bHVuZzA3QGdtYWlsLmNvbSIsInVfcGhvbmUiOiIwODE5MzQ5MTU4NjMiLCJ1X2FkZHJlc3MiOiJKbC4gQS4gWWFuaSBHZy4gU2F0cmlhIG5vLiAyMiIsIm5iZiI6MTc1NTA0OTU5NSwiZXhwIjoxNzU1MTM1OTk1LCJpYXQiOjE3NTUwNDk1OTV9.mRF_YpCqQtWXWTrlbxdjmeI2NQf8fw8vOwQKtz89QgU",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://api-garment.devtestingapps.my.id"
+		}
+	]
+}
