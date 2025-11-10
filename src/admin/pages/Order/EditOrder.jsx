@@ -12,10 +12,7 @@ import {
   MapPinIcon,
   PhoneIcon,
   PlusIcon,
-<<<<<<< HEAD
   PrinterIcon,
-=======
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
   TrashIcon,
   UserIcon,
   XCircleIcon
@@ -126,13 +123,8 @@ const EditOrder = () => {
       const response = await getUsers();
       const usersData = extractDataFromResponse(response);
       setUsers(Array.isArray(usersData) ? usersData : []);
-<<<<<<< HEAD
     } catch {
       // Error handled: Error fetching users
-=======
-    } catch (err) {
-      console.error('Error fetching users:', err);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
       setUsers([]);
     } finally {
       setUsersLoading(false);
@@ -143,22 +135,10 @@ const EditOrder = () => {
   const fetchOrderDetail = useCallback(async () => {
     if (!oId) return null;
     
-<<<<<<< HEAD
     const response = await getOrderDetail(oId);
     const orderData = response?.data?.data;
     setOrderData(orderData);
     return orderData;
-=======
-    try {
-      const response = await getOrderDetail(oId);
-      const orderData = response?.data?.data;
-      setOrderData(orderData);
-      return orderData;
-    } catch (err) {
-      console.error('Error fetching order detail:', err);
-      throw err;
-    }
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
   }, [oId]);
 
   // Fetch order items
@@ -170,13 +150,8 @@ const EditOrder = () => {
       const itemsData = extractDataFromResponse(response);
       setOrderItems(itemsData);
       return itemsData;
-<<<<<<< HEAD
     } catch {
       // Error handled: Error fetching order items
-=======
-    } catch (err) {
-      console.error('Error fetching order items:', err);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
       // Fallback to order detail items if available
       return [];
     }
@@ -191,13 +166,8 @@ const EditOrder = () => {
       const progressData = extractDataFromResponse(response);
       setOrderProgressMain(progressData);
       return progressData;
-<<<<<<< HEAD
     } catch {
       // Error handled: Error fetching progress main
-=======
-    } catch (err) {
-      console.error('Error fetching progress main:', err);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
       setOrderProgressMain([]);
       return [];
     }
@@ -248,17 +218,10 @@ const EditOrder = () => {
           return unique;
         });
 
-<<<<<<< HEAD
       // Users loaded successfully
 
     } catch {
       // Error handled: Error fetching progress details
-=======
-      console.log("✅ Unique Users:", userList);
-
-    } catch (err) {
-      console.error("Error fetching progress details:", err);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
     }
   }, [extractDataFromResponse]);
 
@@ -273,11 +236,7 @@ const EditOrder = () => {
       setError('');
       
       try {
-<<<<<<< HEAD
         // Loading order data
-=======
-        console.log('Fetching all data...');
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
         
         // Fetch all data in parallel where possible
         const [orderData, itemsData] = await Promise.all([
@@ -285,49 +244,27 @@ const EditOrder = () => {
           fetchOrderItems()
         ]);
 
-<<<<<<< HEAD
         // Order and items data loaded
 
         // If order items not found from separate API, use items from order detail
         if (itemsData.length === 0 && orderData?.oItems) {
           // Using items from order detail
-=======
-        console.log('Order Data fetched:', orderData);
-        console.log('Items Data fetched:', itemsData);
-
-        // If order items not found from separate API, use items from order detail
-        if (itemsData.length === 0 && orderData?.oItems) {
-          console.log('Using items from order detail:', orderData.oItems);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
           setOrderItems(orderData.oItems);
         }
 
         // Fetch progress main data
         const progressMainData = await fetchProgressMain();
-<<<<<<< HEAD
         // Progress main data loaded
         
         // Fetch progress details if progress main exists
         if (progressMainData.length > 0) {
           // Loading progress details
-=======
-        console.log('Progress Main Data fetched:', progressMainData);
-        
-        // Fetch progress details if progress main exists
-        if (progressMainData.length > 0) {
-          console.log('Fetching progress details...');
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
           await fetchProgressDetails(progressMainData);
         }
 
       } catch (err) {
-<<<<<<< HEAD
         // Error handled: Error fetching order data
         setError(`Gagal memuat data pesanan: ${err.message || 'Silakan coba lagi'}`);
-=======
-        console.error('Error fetching order data:', err);
-        setError('Gagal memuat data pesanan. Silakan coba lagi.');
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
       } finally {
         setLoading(false);
       }
@@ -355,27 +292,7 @@ const EditOrder = () => {
     }
   };
 
-<<<<<<< HEAD
   // Removed unused formatDateTime function
-=======
-  const formatDateTime = (dateString) => {
-    if (!dateString) return '-';
-    try {
-      // Parse tanggal dan tampilkan sesuai input user
-      const date = new Date(dateString);
-      return date.toLocaleString('id-ID', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false // Gunakan format 24 jam
-      }) + ' WIB';
-    } catch {
-      return '-';
-    }
-  };
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 
   const getApprovalStatusText = (status) => {
     switch (status) {
@@ -491,15 +408,7 @@ const EditOrder = () => {
   // Handle add progress
   const handleAddProgress = async () => {
     try {
-<<<<<<< HEAD
       // Starting add progress operation
-=======
-      console.log('Starting add progress with data:', {
-        selectedProgressMainId,
-        newProgress,
-        orderItems
-      });
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 
       // Validasi basic input
       if (!selectedProgressMainId || !newProgress.oisId || !newProgress.opAmount || !newProgress.opFee || !newProgress.opDeadlineAt || !newProgress.uId) {
@@ -552,26 +461,17 @@ const EditOrder = () => {
         }]
       };
 
-<<<<<<< HEAD
       // Sending progress data to API
       setSaving(true);
 
       try {
         // Creating progress with API
-=======
-      console.log('Sending progress data:', progressData);
-      setSaving(true);
-
-      try {
-        console.log('Attempting to create progress with data:', progressData);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
         
         // Create progress
         const response = await createOrderProgress(progressData);
         
         // Periksa response dengan lebih detail
         if (!response?.data) {
-<<<<<<< HEAD
           throw new Error('No response data received');
         }
         
@@ -581,19 +481,6 @@ const EditOrder = () => {
 
         // Tunggu sebentar untuk memastikan data tersimpan di server
         await new Promise(resolve => setTimeout(resolve, 500));
-=======
-          console.error('No response data received');
-          throw new Error('No response from server');
-        }
-        
-        if (response.data.status === 'error' || response.status === 500) {
-          console.error('Server error:', response.data);
-          throw new Error(response.data.remark || 'Failed to create progress');
-        }
-
-        // Tunggu sebentar untuk memastikan data tersimpan di server
-        await new Promise(resolve => setTimeout(resolve, 1000));
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
         
         // Refresh data secara berurutan
         const progressMainData = await fetchProgressMain();
@@ -655,19 +542,11 @@ const EditOrder = () => {
       
       toast.success('Progress berhasil ditambahkan');
       } catch (apiError) {
-<<<<<<< HEAD
         // Error handled:('API Error:', apiError);
         throw new Error(apiError.response?.data?.message || 'Gagal menyimpan progress ke server');
       }
     } catch (err) {
       // Error handled:('Error adding progress:', err);
-=======
-        console.error('API Error:', apiError);
-        throw new Error(apiError.response?.data?.message || 'Gagal menyimpan progress ke server');
-      }
-    } catch (err) {
-      console.error('Error adding progress:', err);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
       toast.error(err.message || 'Gagal menambahkan progress');
     } finally {
       setSaving(false);
@@ -699,11 +578,7 @@ const EditOrder = () => {
         autoClose: 3000
       });
     } catch (err) {
-<<<<<<< HEAD
       // Error handled:('Error deleting progress:', err);
-=======
-      console.error('Error deleting progress:', err);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
       toast.update(toastId, {
         render: 'Gagal menghapus progress: ' + (err.response?.data?.message || err.message),
         type: 'error',
@@ -755,34 +630,12 @@ const EditOrder = () => {
         throw new Error(`Jumlah melebihi sisa yang tersedia (${remainingAmount} pcs)`);
       }
 
-<<<<<<< HEAD
       // Validasi tanggal removed - allowing flexible timing
       // const finishDate = new Date(newProgressDetail.opdFinishedAt);
       // const now = new Date();
       // Removed deadline validation - allow finished time to exceed deadline
 
       // Validation passed, creating finished item
-=======
-      // Validasi tanggal
-      const finishDate = new Date(newProgressDetail.opdFinishedAt);
-      const now = new Date();
-      const deadline = new Date(activeProgress.opDeadlineAt);
-
-      // if (finishDate > now) {
-      //   throw new Error('Tanggal selesai tidak boleh di masa depan');
-      // }
-
-      if (finishDate > deadline) {
-        throw new Error('Tanggal selesai tidak boleh melewati deadline progress');
-      }
-
-      console.log('Validation passed, creating finished item with data:', {
-        selectedProgressId,
-        newProgressDetail,
-        activeProgress,
-        remainingAmount
-      });
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 
       setSaving(true);
 
@@ -799,17 +652,10 @@ const EditOrder = () => {
         }]
       };
 
-<<<<<<< HEAD
       // Sending data to API
 
       const response = await createOrderProgressDetail(progressDetailData);
       // API response received
-=======
-      console.log('Sending data to API:', progressDetailData);
-
-      const response = await createOrderProgressDetail(progressDetailData);
-      console.log('API Response:', response);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 
       if (response?.data?.status === 'error' || response?.status === 500) {
         throw new Error(response?.data?.remark || 'Failed to create finished item');
@@ -820,11 +666,7 @@ const EditOrder = () => {
 
       // Refresh data
       const progressMainData = await fetchProgressMain();
-<<<<<<< HEAD
       // Progress data refreshed
-=======
-      console.log('Progress main data after create:', progressMainData);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 
       if (!progressMainData?.length) {
         throw new Error('No progress main data returned after create');
@@ -833,11 +675,7 @@ const EditOrder = () => {
       // Ambil progress items untuk progress main yang aktif
       const progressResponse = await getOrderProgressByMain(activeProgressMainId);
       const progressItems = extractDataFromResponse(progressResponse);
-<<<<<<< HEAD
       // Progress items updated
-=======
-      console.log('Progress items after create:', progressItems);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
       // const userList = [];
       //   for (const progressItem of progressItems || []) {
       //     if (!progressItem.opId) continue;
@@ -851,11 +689,7 @@ const EditOrder = () => {
       // Ambil detail items untuk progress yang diupdate
       const detailResponse = await getOrderProgressDetailItems(selectedProgressId);
       const detailItems = extractDataFromResponse(detailResponse);
-<<<<<<< HEAD
       // Detail items updated
-=======
-      console.log('Detail items after create:', detailItems);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 
       // Update state dengan data baru
       setOrderProgressDetails(prev => {
@@ -864,11 +698,7 @@ const EditOrder = () => {
         newState[activeProgressMainId] = progressItems;
         // Update detail items untuk progress
         newState[selectedProgressId] = detailItems;
-<<<<<<< HEAD
         // State updated successfully
-=======
-        console.log('New state:', newState);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
         return newState;
       });
 
@@ -882,11 +712,7 @@ const EditOrder = () => {
       
       toast.success('Finished item berhasil ditambahkan');
     } catch (err) {
-<<<<<<< HEAD
       // Error handled:('Error adding finished item:', err);
-=======
-      console.error('Error adding finished item:', err);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
       toast.error(err.message || 'Gagal menambahkan finished item');
     } finally {
       setSaving(false);
@@ -921,17 +747,10 @@ const EditOrder = () => {
         }]
       };
 
-<<<<<<< HEAD
       // Sending update to API
 
       const response = await updateOrderProgressDetail(updateData);
       // API response received
-=======
-      console.log('Sending update data to API:', updateData);
-
-      const response = await updateOrderProgressDetail(updateData);
-      console.log('API Response:', response);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 
       if (response?.data?.status === 'error' || response?.status === 500) {
         throw new Error(response?.data?.remark || 'Failed to update finished item');
@@ -943,21 +762,13 @@ const EditOrder = () => {
       // Refresh data
       const detailResponse = await getOrderProgressDetailItems(selectedProgressId);
       const detailItems = extractDataFromResponse(detailResponse);
-<<<<<<< HEAD
       // Detail items updated
-=======
-      console.log('Updated detail items:', detailItems);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
       
       // Update state
       setOrderProgressDetails(prev => {
         const newState = { ...prev };
         newState[selectedProgressId] = detailItems;
-<<<<<<< HEAD
         // State updated after edit
-=======
-        console.log('New state after update:', newState);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
         return newState;
       });
 
@@ -972,11 +783,7 @@ const EditOrder = () => {
       
       toast.success('Finished item berhasil diupdate');
     } catch (err) {
-<<<<<<< HEAD
       // Error handled:('Error updating progress detail:', err);
-=======
-      console.error('Error updating progress detail:', err);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
       toast.error(err.message || 'Gagal mengupdate finished item');
     } finally {
       setSaving(false);
@@ -1011,11 +818,7 @@ const EditOrder = () => {
         autoClose: 3000
       });
     } catch (err) {
-<<<<<<< HEAD
       // Error handled:('Error deleting progress detail:', err);
-=======
-      console.error('Error deleting progress detail:', err);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
       toast.update(toastId, {
         render: 'Gagal menghapus finished item: ' + (err.response?.data?.message || err.message),
         type: 'error',
@@ -1040,7 +843,6 @@ const EditOrder = () => {
     return Math.min(Math.round((totalFinished / progressMain.opmAmountTotal) * 100), 100);
   };
 
-<<<<<<< HEAD
   // Handle print disposisi
   const handlePrintDisposisi = async (progressMain, progressItems) => {
     try {
@@ -1095,8 +897,6 @@ const EditOrder = () => {
     }
   };
 
-=======
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
   if (loading) {
     return (
       <div className="flex min-h-screen overflow-x-hidden">
@@ -1356,7 +1156,6 @@ const EditOrder = () => {
           {/* Order Progress Management */}
           <div className="bg-white rounded-xl shadow-lg p-6">
             <div className="mb-6">
-<<<<<<< HEAD
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h2 className="text-xl font-bold text-primaryColor">Kelola Progress Pesanan</h2>
@@ -1377,12 +1176,6 @@ const EditOrder = () => {
                   </button>
                 )}
               </div>
-=======
-              <h2 className="text-xl font-bold text-primaryColor">Kelola Progress Pesanan</h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Progress Main dibuat otomatis saat order diapprove. Anda dapat menambahkan Progress Items dan Progress Details.
-              </p>
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
             </div>
 
             {/* Progress Main List */}
@@ -1482,7 +1275,6 @@ const EditOrder = () => {
                           </div>
                         </div>
                         
-<<<<<<< HEAD
                         <div className="ml-4 flex gap-2">
                           <button
                             onClick={(e) => {
@@ -1502,9 +1294,6 @@ const EditOrder = () => {
                           </button>
 
                           {/* Add Progress Button - Conditional */}
-=======
-                        <div className="ml-4">
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
                           {orderData?.oIsLockProgress === 0 && progressPercentage < 100 && (
                             <button
                               onClick={(e) => {
@@ -1942,11 +1731,7 @@ const EditOrder = () => {
                                     <span className="font-medium">Progress ID:</span> {progress.opId}
                                   </div>
                                   <div>
-<<<<<<< HEAD
                                     <span className="font-medium">Deadline:</span> {formatDate(progress.opDeadlineAt)}
-=======
-                                    <span className="font-medium">Deadline:</span> {formatDateTime(progress.opDeadlineAt)}
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
                                   </div>
                                   <div>
                                     <span className="font-medium">Assigned User:</span> {
@@ -2003,10 +1788,6 @@ const EditOrder = () => {
                                             type="date"
                                             value={newProgressDetail.opdFinishedAt}
                                             onChange={(e) => setNewProgressDetail({...newProgressDetail, opdFinishedAt: e.target.value})}
-<<<<<<< HEAD
-=======
-                                            max={new Date().toISOString().slice(0, 16)}
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
                                             onKeyDown={(e) => e.preventDefault()}
                                             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                             required
@@ -2083,11 +1864,7 @@ const EditOrder = () => {
                                           </div>
                                           <div className="text-xs text-green-600">
                                             <p><span className="font-medium">Amount:</span> {detail.opdAmount}</p>
-<<<<<<< HEAD
                                             <p><span className="font-medium">Finished:</span> {formatDate(detail.opdFinishedAt)}</p>
-=======
-                                            <p><span className="font-medium">Finished:</span> {formatDateTime(detail.opdFinishedAt)}</p>
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
                                           </div>
                                           
                                           {/* Edit Progress Detail Form */}

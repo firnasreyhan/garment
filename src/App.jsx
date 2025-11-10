@@ -29,13 +29,10 @@ import AdminList from "./admin/pages/user/admin-list";
 import OwnerList from "./admin/pages/user/owner-list";
 import StaffList from "./admin/pages/user/staff-list";
 import UserList from "./admin/pages/user/user-list";
-<<<<<<< HEAD
 import OrderRecapReport from "./admin/pages/report/order-recap-report";
 import InventoryReport from "./admin/pages/report/inventory-report";
 import InventoryRelocationReport from "./admin/pages/report/inventory-relocation-report";
 import CatalogueReport from "./admin/pages/report/catalogue-report";
-=======
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 import "./App.css";
 import RouteGuard from "./components/route-guard";
 import TokenDebug from "./components/TokenDebug";
@@ -130,7 +127,6 @@ function App() {
             path="/admin/rab-template/create"
             element={<AddRABTemplate />}
           />
-<<<<<<< HEAD
           <Route path="/admin/report/inventory" element={<InventoryReport />} />
           <Route path="/admin/report/inventory-relocation" element={<InventoryRelocationReport />} />
           <Route path="/admin/report/catalogue" element={<CatalogueReport />} />
@@ -140,13 +136,6 @@ function App() {
           <Route path="/admin/staff-list" element={<StaffList />} />
           <Route path="/admin/user-list" element={<UserList />} />
         </Route>
-=======
-        </Route>
-        <Route path="/admin/owner-list" element={<OwnerList />} />
-        <Route path="/admin/admin-list" element={<AdminList />} />
-        <Route path="/admin/staff-list" element={<StaffList />} />
-        <Route path="/admin/user-list" element={<UserList />} />
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
         <Route path="*" element={<NotFound />} />
       </Routes>
 

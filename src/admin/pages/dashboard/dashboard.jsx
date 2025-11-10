@@ -4,10 +4,7 @@ import BackgroundImage from "../../../assets/background/bg-zumar.png";
 import DateRangeFilter from "../../../components/date-range-filter";
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
-<<<<<<< HEAD
 import { generateDashboardReport } from "../../../utils/pdfGenerator";
-=======
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 import { OrderAndFinancialStatus } from "./order-and-financial-status";
 import { TopMostOrderedClients } from "./top-most-ordered-clients";
 
@@ -15,27 +12,18 @@ const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-<<<<<<< HEAD
-=======
-  // ⬇️ Ganti jadi awal tahun & akhir tahun
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
   const [dateRange, setDateRange] = useState({
     startDate: format(startOfYear(new Date()), "yyyy-MM-dd"),
     endDate: format(endOfYear(new Date()), "yyyy-MM-dd"),
   });
 
-<<<<<<< HEAD
   const [dashboardData, setDashboardData] = useState(null);
   const [categoryData, setCategoryData] = useState(null);
 
-=======
-  // This function receives the date from the filter component
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
   const handleDateChange = (selectedDateRange) => {
     setDateRange(selectedDateRange);
   };
 
-<<<<<<< HEAD
   const handleGeneratePDF = () => {
     if (dashboardData && categoryData) {
       generateDashboardReport(dashboardData, categoryData, dateRange);
@@ -44,8 +32,6 @@ const Dashboard = () => {
     }
   };
 
-=======
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
   return (
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
@@ -82,7 +68,6 @@ const Dashboard = () => {
             </div>
 
             <div className="space-y-8">
-<<<<<<< HEAD
               <div className="flex items-center justify-end gap-4">
                 <DateRangeFilter onDateChange={handleDateChange} />
                 <button
@@ -97,12 +82,6 @@ const Dashboard = () => {
                 filterDateStart={dateRange.startDate}
                 onDataLoaded={setDashboardData}
                 onCategoryDataLoaded={setCategoryData}
-=======
-              <DateRangeFilter onDateChange={handleDateChange} />
-              <OrderAndFinancialStatus
-                filterDateEnd={dateRange.endDate}
-                filterDateStart={dateRange.startDate}
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
               />
               <TopMostOrderedClients
                 filterDateEnd={dateRange.endDate}

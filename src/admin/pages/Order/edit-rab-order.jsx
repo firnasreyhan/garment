@@ -2,10 +2,7 @@ import {
   ArrowLeftIcon,
   CheckIcon,
   ChevronDownIcon,
-<<<<<<< HEAD
   DocumentIcon,
-=======
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
   PlusIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
@@ -22,10 +19,7 @@ import {
 import { getOperationalUtilityTemplateList } from "../../../api/rab-template/rab-template";
 import SearchableDropdown from "../../../components/SearchableDropdown";
 import { calculateRABItemValues, formatCurrency } from "../../../utils";
-<<<<<<< HEAD
 import { generateRABPReport } from "../../../utils/pdfGenerator";
-=======
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
 import { LockableInput } from "../../components/lockable-input";
@@ -164,10 +158,6 @@ const getName = (
   return "Unknown";
 };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 const RABItemsSection = ({
   summary,
   inventories,
@@ -1019,11 +1009,7 @@ export default function EditRabOrder() {
   const [inventories, setInventories] = useState([]);
   const [templates, setTemplates] = useState(null);
 
-<<<<<<< HEAD
   const [isFieldLocked] = useState(false);
-=======
-  const [isFieldLocked, setIsFieldLocked] = useState(false);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 
   const fetchSummary = useCallback(async () => {
     try {
@@ -1115,11 +1101,7 @@ export default function EditRabOrder() {
     }
   };
 
-<<<<<<< HEAD
   const handleSubmitPercentage = async () => {
-=======
-  const handleSubmitPercentage = async (e) => {
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
     try {
       setIsSaving(true);
       setErrorMessage("");
@@ -1330,7 +1312,6 @@ export default function EditRabOrder() {
                   <ArrowLeftIcon className="w-5 h-5" />
                   Kembali
                 </button>
-<<<<<<< HEAD
                 
                 {/* RABP Report Button */}
                 <button
@@ -1352,8 +1333,6 @@ export default function EditRabOrder() {
                   Cetak Laporan RABP
                 </button>
                 
-=======
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
                 <div>
                   <h1 className="text-3xl font-bold text-primaryColor">
                     Edit RAB Pesanan

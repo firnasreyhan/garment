@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-=======
-import React, { useCallback, useEffect, useState } from 'react';
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 import { MagnifyingGlassIcon, PlusIcon, XCircleIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import AdminSidebar from '../../components/AdminSidebar';
 import AdminNavbar from '../../components/AdminNavbar';
@@ -14,7 +10,6 @@ import BackgroundImage from '../../../assets/background/bg-zumar.png';
 
 const PAGE_LIMIT = 10;
 
-<<<<<<< HEAD
 function CustomDropdown({ label, options, value, onChange, placeholder, searchPlaceholder = 'Cari...', labelMinWidth = '70px', width = '150px', mdWidth = '160px', height = '38px' }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -89,8 +84,6 @@ function CustomDropdown({ label, options, value, onChange, placeholder, searchPl
   );
 }
 
-=======
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 function ActionDropdown({ onEdit, onDelete }) {
   const [open, setOpen] = useState(false);
   const btnRef = React.useRef(null);
@@ -156,13 +149,10 @@ const CatalogueList = () => {
   const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const [searchExpanded, setSearchExpanded] = useState(false);
-<<<<<<< HEAD
   
   // Filter states
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedSubCategory, setSelectedSubCategory] = useState('');
-=======
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
   // Modal states dan form states yang tidak dipakai dihapus
   // const [showAddModal, setShowAddModal] = useState(false);
   // const [showEditModal, setShowEditModal] = useState(false);
@@ -214,7 +204,6 @@ const CatalogueList = () => {
     setLoading(true);
     setError('');
     try {
-<<<<<<< HEAD
       const params = { pageLimit: PAGE_LIMIT, pageNumber: goToPage };
       
       
@@ -244,10 +233,6 @@ const CatalogueList = () => {
         productsData = productsData.filter(prod => prod.csId === selectedSubCategory);
       }
       
-=======
-      const res = await getCatalogueProducts({ pageLimit: PAGE_LIMIT, pageNumber: goToPage, search });
-      const productsData = Array.isArray(res.data.data.listData) ? res.data.data.listData : [];
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
       setProducts(productsData);
       const pagination = res.data.pagination || res.data.data?.pagination || {};
       const pageLast = pagination.pageLast || 1;
@@ -257,11 +242,7 @@ const CatalogueList = () => {
       setError('Gagal memuat data produk katalog');
     }
     setLoading(false);
-<<<<<<< HEAD
   }, [search, selectedCategory, selectedSubCategory]);
-=======
-  }, [search]);
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 
   useEffect(() => {
     fetchCategories();
@@ -274,7 +255,6 @@ const CatalogueList = () => {
     setPage(1);
     setSearch(searchInput);
   };
-<<<<<<< HEAD
   
   const handleFilterChange = useCallback((filterType, value) => {
     if (filterType === 'category') {
@@ -285,8 +265,6 @@ const CatalogueList = () => {
     }
     setPage(1); 
   }, []);
-=======
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
 
   const handleEditClick = (product) => {
     navigate(`/admin/catalogue/edit/${product.cpId}`);
@@ -323,7 +301,6 @@ const CatalogueList = () => {
     return doc.body.textContent || "";
   };
 
-<<<<<<< HEAD
   const truncateText = (text, maxLength = 80) => {
     if (!text) return "";
     const cleanText = stripHtml(text);
@@ -331,8 +308,6 @@ const CatalogueList = () => {
     return cleanText.substring(0, maxLength) + "...";
   };
 
-=======
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
   // Filter sub kategori berdasarkan kategori yang dipilih
   // const filteredSubCategories = newProductCategoryId
   //   ? subCategories.filter(sub => String(sub.ccId) === String(newProductCategoryId))
@@ -399,7 +374,6 @@ const CatalogueList = () => {
             </button>
           </form>
 
-<<<<<<< HEAD
           {/* Filter Row */}
           <div className="flex flex-wrap items-center gap-4 mb-6">
             {/* Filter Kategori */}
@@ -433,8 +407,6 @@ const CatalogueList = () => {
             />
           </div>
 
-=======
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
           <div className="bg-gray-100 rounded-xl shadow p-4 mt-6 overflow-x-auto font-montserrat">
             {loading ? (
               <div className="text-center py-8 text-primaryColor font-semibold">Loading...</div>
@@ -465,15 +437,11 @@ const CatalogueList = () => {
                           <td className="px-4 py-3">{category ? category.ccName : prod.ccName || '-'}</td>
                           <td className="px-4 py-3">{subCategory ? subCategory.csName : prod.csName || '-'}</td>
                           <td className="px-4 py-3 font-medium">{prod.cpName}</td>
-<<<<<<< HEAD
                           <td className="px-4 py-3 max-w-xs">
                             <span className="block truncate" title={stripHtml(prod.cpDescription)}>
                               {truncateText(prod.cpDescription)}
                             </span>
                           </td>
-=======
-                          <td className="px-4 py-3">{stripHtml(prod.cpDescription)}</td>
->>>>>>> 9c24625fdf49c790ae79b8d6e615c0f5adccfaef
                           <td className="px-4 py-3">
                             <ActionDropdown
                               onEdit={() => handleEditClick(prod)}
