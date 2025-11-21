@@ -23,6 +23,10 @@ import {
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
 import BackgroundImage from '../../../assets/background/bg-zumar.png';
+import Lightbox from "yet-another-react-lightbox";
+import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import "yet-another-react-lightbox/styles.css";
 
 const ProgressBarStatus = ({ percent }) => {
   return (
@@ -82,6 +86,11 @@ const OrderDetail = () => {
   const [orderData, setOrderData] = useState(null);
   const [orderItems, setOrderItems] = useState([]);
   const [orderProgress, setOrderProgress] = useState([]);
+  
+  // Lightbox states
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [lightboxImages, setLightboxImages] = useState([]);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   // Sidebar states
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -161,6 +170,18 @@ const OrderDetail = () => {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(amount);
+  };
+
+  // Lightbox functions
+  const openLightbox = (images, index = 0) => {
+    const lightboxSlides = images.map((image, idx) => ({
+      src: image,
+      title: `Mockup Image ${idx + 1}`,
+      alt: `Mockup ${idx + 1}`,
+    }));
+    setLightboxImages(lightboxSlides);
+    setLightboxIndex(index);
+    setIsLightboxOpen(true);
   };
 
   const getApprovalStatusText = (status) => {
@@ -515,15 +536,20 @@ const OrderDetail = () => {
                           <h4 className="font-medium mb-2">Mockup Images</h4>
                           <div className="flex flex-wrap gap-2">
                             {item.oiMockupImage.map((image, imgIndex) => (
-                              <img
+                              <button
                                 key={imgIndex}
-                                src={image}
-                                alt={`Mockup ${imgIndex + 1}`}
-                                className="w-16 h-16 object-cover rounded border border-gray-200"
+                                onClick={() => openLightbox(item.oiMockupImage, imgIndex)}
+                                className="w-16 h-16 object-cover rounded border border-gray-200 hover:border-primaryColor hover:shadow-md transition-all duration-200 cursor-pointer overflow-hidden"
                                 onError={(e) => {
                                   e.target.style.display = "none";
                                 }}
-                              />
+                              >
+                                <img
+                                  src={image}
+                                  alt={`Mockup ${imgIndex + 1}`}
+                                  className="w-full h-full object-cover"
+                                />
+                              </button>
                             ))}
                           </div>
                         </div>
@@ -563,6 +589,15 @@ const OrderDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Lightbox component */}
+      <Lightbox
+        open={isLightboxOpen}
+        close={() => setIsLightboxOpen(false)}
+        slides={lightboxImages}
+        plugins={[Fullscreen, Zoom]}
+        index={lightboxIndex}
+      />
     </div>
   );
 };

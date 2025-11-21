@@ -274,6 +274,7 @@ const CatalogueReport = () => {
     }
   };
 
+
   return (
     <div
       className="flex min-h-screen"

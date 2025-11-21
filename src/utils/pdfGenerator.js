@@ -529,271 +529,117 @@ export const generateCatalogueReport = async (catalogueData, filterInfo, categor
   
   yPos += 20;
 
-  // Convert image to base64
+  // Optimized WeServ proxy for reliable image conversion
   const convertImageToBase64 = async (imageUrl) => {
     try {
+      // Strategy 1: High resolution download (72x72) for crisp rendering at 18x18
+      const proxyUrl = `https://images.weserv.nl/?url=${encodeURIComponent(imageUrl)}&output=png&w=72&h=72&fit=cover&q=100`;
+      console.log(`Trying WeServ strategy 1 for image: ${imageUrl.substring(imageUrl.lastIndexOf('/') + 1)}`);
       
-      const base64 = await new Promise((resolve, reject) => {
-        const img = new Image();
-        
-        const timeoutId = setTimeout(() => reject(new Error('Image timeout')), 8000);
-        
-        img.onload = function() {
-          clearTimeout(timeoutId);
-          try {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            
-            const targetSize = 72;
-            canvas.width = targetSize;
-            canvas.height = targetSize;
-            
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = 'high';
-            
-            ctx.drawImage(this, 0, 0, targetSize, targetSize);
-            
-            const result = canvas.toDataURL('image/png', 1.0);
-            resolve(result);
-          } catch (canvasError) {
-            reject(canvasError);
-          }
-        };
-        
-        img.onerror = () => {
-          clearTimeout(timeoutId);
-          reject(new Error('Ultra high-res failed'));
-        };
-        
-        img.src = imageUrl;
+      const response = await fetch(proxyUrl, { 
+        signal: AbortSignal.timeout(10000) // 10 second timeout
       });
       
-      if (base64 && base64.length > CONFIG.MIN_BASE64_LENGTH) {
+      if (response.ok) {
+        const blob = await response.blob();
+        console.log(`WeServ strategy 1 success, blob size: ${blob.size} bytes`);
+        
+        const base64 = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const result = reader.result;
+            if (result && result.length > CONFIG.MIN_BASE64_LENGTH) {
+              console.log(`Base64 conversion success, length: ${result.length}`);
+              resolve(result);
+            } else {
+              reject(new Error('Invalid base64 result'));
+            }
+          };
+          reader.onerror = () => reject(new Error('FileReader failed'));
+          reader.readAsDataURL(blob);
+        });
+        
         return base64;
+      } else {
+        console.log(`WeServ strategy 1 failed with status: ${response.status}`);
       }
-    } catch {
-      // Image processing fallback
+    } catch (error) {
+      console.log('WeServ strategy 1 error:', error.message);
     }
     
     try {
+      // Strategy 2: Medium resolution fallback (54x54) for crisp rendering
+      const proxyUrl = `https://images.weserv.nl/?url=${encodeURIComponent(imageUrl)}&output=png&w=54&h=54&fit=cover&q=100`;
+      console.log(`Trying WeServ strategy 2 for image: ${imageUrl.substring(imageUrl.lastIndexOf('/') + 1)}`);
       
-      const base64 = await new Promise((resolve, reject) => {
-        const img = new Image();
-        
-        img.onload = function() {
-          try {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            
-            canvas.width = this.naturalWidth;
-            canvas.height = this.naturalHeight;
-            
-            ctx.drawImage(this, 0, 0);
-            
-            const result = canvas.toDataURL('image/png', 1.0);
-            
-            resolve(result);
-          } catch (canvasError) {
-            reject(canvasError);
-          }
-        };
-        
-        const timeoutId = setTimeout(() => reject(new Error('Image timeout')), 8000);
-        
-        img.onerror = () => {
-          clearTimeout(timeoutId);
-          reject(new Error('Full original failed'));
-        };
-        
-        img.src = imageUrl;
+      const response = await fetch(proxyUrl, { 
+        signal: AbortSignal.timeout(10000) // 10 second timeout
       });
       
-      if (base64 && base64.length > CONFIG.MIN_BASE64_LENGTH) {
+      if (response.ok) {
+        const blob = await response.blob();
+        console.log(`WeServ strategy 2 success, blob size: ${blob.size} bytes`);
+        
+        const base64 = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const result = reader.result;
+            if (result && result.length > CONFIG.MIN_BASE64_LENGTH) {
+              console.log(`Base64 conversion success, length: ${result.length}`);
+              resolve(result);
+            } else {
+              reject(new Error('Invalid base64 result'));
+            }
+          };
+          reader.onerror = () => reject(new Error('FileReader failed'));
+          reader.readAsDataURL(blob);
+        });
+        
         return base64;
+      } else {
+        console.log(`WeServ strategy 2 failed with status: ${response.status}`);
       }
-    } catch {
-      // Image processing fallback
+    } catch (error) {
+      console.log('WeServ strategy 2 error:', error.message);
     }
     
     try {
+      // Strategy 3: Basic resolution fallback (36x36) for crisp rendering
+      const proxyUrl = `https://images.weserv.nl/?url=${encodeURIComponent(imageUrl)}&output=png&w=36&h=36&fit=cover&q=100`;
+      console.log(`Trying WeServ strategy 3 for image: ${imageUrl.substring(imageUrl.lastIndexOf('/') + 1)}`);
       
-      const base64 = await new Promise((resolve, reject) => {
-        const img = new Image();
-        
-        img.onload = function() {
-          try {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            
-            const intermediateSize = Math.max(LAYOUT.IMAGE.INTERMEDIATE_SIZE, Math.min(this.naturalWidth, this.naturalHeight) * 0.1);
-            const tempCanvas = document.createElement('canvas');
-            const tempCtx = tempCanvas.getContext('2d');
-            
-            tempCanvas.width = intermediateSize;
-            tempCanvas.height = intermediateSize;
-            tempCtx.imageSmoothingEnabled = true;
-            tempCtx.imageSmoothingQuality = 'high';
-            tempCtx.drawImage(this, 0, 0, intermediateSize, intermediateSize);
-            
-            canvas.width = 18;
-            canvas.height = 18;
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = 'high';
-            ctx.drawImage(tempCanvas, 0, 0, LAYOUT.IMAGE.RENDER_SIZE, LAYOUT.IMAGE.RENDER_SIZE);
-            
-            const result = canvas.toDataURL('image/png', 1.0);
-            
-            
-            resolve(result);
-          } catch (canvasError) {
-            reject(canvasError);
-          }
-        };
-        
-        const timeoutId = setTimeout(() => reject(new Error('Image timeout')), 6000);
-        
-        img.onerror = () => {
-          clearTimeout(timeoutId);
-          reject(new Error('Smart resize failed'));
-        };
-        
-        img.src = imageUrl;
+      const response = await fetch(proxyUrl, { 
+        signal: AbortSignal.timeout(8000) // 8 second timeout
       });
       
-      if (base64 && base64.length > CONFIG.MIN_BASE64_LENGTH) {
+      if (response.ok) {
+        const blob = await response.blob();
+        console.log(`WeServ strategy 3 success, blob size: ${blob.size} bytes`);
+        
+        const base64 = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const result = reader.result;
+            if (result && result.length > CONFIG.MIN_BASE64_LENGTH) {
+              console.log(`Base64 conversion success, length: ${result.length}`);
+              resolve(result);
+            } else {
+              reject(new Error('Invalid base64 result'));
+            }
+          };
+          reader.onerror = () => reject(new Error('FileReader failed'));
+          reader.readAsDataURL(blob);
+        });
+        
         return base64;
+      } else {
+        console.log(`WeServ strategy 3 failed with status: ${response.status}`);
       }
-    } catch {
-      // Image processing fallback
+    } catch (error) {
+      console.log('WeServ strategy 3 error:', error.message);
     }
     
-    try {
-      
-      const base64 = await new Promise((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        
-        img.onload = function() {
-          try {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            
-            canvas.width = 18;
-            canvas.height = 18;
-            ctx.drawImage(this, 0, 0, 18, 18);
-            
-            const result = canvas.toDataURL('image/png', 1.0);
-            resolve(result);
-          } catch (canvasError) {
-            reject(canvasError);
-          }
-        };
-        
-        const timeoutId = setTimeout(() => reject(new Error('Image timeout')), CONFIG.IMAGE_TIMEOUT);
-        
-        img.onerror = () => {
-          clearTimeout(timeoutId);
-          reject(new Error('CrossOrigin failed'));
-        };
-        
-        img.src = imageUrl;
-      });
-      
-      if (base64 && base64.length > CONFIG.MIN_BASE64_LENGTH) {
-        return base64;
-      }
-    } catch {
-      // Image processing fallback
-    }
-    
-    try {
-      
-      // Parameter untuk original size tanpa resize dan compression
-      const proxyUrl = `https://images.weserv.nl/?url=${encodeURIComponent(imageUrl)}&output=png&q=100&il`;
-      
-      const base64 = await new Promise((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        
-        img.onload = function() {
-          try {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            
-            canvas.width = this.naturalWidth;
-            canvas.height = this.naturalHeight;
-            
-            ctx.drawImage(this, 0, 0);
-            
-            const result = canvas.toDataURL('image/png', 1.0);
-            
-            
-            resolve(result);
-          } catch (canvasError) {
-            reject(canvasError);
-          }
-        };
-        
-        const timeoutId = setTimeout(() => reject(new Error('Image timeout')), CONFIG.IMAGE_TIMEOUT);
-        
-        img.onerror = () => {
-          clearTimeout(timeoutId);
-          reject(new Error('WeServ original failed'));
-        };
-        
-        img.src = proxyUrl;
-      });
-      
-      if (base64 && base64.length > CONFIG.MIN_BASE64_LENGTH) {
-        return base64;
-      }
-    } catch {
-      // Image processing fallback
-    }
-    
-    try {
-      
-      const proxyUrl = `https://images.weserv.nl/?url=${encodeURIComponent(imageUrl)}&output=png&q=100&il&compression=0&af`;
-      
-      const base64 = await new Promise((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        
-        img.onload = function() {
-          try {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            
-            canvas.width = this.naturalWidth;
-            canvas.height = this.naturalHeight;
-            
-            ctx.drawImage(this, 0, 0);
-            
-            const result = canvas.toDataURL('image/png', 1.0);
-            
-            resolve(result);
-          } catch (canvasError) {
-            reject(canvasError);
-          }
-        };
-        
-        const timeoutId = setTimeout(() => reject(new Error('Image timeout')), CONFIG.IMAGE_TIMEOUT);
-        
-        img.onerror = () => {
-          clearTimeout(timeoutId);
-          reject(new Error('WeServ ultra lossless failed'));
-        };
-        
-        img.src = proxyUrl;
-      });
-      
-      if (base64 && base64.length > CONFIG.MIN_BASE64_LENGTH) {
-        return base64;
-      }
-    } catch {
-      // Image processing fallback
-    }
-    
+    console.log(`All WeServ strategies failed for image: ${imageUrl.substring(imageUrl.lastIndexOf('/') + 1)}`);
     return null;
   };
 
@@ -917,7 +763,7 @@ export const generateCatalogueReport = async (catalogueData, filterInfo, categor
             const imageX = cellX + (cellWidth - renderSize) / 2;
             const imageY = cellY + (cellHeight - renderSize) / 2;
             
-            doc.addImage(base64Image, 'PNG', imageX, imageY, renderSize, renderSize);
+            doc.addImage(base64Image, 'PNG', imageX, imageY, renderSize, renderSize, undefined, 'NONE');
             
             
           } catch {
@@ -932,6 +778,7 @@ export const generateCatalogueReport = async (catalogueData, filterInfo, categor
   const fileName = `Laporan_Katalog_${format(new Date(), 'yyyy-MM-dd_HH-mm')}.pdf`;
   doc.save(fileName);
 };
+
 
 export const generateOrderRecapReport = async (orderData, filterInfo) => {
   const doc = new jsPDF('landscape', 'mm', 'a4');
