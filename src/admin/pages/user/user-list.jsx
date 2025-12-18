@@ -15,9 +15,181 @@ import {
   createUser,
   updateUser,
 } from "../../../api/user/user";
+import { getAllRoles } from "../../../api/role/role";
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
 import BackgroundImage from '../../../assets/background/bg-zumar.png';
+
+// Custom Dropdown Component from CatalogueList
+function CustomDropdown({ label, options, value, onChange, placeholder, searchPlaceholder = "Cari...", labelMinWidth = "70px", width = "150px", mdWidth = "160px", height = "38px" }) {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const btnRef = useRef(null);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e) {
+      if (
+        btnRef.current &&
+        !btnRef.current.contains(e.target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
+
+  const selectedOption = options.find((opt) => String(opt.value) === String(value));
+  const filteredOptions = options.filter((opt) =>
+    opt.label.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div className="flex items-center w-auto">
+      <span
+        className="px-4 py-2 bg-[#295B5B] text-white font-bold rounded-l-xl border border-[#295B5B] border-r-0 text-base flex items-center justify-center"
+        style={{ height: height, minWidth: labelMinWidth, lineHeight: height }}
+      >
+        {label}
+      </span>
+      <div className={`relative w-[${width}] md:w-[${mdWidth}]`}>
+        <button
+          ref={btnRef}
+          type="button"
+          className="appearance-none w-full px-3 py-2 border border-[#295B5B] border-l-0 bg-white text-[#BDBDBD] font-semibold rounded-r-xl focus:outline-none focus:ring-2 focus:ring-secondaryColor h-[38px] text-sm flex items-center justify-between"
+          onClick={() => setOpen((o) => !o)}
+        >
+          <span className={value ? "text-black truncate" : "text-[#BDBDBD]"}>
+            {value ? selectedOption?.label : placeholder}
+          </span>
+          <ChevronDownIcon className="w-4 h-4 text-[#BDBDBD] ml-2" />
+        </button>
+        {open && (
+          <div
+            ref={dropdownRef}
+            className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto focus:outline-none"
+          >
+            <div className="p-2 sticky top-0 bg-white z-10">
+              <input
+                type="text"
+                placeholder={searchPlaceholder}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-200 rounded focus:outline-none text-sm"
+                autoFocus
+              />
+            </div>
+            {filteredOptions.length === 0 && (
+              <div className="px-4 py-2 text-gray-400 text-sm">
+                Tidak ditemukan
+              </div>
+            )}
+            {filteredOptions.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                className={`w-full text-left px-4 py-2 cursor-pointer ${String(opt.value) === String(value)
+                    ? "bg-secondaryColor/10 text-black"
+                    : "text-black"
+                  } hover:bg-secondaryColor/20`}
+                onClick={() => {
+                  onChange(opt.value);
+                  setOpen(false);
+                  setSearch("");
+                }}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Custom Role Dropdown Component for Forms (keeping this one as it has specific styling for forms)
+function RoleDropdown({ roles = [], value, onSelect, placeholder = "Pilih role..." }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Sync display with selected value
+  useEffect(() => {
+    if (value !== undefined && value !== null && Array.isArray(roles)) {
+      const selected = roles.find((role) => role.rId === value);
+      setSearchTerm(selected ? selected.rName : "");
+    }
+  }, [value, roles]);
+
+  // Filter roles based on search
+  const filteredRoles = Array.isArray(roles)
+    ? roles.filter((role) =>
+      String(role.rName).toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    : [];
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleInputChange = (e) => {
+    setSearchTerm(e.target.value);
+    setIsOpen(true);
+  };
+
+  const handleSelect = (role) => {
+    setIsOpen(false);
+    setSearchTerm(role.rName);
+    if (onSelect) onSelect(role);
+  };
+
+  return (
+    <div className="relative w-full" ref={dropdownRef}>
+      <input
+        type="text"
+        placeholder={placeholder}
+        className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-secondaryColor"
+        value={searchTerm}
+        onChange={handleInputChange}
+        onFocus={() => setIsOpen(true)}
+        required
+      />
+
+      {/* Dropdown */}
+      {isOpen && (
+        <ul className="absolute z-10 w-full max-h-60 overflow-y-auto border border-gray-300 bg-white shadow-lg rounded-md mt-1">
+          {filteredRoles.length > 0 ? (
+            filteredRoles.map((role) => (
+              <li
+                key={role.rId}
+                className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-sm"
+                onClick={() => handleSelect(role)}
+              >
+                {role.rName}
+              </li>
+            ))
+          ) : (
+            <li className="px-4 py-2 text-gray-500 text-sm">
+              Role tidak ditemukan
+            </li>
+          )}
+        </ul>
+      )}
+    </div>
+  );
+}
 
 function ActionDropdown({ onEditUser, onDelete }) {
   const [open, setOpen] = useState(false);
@@ -85,9 +257,12 @@ function ActionDropdown({ onEditUser, onDelete }) {
 
 export default function UserList() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [users, setUsers] = useState([]);
+  const [roles, setRoles] = useState([]);
+  const [selectedRole, setSelectedRole] = useState("");
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const navigate = useNavigate();
@@ -107,7 +282,7 @@ export default function UserList() {
     uPhone: "",
     uAddress: "",
     uPassword: "",
-    uRole: "USER",
+    rId: 5,
   });
   const [editUser, setEditUser] = useState({
     uId: "",
@@ -116,35 +291,31 @@ export default function UserList() {
     uPhone: "",
     uAddress: "",
     uPassword: "",
-    uRole: "USER",
+    rId: 5,
   });
 
   const handleAddUser = async (e) => {
-    e.preventDefault(); // agar tidak reload halaman
-
+    e.preventDefault();
     try {
       setFormLoading(true);
-
-      // Contoh pemanggilan API
       const response = await createUser({
         uName: newUser.uName,
         uEmail: newUser.uEmail,
         uPhone: newUser.uPhone,
         uAddress: newUser.uAddress,
         uPassword: newUser.uPassword,
-        uRole: newUser.uRole,
+        rId: newUser.rId,
       });
 
       await fetchData();
 
       console.log("User berhasil ditambahkan:", response.data);
 
-      // Tutup modal & reset form
       setShowAddModal(false);
       setNewUser({ uName: "", uEmail: "", uPhone: "", uAddress: "", uPassword: "" });
     } catch (error) {
-      console.error("Gagal menambahkan pengguna:", error);
-      alert("Terjadi kesalahan saat menambah pengguna.");
+      console.error("Gagal menambahkan user:", error);
+      alert("Terjadi kesalahan saat menambah user.");
     } finally {
       setFormLoading(false);
     }
@@ -158,7 +329,7 @@ export default function UserList() {
       uPhone: user.uPhone || "",
       uAddress: user.uAddress || "",
       uPassword: "",
-      uRole: "USER",
+      rId: user.rId,
     });
     setShowEditModal(true);
   };
@@ -174,16 +345,16 @@ export default function UserList() {
         uPhone: editUser.uPhone,
         uAddress: editUser.uAddress,
         uPassword: editUser.uPassword,
-        uRole: editUser.uRole,
+        rId: editUser.rId,
       });
 
       await fetchData();
 
       setShowEditModal(false);
-      alert("Data pengguna berhasil diperbarui!");
+      alert("Data user berhasil diperbarui!");
     } catch (error) {
-      console.error("Gagal memperbarui pengguna:", error);
-      alert("Terjadi kesalahan saat memperbarui data pengguna.");
+      console.error("Gagal memperbarui user:", error);
+      alert("Terjadi kesalahan saat memperbarui data user.");
     } finally {
       setLoading(false);
     }
@@ -203,7 +374,7 @@ export default function UserList() {
       const response = await getUserList({
         pageLimit: 10,
         pageNumber: page,
-        filterURole: "USER",
+        filterRId: selectedRole || null,
       });
 
       const data = response.data.data.listData;
@@ -231,10 +402,6 @@ export default function UserList() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleCreateUser = async () => {
-    navigate("/admin/user/create");
   };
 
   const handleUserAction = (user, action) => {
@@ -272,9 +439,39 @@ export default function UserList() {
     }
   };
 
+  // Fetch roles for dropdown
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const response = await getAllRoles({
+          pageLimit: -1,  // Get all roles
+          pageNumber: 1
+        });
+
+        // Try different response structures
+        let rolesData = [];
+        if (response.data?.data?.listData) {
+          rolesData = response.data.data.listData;
+        } else if (response.data?.data) {
+          rolesData = Array.isArray(response.data.data) ? response.data.data : [];
+        } else if (response.data?.listData) {
+          rolesData = response.data.listData;
+        } else if (Array.isArray(response.data)) {
+          rolesData = response.data;
+        }
+
+        setRoles(rolesData);
+      } catch (error) {
+        console.error("Error fetching roles:", error);
+        setRoles([]);
+      }
+    };
+    fetchRoles();
+  }, []);
+
   useEffect(() => {
     fetchData();
-  }, [page])
+  }, [page, selectedRole]);
 
   return (
     <div
@@ -288,6 +485,8 @@ export default function UserList() {
       }}
     >
       <AdminSidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed((v) => !v)}
       />
@@ -295,50 +494,31 @@ export default function UserList() {
         <AdminNavbar onHamburgerClick={() => setSidebarOpen(true)} />
         <div className="w-full mx-auto py-6 px-2 sm:px-4 lg:px-6 font-montserrat overflow-x-hidden">
           <h1 className="text-4xl font-bold text-center text-primaryColor mb-2">
-            DAFTAR PENGGUNA
+            DAFTAR USER
           </h1>
           <p className="text-center text-gray-500 mb-8">
-            Berikut adalah pengguna yang terdaftar dalam sistem.
+            Berikut adalah user yang terdaftar dalam sistem.
           </p>
 
-          {/* Search and Filter Section */}
           <div className="space-y-4 mb-6">
-            {/* Search Bar Row */}
+            {/* Filter and Action Row */}
             <div className="flex flex-wrap items-center gap-4">
-              {/* <form 
-            onSubmit={handleSearch}
-             className="flex items-center flex-shrink-0">
-              <div className="relative flex items-center">
-                <input
-                  type="text"
-                  placeholder={searchExpanded ? 'Cari di sini' : ''}
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  onFocus={() => setSearchExpanded(true)}
-                  className={`bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-secondaryColor transition-all duration-300 ease-in-out px-4 py-2 rounded-full text-black ${searchExpanded ? 'w-40 md:w-56 pl-10 pr-10' : 'w-0 px-0 border-transparent cursor-pointer'} min-w-0`}
-                  style={{ zIndex: 1 }}
-                />
-                <MagnifyingGlassIcon className={`absolute left-3 w-5 h-5 text-[#E87722] pointer-events-none transition-opacity duration-300 ${searchExpanded ? 'opacity-100' : 'opacity-0'}`} style={{ zIndex: 2 }} />
-                <button
-                  type={searchExpanded ? 'submit' : 'button'}
-                  onClick={() => { if (!searchExpanded) setSearchExpanded(true); }}
-                  className="flex items-center gap-2 bg-[#E87722] hover:bg-[#d96c1f] text-white px-7 py-3 rounded-full font-semibold shadow transition-all duration-300 relative"
-                  style={{ marginLeft: searchExpanded ? '-2.5rem' : '0', zIndex: 4 }}
-                >
-                  <MagnifyingGlassIcon className="w-5 h-5" />
-                  <span className={`${searchExpanded ? 'inline' : 'hidden'} md:inline`}>Search</span>
-                  {searchExpanded && (
-                    <span
-                      onClick={e => { e.preventDefault(); setSearchExpanded(false); setSearchInput(''); }}
-                      className="ml-2 flex items-center cursor-pointer"
-                      tabIndex={-1}
-                    >
-                      <XCircleIcon className="w-5 h-5 text-white hover:text-gray-200" />
-                    </span>
-                  )}
-                </button>
-              </div>
-            </form> */}
+              {/* Role Filter using CustomDropdown */}
+              <CustomDropdown
+                label="Role"
+                options={[
+                  { value: "", label: "Semua Role" },
+                  ...roles.map((role) => ({ value: role.rId, label: role.rName })),
+                ]}
+                value={selectedRole}
+                onChange={(val) => {
+                  setSelectedRole(val);
+                  setPage(1); // Reset to page 1 on filter change
+                }}
+                placeholder="Pilih Role"
+                searchPlaceholder="Cari role..."
+                labelMinWidth="80px"
+              />
 
               <button
                 type="button"
@@ -400,6 +580,9 @@ export default function UserList() {
                         <th className="px-3 py-3 whitespace-nowrap text-sm font-semibold min-w-[80px]">
                           Telepon
                         </th>
+                        <th className="px-3 py-3 whitespace-nowrap text-sm font-semibold min-w-[80px]">
+                          Role
+                        </th>
                         <th className="px-3 py-3 whitespace-nowrap text-sm font-semibold min-w-[120px]">
                           Alamat
                         </th>
@@ -422,6 +605,9 @@ export default function UserList() {
                           </td>
                           <td className="px-3 py- whitespace-nowrap ">
                             {user.uPhone}
+                          </td>
+                          <td className="px-3 py- whitespace-nowrap ">
+                            {user.rName}
                           </td>
                           <td className="px-3 py- whitespace-nowrap">
                             {user.uAddress}
@@ -450,30 +636,30 @@ export default function UserList() {
 
           {/* Pagination */}
           <div className="flex justify-center items-center gap-2 mt-6">
-          <button
-            className="px-3 py-1 rounded border border-gray-300 text-primaryColor disabled:opacity-50"
-          onClick={() => handlePageChange(page - 1)}
-          disabled={page === 1}
-          >
-            {'<'}
-          </button>
-          {Array.from({ length: totalPage }, (_, i) => i + 1).map((p) => (
             <button
-              key={p}
-              className={`px-3 py-1 rounded border text-primaryColor font-semibold ${p === page ? 'bg-primaryColor text-white' : 'border-gray-300'}`}
-            onClick={() => handlePageChange(p)}
+              className="px-3 py-1 rounded border border-gray-300 text-primaryColor disabled:opacity-50"
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 1}
             >
-              {p}
+              {'<'}
             </button>
-          ))}
-          <button
-            className="px-3 py-1 rounded border border-gray-300 text-primaryColor disabled:opacity-50"
-          onClick={() => handlePageChange(page + 1)}
-          disabled={page === totalPage}
-          >
-            {'>'}
-          </button>
-        </div>
+            {Array.from({ length: totalPage }, (_, i) => i + 1).map((p) => (
+              <button
+                key={p}
+                className={`px-3 py-1 rounded border text-primaryColor font-semibold ${p === page ? 'bg-primaryColor text-white' : 'border-gray-300'}`}
+                onClick={() => handlePageChange(p)}
+              >
+                {p}
+              </button>
+            ))}
+            <button
+              className="px-3 py-1 rounded border border-gray-300 text-primaryColor disabled:opacity-50"
+              onClick={() => handlePageChange(page + 1)}
+              disabled={page === totalPage}
+            >
+              {'>'}
+            </button>
+          </div>
 
           {/* Action Confirmation Modal */}
           {showActionModal && modalAction && (
@@ -503,11 +689,10 @@ export default function UserList() {
                   </button>
                   <button
                     onClick={handleConfirmAction}
-                    className={`w-full rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-sm ${
-                      modalAction.type === "delete"
-                        ? "bg-red-500 hover:bg-red-600"
-                        : "bg-primaryColor hover:bg-primaryColor/90"
-                    }`}
+                    className={`w-full rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-sm ${modalAction.type === "delete"
+                      ? "bg-red-500 hover:bg-red-600"
+                      : "bg-primaryColor hover:bg-primaryColor/90"
+                      }`}
                     disabled={actionLoading}
                   >
                     {actionLoading ? "Memproses..." : "Konfirmasi"}
@@ -520,10 +705,10 @@ export default function UserList() {
           {showAddModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
               <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
-                <h2 className="text-xl font-bold mb-4 text-primaryColor">Tambah Pengguna</h2>
-                
+                <h2 className="text-xl font-bold mb-4 text-primaryColor">Tambah User</h2>
+
                 <form onSubmit={handleAddUser}>
-                  {["uName", "uEmail", "uPhone", "uAddress", "uPassword"].map((field) => (
+                  {["uName", "uEmail", "uPhone"].map((field) => (
                     <div key={field} className="mb-4">
                       <label
                         htmlFor={field}
@@ -532,27 +717,19 @@ export default function UserList() {
                         {field === "uName"
                           ? "Nama"
                           : field === "uEmail"
-                          ? "Email"
-                          : field === "uPhone"
-                          ? "Telepon"
-                          : field === "uAddress"
-                          ? "Alamat"
-                          : "Password"}
+                            ? "Email"
+                            : "Telepon"}
                         <span className="text-red-500 ml-1">*</span>
                       </label>
                       <input
                         id={field}
-                        type={field === "uPassword" ? "password" : "text"}
+                        type="text"
                         placeholder={
                           field === "uName"
                             ? "Budi"
                             : field === "uEmail"
-                            ? "budi@email.com"
-                            : field === "uPhone"
-                            ? "081234567890"
-                            : field === "uAddress"
-                            ? "Jl. Pegangsaan Timur No. 17"
-                            : "********"
+                              ? "budi@email.com"
+                              : "081234567890"
                         }
                         className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-secondaryColor"
                         value={newUser[field]}
@@ -561,6 +738,53 @@ export default function UserList() {
                       />
                     </div>
                   ))}
+
+                  {/* Role Dropdown */}
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Role<span className="text-red-500 ml-1">*</span>
+                    </label>
+                    <RoleDropdown
+                      roles={roles}
+                      value={newUser.rId}
+                      onSelect={(role) => {
+                        setNewUser({ ...newUser, rId: role.rId });
+                      }}
+                      placeholder="Pilih role..."
+                    />
+                  </div>
+
+                  {/* Address */}
+                  <div className="mb-4">
+                    <label htmlFor="uAddress" className="block text-sm font-medium text-gray-700 mb-1">
+                      Alamat<span className="text-red-500 ml-1">*</span>
+                    </label>
+                    <input
+                      id="uAddress"
+                      type="text"
+                      placeholder="Jl. Pegangsaan Timur No. 17"
+                      className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-secondaryColor"
+                      value={newUser.uAddress}
+                      onChange={(e) => setNewUser({ ...newUser, uAddress: e.target.value })}
+                      required
+                    />
+                  </div>
+
+                  {/* Password */}
+                  <div className="mb-4">
+                    <label htmlFor="uPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                      Password<span className="text-red-500 ml-1">*</span>
+                    </label>
+                    <input
+                      id="uPassword"
+                      type="password"
+                      placeholder="********"
+                      className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-secondaryColor"
+                      value={newUser.uPassword}
+                      onChange={(e) => setNewUser({ ...newUser, uPassword: e.target.value })}
+                      required
+                    />
+                  </div>
 
                   <div className="flex justify-end gap-2">
                     <button
@@ -587,7 +811,7 @@ export default function UserList() {
           {showEditModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
               <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
-                <h2 className="text-xl font-bold mb-4 text-primaryColor">Edit Pengguna</h2>
+                <h2 className="text-xl font-bold mb-4 text-primaryColor">Edit User</h2>
                 <form onSubmit={handleEditUser}>
                   <div className="mb-4">
                     <label htmlFor="uName" className="block text-sm font-medium text-gray-700 mb-1">
@@ -628,6 +852,21 @@ export default function UserList() {
                       onChange={(e) => setEditUser({ ...editUser, uPhone: e.target.value })}
                       className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-secondaryColor"
                       required
+                    />
+                  </div>
+
+                  {/* Role Dropdown */}
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Role<span className="text-red-500 ml-1">*</span>
+                    </label>
+                    <RoleDropdown
+                      roles={roles}
+                      value={editUser.rId}
+                      onSelect={(role) => {
+                        setEditUser({ ...editUser, rId: role.rId });
+                      }}
+                      placeholder="Pilih role..."
                     />
                   </div>
 

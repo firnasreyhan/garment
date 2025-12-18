@@ -110,7 +110,7 @@ export default function AddRABTemplate() {
             </button>
             <div>
               <h1 className="text-3xl font-bold text-primaryColor">
-                Tambah Template RAB
+                Tambah Template RABP
               </h1>
             </div>
           </div>

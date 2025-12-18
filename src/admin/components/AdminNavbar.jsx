@@ -1,23 +1,12 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { ChevronDownIcon, PencilSquareIcon, PowerIcon } from '@heroicons/react/24/outline';
 import { Menu, Transition } from '@headlessui/react';
-import { logout } from '../../api/auth';
+import { logout, getCurrentUser } from '../../api/auth';
 import profileImg from '../../assets/Image/Login_person.png';
 
 const AdminNavbar = ({ onHamburgerClick }) => {
-  const [userData, setUserData] = useState(null);
-
-  // Get user data from localStorage
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      try {
-        setUserData(JSON.parse(storedUser));
-      } catch (e) {
-        console.error('Error parsing user data:', e);
-      }
-    }
-  }, []);
+  // Get user data from JWT token
+  const userData = getCurrentUser();
 
   // Handle logout
   const handleLogout = () => {

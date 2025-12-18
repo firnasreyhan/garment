@@ -11,17 +11,23 @@ import {
   getInventoryCategories,
   updateInventoryCategory,
 } from "../../../api/Inventory/inventoryCategory";
+import { getToken } from '../../../utils/tokenManager';
+import { hasPermission } from '../../../api/auth';
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
 import BackgroundImage from '../../../assets/background/bg-zumar.png';
 
 const PAGE_LIMIT = 10;
 
-function ActionDropdown({ onEdit, onDelete }) {
+function ActionDropdown({ onEdit, onDelete, canEdit, canDelete }) {
   const [openUpwards, setOpenUpwards] = useState(false);
   const [open, setOpen] = useState(false);
   const btnRef = useRef(null);
   const dropdownRef = useRef(null);
+
+  if (!canEdit && !canDelete) {
+    return null;
+  }
 
   const checkDropdownPosition = () => {
     if (btnRef.current) {
@@ -83,17 +89,20 @@ function ActionDropdown({ onEdit, onDelete }) {
           ref={dropdownRef}
           className={`absolute right-0 z-10 w-44 rounded-2xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none p-2 flex flex-col gap-3 max-h-96 overflow-y-auto ${openUpwards ? "bottom-full mb-2 origin-bottom-right" : "mt-2 origin-top-right"}`}
         >
-          <button
-            onClick={() => {
-              onEdit();
-              setOpen(false);
-            }}
-            className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all mb-1"
-            style={{ backgroundColor: "#FBA15C" }}
-          >
-            Edit
-          </button>
-          <button
+          {canEdit && (
+            <button
+              onClick={() => {
+                onEdit();
+                setOpen(false);
+              }}
+              className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all mb-1"
+              style={{ backgroundColor: "#FBA15C" }}
+            >
+              Edit
+            </button>
+          )}
+          {canDelete && (
+            <button
             onClick={() => {
               onDelete();
               setOpen(false);
@@ -107,6 +116,7 @@ function ActionDropdown({ onEdit, onDelete }) {
           >
             Delete
           </button>
+          )}
         </div>
       )}
     </div>
@@ -348,14 +358,16 @@ const CategoryList = () => {
                 )}
               </button>
             </div>
-            <button
-              type="button"
-              className="ml-auto bg-[#E87722] hover:bg-[#d96c1f] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2"
-              onClick={() => setShowAddModal(true)}
-            >
-              <PlusIcon className="w-5 h-5" />
-              Tambah Kategori
-            </button>
+            {hasPermission('inventory.warehouse.create') && (
+              <button
+                type="button"
+                className="ml-auto bg-[#E87722] hover:bg-[#d96c1f] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2"
+                onClick={() => setShowAddModal(true)}
+              >
+                <PlusIcon className="w-5 h-5" />
+                Tambah Kategori
+              </button>
+            )}
           </form>
 
           <div className="bg-gray-100 rounded-xl shadow p-4 mt-6">
@@ -403,6 +415,8 @@ const CategoryList = () => {
                             <ActionDropdown
                               onEdit={() => handleEditClick(cat)}
                               onDelete={() => handleDeleteClick(cat)}
+                              canEdit={hasPermission('inventory.category.edit')}
+                              canDelete={hasPermission('inventory.category.delete')}
                             />
                           </td>
                         </tr>

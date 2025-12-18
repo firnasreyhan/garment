@@ -15,12 +15,17 @@ import {
 } from "../../../api/rab-template/rab-template";
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
+import { hasPermission } from '../../../api/auth';
 import BackgroundImage from '../../../assets/background/bg-zumar.png';
 
-function ActionDropdown({ onEditRab, onDelete }) {
+function ActionDropdown({ onEditRab, onDelete, canEdit, canDelete }) {
   const [open, setOpen] = useState(false);
   const btnRef = useRef(null);
   const dropdownRef = useRef(null);
+
+  if (!canEdit && !canDelete) {
+    return null;
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -53,28 +58,32 @@ function ActionDropdown({ onEditRab, onDelete }) {
           ref={dropdownRef}
           className="absolute left-0 z-10 w-44 rounded-2xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none p-2 flex flex-col gap-2 max-h-96 overflow-y-auto mt-2 origin-top-left"
         >
-          <button
-            onClick={() => {
-              onEditRab();
-              setOpen(false);
-            }}
-            className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all"
-            style={{ backgroundColor: "#2F6468" }}
-          >
-            Edit RAB
-          </button>
+          {canEdit && (
+            <button
+              onClick={() => {
+                onEditRab();
+                setOpen(false);
+              }}
+              className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all"
+              style={{ backgroundColor: "#2F6468" }}
+            >
+              Edit RABP
+            </button>
+          )}
 
           {/* Delete */}
-          <button
-            onClick={() => {
-              onDelete();
-              setOpen(false);
-            }}
-            className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all"
-            style={{ backgroundColor: "#DC2626" }}
-          >
-            Hapus
-          </button>
+          {canDelete && (
+            <button
+              onClick={() => {
+                onDelete();
+                setOpen(false);
+              }}
+              className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all"
+              style={{ backgroundColor: "#DC2626" }}
+            >
+              Hapus
+            </button>
+          )}
         </div>
       )}
     </div>
@@ -124,8 +133,8 @@ export default function RABTemplateList() {
       await deleteOperationalUtilityTemplate(outId);
       await fetchData();
     } catch (error) {
-      console.error("Error deleting RAB template:", error);
-      setError("Gagal menghapus template RAB. Silakan coba lagi.");
+      console.error("Error deleting RABP template:", error);
+      setError("Gagal menghapus template RABP. Silakan coba lagi.");
     } finally {
       setLoading(false);
     }
@@ -193,10 +202,10 @@ export default function RABTemplateList() {
         <AdminNavbar onHamburgerClick={() => setSidebarOpen(true)} />
         <div className="w-full mx-auto py-6 px-2 sm:px-4 lg:px-6 font-montserrat overflow-x-hidden">
           <h1 className="text-4xl font-bold text-center text-primaryColor mb-2">
-            DAFTAR TEMPLATE RAB
+            DAFTAR TEMPLATE RABP
           </h1>
           <p className="text-center text-gray-500 mb-8">
-            Berikut adalah daftar template RAB yang terdaftar dalam sistem.
+            Berikut adalah daftar template RABP yang terdaftar dalam sistem.
           </p>
 
           {/* Search and Filter Section */}
@@ -238,19 +247,21 @@ export default function RABTemplateList() {
               </div>
             </form> */}
 
-              <button
-                type="button"
-                className="ml-auto bg-[#E87722] hover:bg-[#d96c1f] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 flex-shrink-0"
-                onClick={() => handleCreateRabTemplateItem()}
-                disabled={loading}
-              >
-                {loading ? (
-                  <RiLoader3Fill className="animate-spin" />
-                ) : (
-                  <PlusIcon className="w-5 h-5" />
-                )}
-                Tambah Template RAB
-              </button>
+              {hasPermission('rab.template.create') && (
+                <button
+                  type="button"
+                  className="ml-auto bg-[#E87722] hover:bg-[#d96c1f] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 flex-shrink-0"
+                  onClick={() => handleCreateRabTemplateItem()}
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <RiLoader3Fill className="animate-spin" />
+                  ) : (
+                    <PlusIcon className="w-5 h-5" />
+                  )}
+                  Tambah Template RABP
+                </button>
+              )}
             </div>
           </div>
 
@@ -259,7 +270,7 @@ export default function RABTemplateList() {
               <div className="text-center py-8">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primaryColor mx-auto mb-4"></div>
                 <p className="text-primaryColor font-semibold">
-                  Memuat data template rab...
+                  Memuat data template RABP...
                 </p>
               </div>
             ) : error ? (
@@ -278,7 +289,7 @@ export default function RABTemplateList() {
             ) : templates.length === 0 ? (
               <div className="text-center py-8 text-gray-400">
                 <DocumentTextIcon className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                <p>Tidak ada data template RAB</p>
+                <p>Tidak ada data template RABP</p>
                 <p className="text-xs mt-1">
                   Coba ubah filter atau kata kunci pencarian
                 </p>
@@ -327,6 +338,8 @@ export default function RABTemplateList() {
                                     "Apakah Anda yakin ingin menghapus template ini?",
                                 })
                               }
+                              canEdit={hasPermission('rab.template.edit')}
+                              canDelete={hasPermission('rab.template.delete')}
                             />
                           </td>
                         </tr>
@@ -393,11 +406,10 @@ export default function RABTemplateList() {
                   </button>
                   <button
                     onClick={handleConfirmAction}
-                    className={`w-full rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-sm ${
-                      modalAction.type === "delete"
-                        ? "bg-red-500 hover:bg-red-600"
-                        : "bg-primaryColor hover:bg-primaryColor/90"
-                    }`}
+                    className={`w-full rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-sm ${modalAction.type === "delete"
+                      ? "bg-red-500 hover:bg-red-600"
+                      : "bg-primaryColor hover:bg-primaryColor/90"
+                      }`}
                     disabled={actionLoading}
                   >
                     {actionLoading ? "Memproses..." : "Konfirmasi"}

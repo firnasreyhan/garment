@@ -1,5 +1,6 @@
 import AdminSidebar from '../../components/AdminSidebar';
 import AdminNavbar from '../../components/AdminNavbar';
+import { hasPermission } from '../../../api/auth';
 import React, { useCallback, useEffect, useState } from 'react';
 import { MagnifyingGlassIcon, PlusIcon, XCircleIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import { getCatalogueSubCategories, createCatalogueSubCategory, updateCatalogueSubCategory, deleteCatalogueSubCategory } from '../../../api/Catalogue/catalogueSubCategory';
@@ -8,10 +9,14 @@ import BackgroundImage from '../../../assets/background/bg-zumar.png';
 
 const PAGE_LIMIT = 10;
 
-function ActionDropdown({ onEdit, onDelete }) {
+function ActionDropdown({ onEdit, onDelete, canEdit, canDelete }) {
   const [open, setOpen] = useState(false);
   const btnRef = React.useRef(null);
   const dropdownRef = React.useRef(null);
+
+  if (!canEdit && !canDelete) {
+    return null;
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -42,20 +47,24 @@ function ActionDropdown({ onEdit, onDelete }) {
           ref={dropdownRef}
           className="absolute right-0 z-10 w-44 rounded-2xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none p-2 flex flex-col gap-3 max-h-96 overflow-y-auto mt-2 origin-top-right"
         >
-          <button
-            onClick={() => { onEdit(); setOpen(false); }}
-            className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all mb-1"
-            style={{ backgroundColor: '#FBA15C' }}
-          >
-            Edit
-          </button>
-          <button
-            onClick={() => { onDelete(); setOpen(false); }}
-            className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all border"
-            style={{ backgroundColor: '#FB5C5C', borderColor: '#FB5C5C', boxShadow: '0 2px 8px 0 #FB5C5C33' }}
-          >
-            Delete
-          </button>
+          {canEdit && (
+            <button
+              onClick={() => { onEdit(); setOpen(false); }}
+              className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all mb-1"
+              style={{ backgroundColor: '#FBA15C' }}
+            >
+              Edit
+            </button>
+          )}
+          {canDelete && (
+            <button
+              onClick={() => { onDelete(); setOpen(false); }}
+              className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all border"
+              style={{ backgroundColor: '#FB5C5C', borderColor: '#FB5C5C', boxShadow: '0 2px 8px 0 #FB5C5C33' }}
+            >
+              Delete
+            </button>
+          )}
         </div>
       )}
     </div>
@@ -243,12 +252,12 @@ const SubCategoryList = () => {
                 className={`bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-secondaryColor transition-all duration-300 ease-in-out px-4 py-2 rounded-full text-black ${searchExpanded ? 'w-40 md:w-56 pl-10 pr-10' : 'w-0 px-0 border-transparent cursor-pointer'} min-w-0`}
                 style={{ zIndex: 1 }}
               />
-              <MagnifyingGlassIcon className={`absolute ml-3 w-5 h-5 text-[#E87722] pointer-events-none transition-opacity duration-300 ${searchExpanded ? 'opacity-100' : 'opacity-0'}`} style={{zIndex:2}} />
+              <MagnifyingGlassIcon className={`absolute ml-3 w-5 h-5 text-[#E87722] pointer-events-none transition-opacity duration-300 ${searchExpanded ? 'opacity-100' : 'opacity-0'}`} style={{ zIndex: 2 }} />
               <button
                 type={searchExpanded ? 'submit' : 'button'}
                 onClick={() => { if (!searchExpanded) setSearchExpanded(true); }}
                 className="flex items-center gap-2 bg-[#E87722] hover:bg-[#d96c1f] text-white px-7 py-3 rounded-full font-semibold shadow transition-all duration-300 relative"
-                style={{marginLeft: searchExpanded ? '-2.5rem' : '0', zIndex: 4}}
+                style={{ marginLeft: searchExpanded ? '-2.5rem' : '0', zIndex: 4 }}
               >
                 <MagnifyingGlassIcon className="w-5 h-5" />
                 <span className={`${searchExpanded ? 'inline' : 'hidden'} md:inline`}>Search</span>
@@ -263,10 +272,12 @@ const SubCategoryList = () => {
                 )}
               </button>
             </div>
-            <button type="button" className="ml-auto bg-[#E87722] hover:bg-[#d96c1f] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2" onClick={() => setShowAddModal(true)}>
-              <PlusIcon className="w-5 h-5" />
-              Tambah Sub Kategori
-            </button>
+            {hasPermission('catalogue.subcategory.create') && (
+              <button type="button" className="ml-auto bg-[#E87722] hover:bg-[#d96c1f] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2" onClick={() => setShowAddModal(true)}>
+                <PlusIcon className="w-5 h-5" />
+                Tambah Sub Kategori
+              </button>
+            )}
           </form>
 
           <div className="bg-gray-100 rounded-xl shadow p-4 mt-6">
@@ -301,6 +312,8 @@ const SubCategoryList = () => {
                             <ActionDropdown
                               onEdit={() => handleEditClick(sub)}
                               onDelete={() => handleDeleteClick(sub)}
+                              canEdit={hasPermission('catalogue.subcategory.edit')}
+                              canDelete={hasPermission('catalogue.subcategory.delete')}
                             />
                           </td>
                         </tr>

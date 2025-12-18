@@ -8,7 +8,7 @@ import { generateInventoryReport } from "../../../utils/pdfGenerator";
 import { getInventories } from "../../../api/Inventory/inventory";
 import { getInventoryCategories } from "../../../api/Inventory/inventoryCategory";
 import { getWarehouses } from "../../../api/Inventory/inventoryWarehouse";
-import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import { ChevronDownIcon, PrinterIcon } from "@heroicons/react/24/solid";
 
 
 function CustomDropdown({ label, options, value, onChange, placeholder, searchPlaceholder = 'Cari...', labelMinWidth = '70px', width = '150px', mdWidth = '160px', height = '38px' }) {
@@ -206,7 +206,7 @@ const InventoryReport = () => {
 
   const handleGeneratePDF = () => {
     if (!userHasInteracted) {
-      alert('Silakan pilih filter Kategori atau Gudang terlebih dahulu');
+      alert('Silakan pilih filter terlebih dahulu');
       return;
     }
     
@@ -256,19 +256,25 @@ const InventoryReport = () => {
             {/* Filter Kategori */}
             <CustomDropdown
               label="Kategori"
-              options={categories.map(cat => ({ value: cat.icId, label: cat.icName }))}
+              options={[
+                { value: '', label: 'Semua Kategori' },
+                ...categories.map(cat => ({ value: cat.icId, label: cat.icName }))
+              ]}
               value={selectedCategory}
               onChange={val => handleFilterChange('category', val)}
-              placeholder="Tentukan Kategori"
+              placeholder="Pilih Kategori"
               searchPlaceholder="Cari kategori..."
             />
             {/* Filter Gudang */}
             <CustomDropdown
               label="Gudang"
-              options={warehouses.map(wh => ({ value: wh.iwId, label: wh.iwName }))}
+              options={[
+                { value: '', label: 'Semua Gudang' },
+                ...warehouses.map(wh => ({ value: wh.iwId, label: wh.iwName }))
+              ]}
               value={selectedWarehouse}
               onChange={val => handleFilterChange('warehouse', val)}
-              placeholder="Tentukan Gudang"
+              placeholder="Pilih Gudang"
               searchPlaceholder="Cari gudang..."
             />
             <div className="ml-auto flex items-center gap-4">
@@ -276,7 +282,8 @@ const InventoryReport = () => {
                 onClick={handleGeneratePDF}
                 className="bg-primaryColor hover:bg-secondaryColor text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-colors shadow-lg"
               >
-                Buat Laporan PDF
+                <PrinterIcon className="w-4 h-4" />
+                Print Inventory
               </button>
             </div>
           </div>
@@ -291,7 +298,7 @@ const InventoryReport = () => {
                   Data Real-time: {new Date().toLocaleDateString('id-ID')}
                 </p>
                 <p className="text-gray-400 mt-4">
-                  Silakan pilih filter Kategori atau Gudang untuk melihat data inventori.
+                  Silakan pilih filter untuk melihat data inventori.
                 </p>
               </div>
             ) : loading ? (

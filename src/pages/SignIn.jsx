@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import secondaryLogo from '../assets/Logo/secondary_logo.png';
 import StickyNavbar from '../components/Navbar';
 import LoginPerson from '../assets/Image/Login_person.png';
-import { signIn } from '../api/auth';
-import { jwtDecode } from 'jwt-decode';
+import { signIn, getCurrentUserRole } from '../api/auth';
 import { saveToken, getToken } from '../utils/tokenManager';
 
 const SignIn = () => {
@@ -22,10 +21,9 @@ const SignIn = () => {
     const token = getToken();
     if (token) {
       try {
-        const decoded = jwtDecode(token);
-        const role = decoded.u_role || decoded.role_category || 'USER';
+        const role = getCurrentUserRole();
 
-        if (role === 'ADMIN' || role === 'OWNER') {
+        if (role === 'ADMIN' || role === 'OWNER' || role === 'TAYLOR' || role === 'STAFF') {
           window.location.href = '/admin/dashboard';
         } else {
           window.location.href = '/';
@@ -33,7 +31,6 @@ const SignIn = () => {
       } catch (err) {
         console.error('Token decode error:', err);
         localStorage.removeItem('token');
-        localStorage.removeItem('user');
       }
     }
   }, []);
@@ -57,23 +54,13 @@ const SignIn = () => {
 
         // 🔹 Simpan token
         saveToken(token);
+        console.log('Token saved successfully');
 
-        // 🔹 Decode token
-        const decoded = jwtDecode(token);
-        console.log('Decoded token:', decoded);
+        // 🔹 Redirect sesuai role (langsung dari JWT token)
+        const role = getCurrentUserRole();
+        console.log('User role from JWT:', role);
 
-        const userData = {
-          name: decoded.u_name || decoded.name || 'ADMIN',
-          email: decoded.u_email || decoded.email || form.uEmail,
-          role: decoded.u_role || decoded.role_category || 'USER',
-          id: decoded.u_id || decoded.id,
-        };
-
-        localStorage.setItem('user', JSON.stringify(userData));
-        console.log('User data saved:', userData);
-
-        // 🔹 Redirect sesuai role
-        if (userData.role === 'ADMIN' || userData.role === 'OWNER' || userData.role === 'PENJAHIT') {
+        if (role === 'ADMIN' || role === 'OWNER' || role === 'TAYLOR' || role === 'STAFF') {
           window.location.href = '/admin/dashboard';
         } else {
           window.location.href = '/';

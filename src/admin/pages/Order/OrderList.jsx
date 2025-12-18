@@ -5,6 +5,7 @@ import {
   ExclamationCircleIcon,
   MagnifyingGlassIcon,
   PlusIcon,
+  PrinterIcon,
   XCircleIcon,
 } from "@heroicons/react/24/solid";
 import React, { useCallback, useEffect, useState } from "react";
@@ -21,6 +22,7 @@ import {
   generateReportOrder,
 } from "../../../api/Order/order";
 import { handleFormChange } from "../../../utils";
+import { getCurrentUserRole, hasAnyRole, hasPermission } from "../../../api/auth";
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
 import BackgroundImage from '../../../assets/background/bg-zumar.png';
@@ -97,21 +99,33 @@ function ActionDropdown({
       onClick: onUnlockProgress,
     },
     generate: {
-      label: "Generate PDF",
+      label: "Print Detail Order",
       style: { backgroundColor: "#3B82F6" },
       onClick: onGenerate,
+      icon: <PrinterIcon className="w-4 h-4" />,
     },
   };
 
   function getButtons() {
-    // Ambil role user dari localStorage
-    const storedUser = localStorage.getItem("user");
-    const user = storedUser ? JSON.parse(storedUser) : null;
-    const role = user?.role || "USER";
+    // Ambil role user langsung dari JWT token
+    const role = getCurrentUserRole();
+
+    <button
+      key="view"
+      onClick={() => {
+        allButtons.view.onClick();
+        setOpen(false);
+      }}
+      className={`w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all flex items-center justify-center gap-2 ${allButtons.view.className || ""}`}
+      style={allButtons.view.style}
+    >
+      {allButtons.view.icon && allButtons.view.icon}
+      {allButtons.view.label}
+    </button>
 
     let isRabFilled =
       order?.ocbpsItem?.ocbpsTotalOff != null &&
-      order?.ocbpsItem?.ocbpsCogs != null
+        order?.ocbpsItem?.ocbpsCogs != null
         ? "Y"
         : "N";
 
@@ -128,10 +142,33 @@ function ActionDropdown({
     let buttons = buttonRules[key] || [];
 
     // kalau bukan OWNER, buang lock/unlock
-    if (role !== "OWNER") {
+    if (!hasPermission('progress.lock' && 'progress.unlock')) {
       buttons = buttons.filter(
         (btn) => btn !== "lockProgress" && btn !== "unlockProgress"
       );
+    }
+
+    // Permission check for Progress button
+    if (!hasPermission('progress.view')) {
+      buttons = buttons.filter(btn => btn !== 'progress');
+    }
+
+    if (!hasPermission('orders.rab')) {
+      buttons = buttons.filter(btn => btn !== 'rab');
+    }
+
+    if (!hasPermission('orders.approve')) {
+      buttons = buttons.filter(btn => btn !== 'approve');
+    }
+
+    if (!hasPermission('orders.reject')) {
+      buttons = buttons.filter(btn => btn !== 'reject');
+    }
+
+    if (!hasPermission('orders.payment')) {
+      buttons = buttons.filter(btn => btn !== 'skema');
+      buttons = buttons.filter(btn => btn !== 'downPayment');
+      buttons = buttons.filter(btn => btn !== 'settlement');
     }
 
     // render jadi elemen
@@ -144,9 +181,10 @@ function ActionDropdown({
             btn.onClick();
             setOpen(false);
           }}
-          className={`w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all ${btn.className || ""}`}
+          className={`w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all flex items-center justify-center gap-2 ${btn.className || ""}`}
           style={btn.style}
         >
+          {btn.icon && btn.icon}
           {btn.label}
         </button>
       );
@@ -440,10 +478,10 @@ const OrderList = () => {
         case "unlock":
           await unlockProgress(selectedOrder.oId);
           break;
-        case "generate":
+        case "generate": {
           const res = await generateReportOrder(selectedOrder.oId);
           const originUrl = res.data.data.url;
-          const fileUrl = "https://ga-image-proxy.firnasreyhan.workers.dev/?url="+originUrl;
+          const fileUrl = "https://ga-image-proxy.firnasreyhan.workers.dev/?url=" + originUrl;
 
           const fileName = originUrl.split("/").pop();
 
@@ -457,6 +495,7 @@ const OrderList = () => {
           link.click();
           window.URL.revokeObjectURL(blobUrl);
           break;
+        }
         default:
           throw new Error("Unknown action");
       }
@@ -636,14 +675,16 @@ const OrderList = () => {
                 </div>
               </form>
 
-              <button
-                type="button"
-                className="ml-auto bg-[#E87722] hover:bg-[#d96c1f] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 flex-shrink-0"
-                onClick={() => navigate("/admin/order/add")}
-              >
-                <PlusIcon className="w-5 h-5" />
-                Tambah Pesanan
-              </button>
+              {hasPermission('orders.create') && (
+                <button
+                  type="button"
+                  className="ml-auto bg-[#E87722] hover:bg-[#d96c1f] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 flex-shrink-0"
+                  onClick={() => navigate("/admin/order/add")}
+                >
+                  <PlusIcon className="w-5 h-5" />
+                  Tambah Pesanan
+                </button>
+              )}
             </div>
 
             {/* Filter Row */}
@@ -736,7 +777,7 @@ const OrderList = () => {
                         <th className="px-3 py-3 whitespace-nowrap text-sm font-semibold min-w-[140px]">
                           Nama Pemesan
                         </th>
-                         <th className="px-3 py-3 whitespace-nowrap text-sm font-semibold min-w-[130px]">
+                        <th className="px-3 py-3 whitespace-nowrap text-sm font-semibold min-w-[130px]">
                           Harga
                         </th>
                         <th className="px-3 py-3 whitespace-nowrap text-sm font-semibold min-w-[100px]">
@@ -831,7 +872,7 @@ const OrderList = () => {
                                   message:
                                     "Apakah Anda yakin ingin mengunduh data pesanan ini?",
                                 }
-                              )}
+                                )}
                             />
                           </td>
                           <td className="px-3 py-3 font-medium whitespace-nowrap text-sm">
@@ -1044,11 +1085,10 @@ const OrderList = () => {
                   </button>
                   <button
                     onClick={handleConfirmAction}
-                    className={`w-full rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-sm ${
-                      modalAction.type === "reject"
-                        ? "bg-red-500 hover:bg-red-600"
-                        : "bg-primaryColor hover:bg-primaryColor/90"
-                    }`}
+                    className={`w-full rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-sm ${modalAction.type === "reject"
+                      ? "bg-red-500 hover:bg-red-600"
+                      : "bg-primaryColor hover:bg-primaryColor/90"
+                      }`}
                     disabled={actionLoading}
                   >
                     {actionLoading ? "Memproses..." : "Konfirmasi"}

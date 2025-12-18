@@ -1,5 +1,6 @@
 import AdminSidebar from '../../components/AdminSidebar';
 import AdminNavbar from '../../components/AdminNavbar';
+import { hasPermission } from '../../../api/auth';
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { MagnifyingGlassIcon, PlusIcon, XCircleIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import { getInventorySubCategories, createInventorySubCategory, updateInventorySubCategory, deleteInventorySubCategory } from '../../../api/Inventory/inventorySubCategory';
@@ -9,11 +10,13 @@ import BackgroundImage from '../../../assets/background/bg-zumar.png';
 
 const PAGE_LIMIT = 10;
 
-function ActionDropdown({ onEdit, onDelete }) {
+function ActionDropdown({ onEdit, onDelete, canEdit, canDelete }) {
   const [openUpwards, setOpenUpwards] = useState(false);
   const [open, setOpen] = useState(false);
   const btnRef = useRef(null);
   const dropdownRef = useRef(null);
+
+  if (!canEdit && !canDelete) return null;
 
   const checkDropdownPosition = () => {
     if (btnRef.current) {
@@ -71,20 +74,24 @@ function ActionDropdown({ onEdit, onDelete }) {
           ref={dropdownRef}
           className={`absolute right-0 z-10 w-44 rounded-2xl bg-gray-100 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none p-2 flex flex-col gap-3 max-h-96 overflow-y-auto ${openUpwards ? 'bottom-full mb-2 origin-bottom-right' : 'mt-2 origin-top-right'}`}
         >
-          <button
-            onClick={() => { onEdit(); setOpen(false); }}
-            className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all mb-1"
-            style={{ backgroundColor: '#FBA15C' }}
-          >
-            Edit
-          </button>
-          <button
-            onClick={() => { onDelete(); setOpen(false); }}
-            className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all border"
-            style={{ backgroundColor: '#FB5C5C', borderColor: '#FB5C5C', boxShadow: '0 2px 8px 0 #FB5C5C33' }}
-          >
-            Delete
-          </button>
+          {canEdit && (
+            <button
+              onClick={() => { onEdit(); setOpen(false); }}
+              className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all mb-1"
+              style={{ backgroundColor: '#FBA15C' }}
+            >
+              Edit
+            </button>
+          )}
+          {canDelete && (
+            <button
+              onClick={() => { onDelete(); setOpen(false); }}
+              className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all border"
+              style={{ backgroundColor: '#FB5C5C', borderColor: '#FB5C5C', boxShadow: '0 2px 8px 0 #FB5C5C33' }}
+            >
+              Delete
+            </button>
+          )}
         </div>
       )}
     </div>
@@ -113,11 +120,11 @@ const SubCategoryList = () => {
   const [editedSubCategoryName, setEditedSubCategoryName] = useState('');
   const [editedParentCategoryId, setEditedParentCategoryId] = useState(null);
   const [deletingSubCategory, setDeletingSubCategory] = useState(null);
-  
+
   // Search states for dropdowns
   const [parentCategorySearch, setParentCategorySearch] = useState('');
   const [editParentCategorySearch, setEditParentCategorySearch] = useState('');
-  
+
   const [formLoading, setFormLoading] = useState(false);
   const [formError, setFormError] = useState('');
 
@@ -158,7 +165,7 @@ const SubCategoryList = () => {
 
           // Fix: Access the correct data structure - categories are in res.data.data.listData
           const responseData = res.data.data.listData;
-          
+
           if (Array.isArray(responseData)) {
             categories = responseData;
           } else {
@@ -173,8 +180,8 @@ const SubCategoryList = () => {
 
       } catch (err) {
         console.error("Failed to fetch categories for dropdown", err);
-        if(err.response) {
-            console.error("Error response data structure:", JSON.stringify(err.response.data, null, 2));
+        if (err.response) {
+          console.error("Error response data structure:", JSON.stringify(err.response.data, null, 2));
         }
         setAllCategories([]); // Clear on error
       }
@@ -201,18 +208,18 @@ const SubCategoryList = () => {
 
   const handleAddSubCategory = async (e) => {
     e.preventDefault();
-    
+
     // Validation
     if (!newParentCategoryId) {
       setFormError('Silakan pilih kategori induk');
       return;
     }
-    
+
     if (!newSubCategoryName.trim()) {
       setFormError('Silakan masukkan nama barang');
       return;
     }
-    
+
     setFormLoading(true);
     setFormError('');
     try {
@@ -228,7 +235,7 @@ const SubCategoryList = () => {
     }
     setFormLoading(false);
   };
-  
+
   const handleEditClick = (subCategory) => {
     setEditingSubCategory(subCategory);
     setEditedSubCategoryName(subCategory.isName);
@@ -241,18 +248,18 @@ const SubCategoryList = () => {
   const handleUpdateSubCategory = async (e) => {
     e.preventDefault();
     if (!editingSubCategory) return;
-    
+
     // Validation
     if (!editedParentCategoryId) {
       setFormError('Silakan pilih kategori induk');
       return;
     }
-    
+
     if (!editedSubCategoryName.trim()) {
       setFormError('Silakan masukkan nama barang');
       return;
     }
-    
+
     setFormLoading(true);
     setFormError('');
     try {
@@ -285,16 +292,16 @@ const SubCategoryList = () => {
   };
 
   // Filter categories based on search
-  const filteredCategories = allCategories.filter(cat => 
+  const filteredCategories = allCategories.filter(cat =>
     cat.icName.toLowerCase().includes(parentCategorySearch.toLowerCase())
   );
 
-  const filteredEditCategories = allCategories.filter(cat => 
+  const filteredEditCategories = allCategories.filter(cat =>
     cat.icName.toLowerCase().includes(editParentCategorySearch.toLowerCase())
   );
 
   return (
-      <div
+    <div
       className="flex min-h-screen"
       style={{
         backgroundImage: `url(${BackgroundImage})`,
@@ -303,7 +310,7 @@ const SubCategoryList = () => {
         backgroundPosition: 'center',
         opacity: 1
       }}
-      >
+    >
       <AdminSidebar
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed((v) => !v)}
@@ -327,12 +334,12 @@ const SubCategoryList = () => {
                 className={`bg-gray-100 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-secondaryColor transition-all duration-300 ease-in-out px-4 py-2 rounded-full text-black ${searchExpanded ? 'w-40 md:w-56 pl-10 pr-10' : 'w-0 px-0 border-transparent cursor-pointer'} min-w-0`}
                 style={{ zIndex: 1 }}
               />
-              <MagnifyingGlassIcon className={`absolute ml-3 w-5 h-5 text-[#E87722] pointer-events-none transition-opacity duration-300 ${searchExpanded ? 'opacity-100' : 'opacity-0'}`} style={{zIndex:2}} />
+              <MagnifyingGlassIcon className={`absolute ml-3 w-5 h-5 text-[#E87722] pointer-events-none transition-opacity duration-300 ${searchExpanded ? 'opacity-100' : 'opacity-0'}`} style={{ zIndex: 2 }} />
               <button
                 type={searchExpanded ? 'submit' : 'button'}
                 onClick={() => { if (!searchExpanded) setSearchExpanded(true); }}
                 className="flex items-center gap-2 bg-[#E87722] hover:bg-[#d96c1f] text-white px-7 py-3 rounded-full font-semibold shadow transition-all duration-300 relative"
-                style={{marginLeft: searchExpanded ? '-2.5rem' : '0', zIndex: 4}}
+                style={{ marginLeft: searchExpanded ? '-2.5rem' : '0', zIndex: 4 }}
               >
                 <MagnifyingGlassIcon className="w-5 h-5" />
                 <span className={`${searchExpanded ? 'inline' : 'hidden'} md:inline`}>Search</span>
@@ -347,10 +354,12 @@ const SubCategoryList = () => {
                 )}
               </button>
             </div>
-            <button type="button" className="ml-auto bg-[#E87722] hover:bg-[#d96c1f] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2" onClick={() => { resetAddModal(); setShowAddModal(true); }}>
-              <PlusIcon className="w-5 h-5" />
-              Tambah Barang
-            </button>
+            {hasPermission('inventory.subcategory.create') && (
+              <button type="button" className="ml-auto bg-[#E87722] hover:bg-[#d96c1f] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2" onClick={() => { resetAddModal(); setShowAddModal(true); }}>
+                <PlusIcon className="w-5 h-5" />
+                Tambah Barang
+              </button>
+            )}
           </form>
 
           <div className="bg-gray-100 rounded-xl shadow p-4 mt-6">
@@ -381,6 +390,8 @@ const SubCategoryList = () => {
                           <ActionDropdown
                             onEdit={() => handleEditClick(sub)}
                             onDelete={() => handleDeleteClick(sub)}
+                            canEdit={hasPermission('inventory.subcategory.edit')}
+                            canDelete={hasPermission('inventory.subcategory.delete')}
                           />
                         </td>
                       </tr>
@@ -439,9 +450,8 @@ const SubCategoryList = () => {
                                   <button
                                     type="button"
                                     onClick={() => setNewParentCategoryId(cat.icId)}
-                                    className={`${
-                                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
-                                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                    className={`${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                   >
                                     {cat.icName}
                                   </button>
@@ -487,7 +497,7 @@ const SubCategoryList = () => {
               <div className="bg-gray-100 rounded-xl shadow-lg p-6 w-full max-w-md">
                 <h2 className="text-xl font-bold mb-4 text-primaryColor">Edit Barang</h2>
                 <form onSubmit={handleUpdateSubCategory}>
-                   <div className='mb-4'>
+                  <div className='mb-4'>
                     <label htmlFor="editParentCategory" className="block text-sm font-medium text-gray-700 mb-1">Kategori Induk<span className="text-red-500 ml-1">*</span></label>
                     <Menu as="div" className="relative inline-block w-full text-left">
                       <div>
@@ -515,9 +525,8 @@ const SubCategoryList = () => {
                                   <button
                                     type="button"
                                     onClick={() => setEditedParentCategoryId(cat.icId)}
-                                    className={`${
-                                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
-                                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                    className={`${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                   >
                                     {cat.icName}
                                   </button>
@@ -554,7 +563,7 @@ const SubCategoryList = () => {
 
           {/* Delete Confirmation Modal */}
           {showDeleteModal && (
-             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 transition-opacity">
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 transition-opacity">
               <div className="bg-gray-100 rounded-xl shadow-lg p-6 w-full max-w-md text-center">
                 <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-4 border-[#E51B1B]">
                   <XCircleIcon className="h-10 w-10 text-[#E51B1B]" />

@@ -5,6 +5,7 @@ import { getWarehouses } from '../../../api/Inventory/inventoryWarehouse';
 import AdminSidebar from '../../components/AdminSidebar';
 import AdminNavbar from '../../components/AdminNavbar';
 import CustomDropdown from '../../components/CustomDropdown';
+import { hasPermission } from '../../../api/auth';
 import BackgroundImage from '../../../assets/background/bg-zumar.png';
 
 const PAGE_LIMIT = 10;
@@ -114,7 +115,7 @@ const InventoryRelocation = () => {
   };
 
   // Action Dropdown Component
-  function ActionDropdown({ relocation, onViewDetail }) {
+  function ActionDropdown({ relocation, onViewDetail, canApprove, canReject }) {
     const [open, setOpen] = useState(false);
     const btnRef = useRef(null);
     const dropdownRef = useRef(null);
@@ -150,22 +151,26 @@ const InventoryRelocation = () => {
           >
             {relocation.irApprovalStatus === 1 ? (
               <>
-                <button
-                  onClick={() => { setConfirmType('approve'); setPendingRelocation(relocation); setShowConfirmModal(true); setOpen(false); }}
-                  className="w-full py-3 rounded-xl text-lg font-bold text-white shadow transition-all mb-2"
-                  style={{ backgroundColor: '#4AD991' }}
-                >
-                  <CheckIcon className="w-5 h-5 inline mr-2" />
-                  Approve
-                </button>
-                <button
-                  onClick={() => { setConfirmType('reject'); setPendingRelocation(relocation); setShowConfirmModal(true); setOpen(false); }}
-                  className="w-full py-3 rounded-xl text-lg font-bold text-white shadow transition-all border"
-                  style={{ backgroundColor: '#FB5C5C', borderColor: '#FB5C5C', boxShadow: '0 2px 8px 0 #FB5C5C33' }}
-                >
-                  <XMarkIcon className="w-5 h-5 inline mr-2" />
-                  Reject
-                </button>
+                {canApprove && (
+                  <button
+                    onClick={() => { setConfirmType('approve'); setPendingRelocation(relocation); setShowConfirmModal(true); setOpen(false); }}
+                    className="w-full py-3 rounded-xl text-lg font-bold text-white shadow transition-all mb-2"
+                    style={{ backgroundColor: '#4AD991' }}
+                  >
+                    <CheckIcon className="w-5 h-5 inline mr-2" />
+                    Approve
+                  </button>
+                )}
+                {canReject && (
+                  <button
+                    onClick={() => { setConfirmType('reject'); setPendingRelocation(relocation); setShowConfirmModal(true); setOpen(false); }}
+                    className="w-full py-3 rounded-xl text-lg font-bold text-white shadow transition-all border"
+                    style={{ backgroundColor: '#FB5C5C', borderColor: '#FB5C5C', boxShadow: '0 2px 8px 0 #FB5C5C33' }}
+                  >
+                    <XMarkIcon className="w-5 h-5 inline mr-2" />
+                    Reject
+                  </button>
+                )}
               </>
             ) : (
               <button
@@ -210,7 +215,7 @@ const InventoryRelocation = () => {
   };
 
   return (
-      <div
+    <div
       className="flex min-h-screen"
       style={{
         backgroundImage: `url(${BackgroundImage})`,
@@ -219,7 +224,7 @@ const InventoryRelocation = () => {
         backgroundPosition: 'center',
         opacity: 1
       }}
-      >
+    >
       <AdminSidebar
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed((v) => !v)}
@@ -246,13 +251,13 @@ const InventoryRelocation = () => {
                     className={`bg-gray-100 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-secondaryColor transition-all duration-300 ease-in-out px-4 py-2 rounded-full text-black ${searchExpanded ? 'w-40 md:w-56 pl-10 pr-10' : 'w-0 px-0 border-transparent cursor-pointer'} min-w-0`}
                     style={{ zIndex: 1 }}
                   />
-                  <MagnifyingGlassIcon className={`absolute ml-3 w-5 h-5 text-[#E87722] pointer-events-none transition-opacity duration-300 ${searchExpanded ? 'opacity-100' : 'opacity-0'}`} style={{zIndex:2}} />
+                  <MagnifyingGlassIcon className={`absolute ml-3 w-5 h-5 text-[#E87722] pointer-events-none transition-opacity duration-300 ${searchExpanded ? 'opacity-100' : 'opacity-0'}`} style={{ zIndex: 2 }} />
                 </div>
                 <button
                   type={searchExpanded ? 'submit' : 'button'}
                   onClick={() => { if (!searchExpanded) setSearchExpanded(true); }}
                   className="flex items-center gap-2 bg-[#E87722] hover:bg-[#d96c1f] text-white px-7 py-3 rounded-full font-semibold shadow transition-all duration-300 relative"
-                  style={{marginLeft: searchExpanded ? '-2.5rem' : '0', zIndex: 4}}
+                  style={{ marginLeft: searchExpanded ? '-2.5rem' : '0', zIndex: 4 }}
                 >
                   <MagnifyingGlassIcon className="w-5 h-5" />
                   <span className={`${searchExpanded ? 'inline' : 'hidden'} md:inline`}>Search</span>
@@ -271,7 +276,11 @@ const InventoryRelocation = () => {
             {/* Filter Gudang Asal */}
             <CustomDropdown
               label="Gudang Asal"
-              options={warehouses.map(wh => ({ value: wh.iwId, label: wh.iwName }))}
+              options={[
+                { value: '', label: 'Semua Gudang' },
+                ...warehouses.map(wh => ({ value: wh.iwId, label: wh.iwName }))
+              ]}
+              // {warehouses.map(wh => ({ value: wh.iwId, label: wh.iwName }))}
               value={selectedWarehouseFrom}
               onChange={val => { setSelectedWarehouseFrom(val); setPage(1); }}
               placeholder="Tentukan Gudang Asal"
@@ -282,7 +291,10 @@ const InventoryRelocation = () => {
             {/* Filter Gudang Tujuan */}
             <CustomDropdown
               label="Gudang Tujuan"
-              options={warehouses.map(wh => ({ value: wh.iwId, label: wh.iwName }))}
+              options={[
+                { value: '', label: 'Semua Gudang' },
+                ...warehouses.map(wh => ({ value: wh.iwId, label: wh.iwName }))
+              ]}
               value={selectedWarehouseTo}
               onChange={val => { setSelectedWarehouseTo(val); setPage(1); }}
               placeholder="Tentukan Gudang"
@@ -332,6 +344,8 @@ const InventoryRelocation = () => {
                           <ActionDropdown
                             relocation={rel}
                             onViewDetail={handleViewDetail}
+                            canApprove={hasPermission('inventory.relocation.approve')}
+                            canReject={hasPermission('inventory.relocation.reject')}
                           />
                         </td>
                       </tr>
@@ -428,10 +442,10 @@ const InventoryRelocation = () => {
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 transition-opacity">
               <div className="bg-gray-100 rounded-xl shadow-lg p-8 w-full max-w-lg text-center overflow-y-auto max-h-[90vh]">
                 <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-4 mb-4"
-                     style={{ 
-                       borderColor: selectedRelocation.irApprovalStatus === 2 ? '#4AD991' : '#FB5C5C',
-                       backgroundColor: selectedRelocation.irApprovalStatus === 2 ? '#4AD991' : '#FB5C5C'
-                     }}>
+                  style={{
+                    borderColor: selectedRelocation.irApprovalStatus === 2 ? '#4AD991' : '#FB5C5C',
+                    backgroundColor: selectedRelocation.irApprovalStatus === 2 ? '#4AD991' : '#FB5C5C'
+                  }}>
                   {selectedRelocation.irApprovalStatus === 2 ? (
                     <CheckIcon className="h-10 w-10 text-white" />
                   ) : (
@@ -477,7 +491,7 @@ const InventoryRelocation = () => {
                   <div>
                     <span className="font-semibold">{selectedRelocation.irApprovalStatus === 2 ? 'Tanggal Persetujuan:' : 'Tanggal Penolakan:'}</span>
                     <p className="text-gray-600">
-                      {selectedRelocation.irUpdatedAt 
+                      {selectedRelocation.irUpdatedAt
                         ? new Date(selectedRelocation.irUpdatedAt).toLocaleString('id-ID')
                         : new Date().toLocaleString('id-ID')
                       }

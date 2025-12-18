@@ -416,13 +416,11 @@ const EditInventory = () => {
                   <span className="w-1/2 px-4 py-2 bg-primaryColor text-white font-bold rounded-l-xl border border-primaryColor border-r-0 flex items-center justify-center h-[44px]">Jumlah <span className="text-red-500 ml-1">*</span></span>
                   <input
                     id="iAmount"
-                    type="number"
+                    type="text"
                     disabled
-                    step="0.01"
-                    placeholder="0.00"
-                    value={editedInventory.iAmount !== undefined && editedInventory.iAmount !== null ? editedInventory.iAmount : ""}
+                    placeholder="0.0"
+                    value={editedInventory.iAmount !== undefined && editedInventory.iAmount !== null ? Number(editedInventory.iAmount).toFixed(1) : ""}
                     onChange={(e) => setEditedInventory({...editedInventory, iAmount: e.target.value})}
-                    onWheel={(e) => e.currentTarget.blur()}
                     className="w-1/2 px-4 py-2 border border-primaryColor border-l-0 bg-gray-100 text-black font-semibold rounded-r-xl focus:outline-none focus:ring-2 focus:ring-secondaryColor h-[44px]"
                     required
                   />
@@ -486,12 +484,7 @@ const EditInventory = () => {
                       const selected = unitOptions[unitCategory].find(opt => opt.value === unitAdd);
                       if (!selected) return '';
                       const result = Number(tambahJumlah) * selected.factor;
-                      if (unitAdd === 'yard' && unitCategory === 'panjang') {
-                        const rounded = Number(result.toFixed(1));
-                        return `${rounded}`;
-                      } else {
-                        return `${Math.round(result)}`;
-                      }
+                      return result.toFixed(1);
                     })()}
                     tabIndex={-1}
                   />
@@ -534,12 +527,7 @@ const EditInventory = () => {
                       const selected = unitOptions[unitCategory].find(opt => opt.value === unitSubtract);
                       if (!selected) return '';
                       const result = Number(kurangiJumlah) * selected.factor;
-                      if (unitSubtract === 'yard' && unitCategory === 'panjang') {
-                        const rounded = Number(result.toFixed(1));
-                        return `${rounded}`;
-                      } else {
-                        return `${Math.round(result)}`;
-                      }
+                      return result.toFixed(1);
                     })()}
                     tabIndex={-1}
                   />

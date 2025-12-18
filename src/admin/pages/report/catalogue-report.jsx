@@ -6,7 +6,7 @@ import { generateCatalogueReport } from "../../../utils/pdfGenerator";
 import { getCatalogueProducts } from "../../../api/Catalogue/catalogue";
 import { getCatalogueCategories } from "../../../api/Catalogue/catalogueCategory";
 import { getCatalogueSubCategories } from "../../../api/Catalogue/catalogueSubCategory";
-import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import { ChevronDownIcon, PrinterIcon } from "@heroicons/react/24/solid";
 
 const PAGE_LIMIT = 10;
 
@@ -334,7 +334,8 @@ const CatalogueReport = () => {
                 data-pdf-button
                 className="bg-primaryColor hover:bg-secondaryColor text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-colors shadow-lg disabled:opacity-50"
               >
-                Buat Laporan PDF
+                <PrinterIcon className="w-4 h-4" />
+                Print Katalog
               </button>
             </div>
           </div>

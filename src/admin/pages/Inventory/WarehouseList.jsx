@@ -4,15 +4,21 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { MagnifyingGlassIcon, PlusIcon, XCircleIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import { getWarehouses, createWarehouse, updateWarehouse, deleteWarehouse } from '../../../api/Inventory/inventoryWarehouse';
 import { getToken } from '../../../utils/tokenManager';
+import { hasPermission } from '../../../api/auth';
 import BackgroundImage from '../../../assets/background/bg-zumar.png';
 
 const PAGE_LIMIT = 10;
 
-function ActionDropdown({ onEdit, onDelete }) {
+function ActionDropdown({ onEdit, onDelete, canEdit, canDelete }) {
   const [openUpwards, setOpenUpwards] = useState(false);
   const [open, setOpen] = useState(false);
   const btnRef = useRef(null);
   const dropdownRef = useRef(null);
+
+  // Don't show dropdown if no actions available
+  if (!canEdit && !canDelete) {
+    return null;
+  }
 
   const checkDropdownPosition = () => {
     if (btnRef.current) {
@@ -70,20 +76,24 @@ function ActionDropdown({ onEdit, onDelete }) {
           ref={dropdownRef}
           className={`absolute right-0 z-10 w-44 rounded-2xl bg-gray-100 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none p-2 flex flex-col gap-3 max-h-96 overflow-y-auto ${openUpwards ? 'bottom-full mb-2 origin-bottom-right' : 'mt-2 origin-top-right'}`}
         >
-          <button
-            onClick={() => { onEdit(); setOpen(false); }}
-            className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all mb-1"
-            style={{ backgroundColor: '#FBA15C' }}
-          >
-            Edit
-          </button>
-          <button
-            onClick={() => { onDelete(); setOpen(false); }}
-            className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all border"
-            style={{ backgroundColor: '#FB5C5C', borderColor: '#FB5C5C', boxShadow: '0 2px 8px 0 #FB5C5C33' }}
-          >
-            Delete
-          </button>
+          {canEdit && (
+            <button
+              onClick={() => { onEdit(); setOpen(false); }}
+              className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all mb-1"
+              style={{ backgroundColor: '#FBA15C' }}
+            >
+              Edit
+            </button>
+          )}
+          {canDelete && (
+            <button
+              onClick={() => { onDelete(); setOpen(false); }}
+              className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all border"
+              style={{ backgroundColor: '#FB5C5C', borderColor: '#FB5C5C', boxShadow: '0 2px 8px 0 #FB5C5C33' }}
+            >
+              Delete
+            </button>
+          )}
         </div>
       )}
     </div>
@@ -98,7 +108,7 @@ const WarehouseList = () => {
   const [totalPage, setTotalPage] = useState(1);
   const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
-  
+
   // State for Add Modal
   const [showAddModal, setShowAddModal] = useState(false);
   const [newName, setNewName] = useState('');
@@ -149,7 +159,7 @@ const WarehouseList = () => {
   useEffect(() => {
     fetchData(page);
   }, [page, fetchData]);
-  
+
   const handleSearch = (e) => {
     e.preventDefault();
     setPage(1);
@@ -220,7 +230,7 @@ const WarehouseList = () => {
   };
 
   return (
-      <div
+    <div
       className="flex min-h-screen"
       style={{
         backgroundImage: `url(${BackgroundImage})`,
@@ -229,7 +239,7 @@ const WarehouseList = () => {
         backgroundPosition: 'center',
         opacity: 1
       }}
-      >
+    >
       <AdminSidebar
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed((v) => !v)}
@@ -253,12 +263,12 @@ const WarehouseList = () => {
                 className={`bg-gray-100 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-secondaryColor transition-all duration-300 ease-in-out px-4 py-2 rounded-full text-black ${searchExpanded ? 'w-40 md:w-56 pl-10 pr-10' : 'w-0 px-0 border-transparent cursor-pointer'} min-w-0`}
                 style={{ zIndex: 1 }}
               />
-              <MagnifyingGlassIcon className={`absolute ml-3 w-5 h-5 text-[#E87722] pointer-events-none transition-opacity duration-300 ${searchExpanded ? 'opacity-100' : 'opacity-0'}`} style={{zIndex:2}} />
+              <MagnifyingGlassIcon className={`absolute ml-3 w-5 h-5 text-[#E87722] pointer-events-none transition-opacity duration-300 ${searchExpanded ? 'opacity-100' : 'opacity-0'}`} style={{ zIndex: 2 }} />
               <button
                 type={searchExpanded ? 'submit' : 'button'}
                 onClick={() => { if (!searchExpanded) setSearchExpanded(true); }}
                 className="flex items-center gap-2 bg-[#E87722] hover:bg-[#d96c1f] text-white px-7 py-3 rounded-full font-semibold shadow transition-all duration-300 relative"
-                style={{marginLeft: searchExpanded ? '-2.5rem' : '0', zIndex: 4}}
+                style={{ marginLeft: searchExpanded ? '-2.5rem' : '0', zIndex: 4 }}
               >
                 <MagnifyingGlassIcon className="w-5 h-5" />
                 <span className={`${searchExpanded ? 'inline' : 'hidden'} md:inline`}>Search</span>
@@ -273,10 +283,12 @@ const WarehouseList = () => {
                 )}
               </button>
             </div>
-            <button type="button" className="ml-auto bg-[#E87722] hover:bg-[#d96c1f] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2" onClick={() => setShowAddModal(true)}>
-              <PlusIcon className="w-5 h-5" />
-              Tambah Warehouse
-            </button>
+            {hasPermission('inventory.warehouse.create') && (
+              <button type="button" className="ml-auto bg-[#E87722] hover:bg-[#d96c1f] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2" onClick={() => setShowAddModal(true)}>
+                <PlusIcon className="w-5 h-5" />
+                Tambah Warehouse
+              </button>
+            )}
           </form>
 
           <div className="bg-gray-100 rounded-xl shadow p-4 mt-6">
@@ -305,6 +317,8 @@ const WarehouseList = () => {
                           <ActionDropdown
                             onEdit={() => handleEditClick(wh)}
                             onDelete={() => handleDeleteClick(wh)}
+                            canEdit={hasPermission('inventory.warehouse.edit')}
+                            canDelete={hasPermission('inventory.warehouse.delete')}
                           />
                         </td>
                       </tr>
@@ -405,16 +419,16 @@ const WarehouseList = () => {
                   Apakah Anda ingin menghapus data ini dari sistem? Proses ini tidak dapat dibatalkan setelah Anda konfirmasi.
                 </p>
                 <div className="flex justify-center gap-4 mt-6">
-                  <button 
-                    type="button" 
-                    className="w-full rounded-lg bg-primaryColor px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primaryColor/90" 
-                    onClick={() => setShowDeleteModal(false)} 
+                  <button
+                    type="button"
+                    className="w-full rounded-lg bg-primaryColor px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primaryColor/90"
+                    onClick={() => setShowDeleteModal(false)}
                     disabled={formLoading}>
                     Batal
                   </button>
-                  <button 
-                    onClick={handleConfirmDelete} 
-                    className="w-full rounded-lg bg-[#E51B1B] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#E51B1B]/90" 
+                  <button
+                    onClick={handleConfirmDelete}
+                    className="w-full rounded-lg bg-[#E51B1B] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#E51B1B]/90"
                     disabled={formLoading}>
                     {formLoading ? 'Menghapus...' : 'Hapus'}
                   </button>

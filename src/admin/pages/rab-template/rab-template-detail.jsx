@@ -137,7 +137,7 @@ export default function RABTemplateDetail() {
             </button>
             <div>
               <h1 className="text-3xl font-bold text-primaryColor">
-                Edit Template RAB
+                Edit Template RABP
               </h1>
             </div>
           </div>

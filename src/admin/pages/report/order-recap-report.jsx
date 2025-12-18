@@ -6,7 +6,7 @@ import AdminSidebar from "../../components/AdminSidebar";
 import DateRangeFilterReport from "../../../components/date-range-filter-report";
 import { generateOrderRecapReport } from "../../../utils/pdfGenerator";
 import { getOrders } from "../../../api/Order/order";
-import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import { ChevronDownIcon, PrinterIcon } from "@heroicons/react/24/solid";
 
 const PAGE_LIMIT = 10;
 
@@ -359,9 +359,9 @@ const OrderRecapReport = () => {
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />
-      <div className="flex-1 overflow-x-hidden">
+      <div className="flex-1">
         <AdminNavbar onHamburgerClick={() => setSidebarOpen(true)} />
-        <div className="w-full mx-auto py-6 px-2 sm:px-4 lg:px-6 font-montserrat overflow-x-hidden">
+        <div className="max-w-7xl mx-auto py-10 px-4">
           <h1 className="text-4xl font-bold text-center text-primaryColor mb-2 font-montserrat">LAPORAN REKAP ORDER</h1>
           <p className="text-center text-gray-800 mb-8 font-montserrat">Berikut adalah laporan rekap pesanan dengan statistik dan ringkasan data.</p>
 
@@ -412,11 +412,12 @@ const OrderRecapReport = () => {
               onClick={handleGeneratePDF}
               className="bg-primaryColor hover:bg-secondaryColor text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-colors shadow-lg"
             >
-              Buat Laporan PDF
+              <PrinterIcon className="w-4 h-4" />
+              Print Rekap Order
             </button>
           </div>
 
-          <div className="bg-gray-100 rounded-xl shadow p-4 mt-6 font-montserrat">
+          <div className="bg-gray-100 rounded-xl shadow p-4 mt-6 overflow-x-auto font-montserrat">
             {!userHasSelectedDate ? (
               <div className="text-center py-12">
                 <h3 className="text-xl font-semibold text-gray-700 mb-2">
@@ -434,9 +435,7 @@ const OrderRecapReport = () => {
             ) : error ? (
               <div className="text-center py-8 text-red-500 font-semibold">{error}</div>
             ) : (
-              <div className="w-full">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-separate border-spacing-y-2 min-w-max">
+              <table className="w-full text-left border-separate border-spacing-y-2 min-w-[1200px]">
                     <thead>
                       <tr className="text-primaryColor">
                         <th className="px-3 py-3 whitespace-nowrap text-sm font-semibold min-w-[80px]">
@@ -523,9 +522,7 @@ const OrderRecapReport = () => {
                         ))
                       )}
                     </tbody>
-                  </table>
-                </div>
-              </div>
+              </table>
             )}
           </div>
           

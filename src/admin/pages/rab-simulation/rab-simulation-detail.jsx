@@ -1105,7 +1105,7 @@ export default function RabSimulationDetail() {
           <div className="text-center py-8">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primaryColor mx-auto mb-4"></div>
             <p className="text-primaryColor font-semibold">
-              Memuat data simulasi rab...
+              Memuat data simulasi RABP...
             </p>
           </div>
         ) : (
@@ -1122,7 +1122,7 @@ export default function RabSimulationDetail() {
                 </button>
                 <div>
                   <h1 className="text-3xl font-bold text-primaryColor">
-                    Edit Simulasi RAB
+                    Edit Simulasi RABP
                   </h1>
                 </div>
               </div>
@@ -1150,7 +1150,7 @@ export default function RabSimulationDetail() {
                 {/* REKAP RABP Card */}
                 <div className="bg-white rounded-xl p-6 shadow-md">
                   <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-bold">REKAP RAB</h2>
+                    <h2 className="text-xl font-bold">REKAP RABP</h2>
                   </div>
                   <div className="space-y-3">
                     <div className="flex justify-between border-t pt-2">

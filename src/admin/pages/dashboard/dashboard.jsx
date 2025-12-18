@@ -1,5 +1,6 @@
 import { format, startOfYear, endOfYear } from "date-fns";
 import { useState } from "react";
+import { PrinterIcon } from "@heroicons/react/24/solid";
 import BackgroundImage from "../../../assets/background/bg-zumar.png";
 import DateRangeFilter from "../../../components/date-range-filter";
 import AdminNavbar from "../../components/AdminNavbar";
@@ -74,7 +75,8 @@ const Dashboard = () => {
                   onClick={handleGeneratePDF}
                   className="bg-primaryColor hover:bg-secondaryColor text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-colors shadow-lg"
                 >
-                  Buat Laporan PDF
+                  <PrinterIcon className="w-4 h-4" />
+                  Print Dashboard
                 </button>
               </div>
               <OrderAndFinancialStatus

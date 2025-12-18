@@ -8,14 +8,19 @@ import { getInventorySubCategories } from '../../../api/Inventory/inventorySubCa
 import { getWarehouses } from '../../../api/Inventory/inventoryWarehouse';
 import AdminSidebar from '../../components/AdminSidebar';
 import AdminNavbar from '../../components/AdminNavbar';
+import { hasPermission } from '../../../api/auth';
 import BackgroundImage from '../../../assets/background/bg-zumar.png';
 
 const PAGE_LIMIT = 10;
 
-function ActionDropdown({ onEdit, onTransfer, onDelete }) {
+function ActionDropdown({ onEdit, onTransfer, onDelete, canEdit, canTransfer, canDelete }) {
   const [open, setOpen] = useState(false);
   const btnRef = useRef(null);
   const dropdownRef = useRef(null);
+
+  if (!canEdit && !canTransfer && !canDelete) {
+    return null;
+  }
 
   const handleOpen = () => {
     setOpen(true);
@@ -25,7 +30,7 @@ function ActionDropdown({ onEdit, onTransfer, onDelete }) {
 
   useEffect(() => {
     if (!open) return;
-    return () => {};
+    return () => { };
   }, [open]);
 
   useEffect(() => {
@@ -57,27 +62,35 @@ function ActionDropdown({ onEdit, onTransfer, onDelete }) {
           ref={dropdownRef}
           className={"absolute right-0 z-10 w-44 rounded-2xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none p-2 flex flex-col gap-3 max-h-96 overflow-y-auto mt-2 origin-top-right"}
         >
-          <button
-            onClick={() => { onEdit(); setOpen(false); }}
-            className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all mb-1"
-            style={{ backgroundColor: '#FBA15C' }}
-          >
-            Edit
-          </button>
-          <button
-            onClick={() => { onTransfer(); setOpen(false); }}
-            className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all mb-1"
-            style={{ backgroundColor: '#4AD991' }}
-          >
-            Transfer
-          </button>
-          <button
-            onClick={() => { onDelete(); setOpen(false); }}
-            className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all border"
-            style={{ backgroundColor: '#FB5C5C', borderColor: '#FB5C5C', boxShadow: '0 2px 8px 0 #FB5C5C33' }}
-          >
-            Delete
-          </button>
+          {canEdit && (
+            <button
+              onClick={() => { onEdit(); setOpen(false); }}
+              className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all mb-1"
+              style={{ backgroundColor: '#FBA15C' }}
+            >
+              Edit
+            </button>
+          )}
+
+          {canTransfer && (
+            <button
+              onClick={() => { onTransfer(); setOpen(false); }}
+              className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all mb-1"
+              style={{ backgroundColor: '#4AD991' }}
+            >
+              Transfer
+            </button>
+          )}
+
+          {canDelete && (
+            <button
+              onClick={() => { onDelete(); setOpen(false); }}
+              className="w-full py-1.5 rounded-md text-sm font-semibold text-white shadow transition-all border"
+              style={{ backgroundColor: '#FB5C5C', borderColor: '#FB5C5C', boxShadow: '0 2px 8px 0 #FB5C5C33' }}
+            >
+              Delete
+            </button>
+          )}
         </div>
       )}
     </div>
@@ -112,7 +125,7 @@ function CustomDropdown({ label, options, value, onChange, placeholder, searchPl
 
   return (
     <div className="flex items-center w-auto">
-      <span className="px-4 py-2 bg-[#295B5B] text-white font-bold rounded-l-xl border border-[#295B5B] border-r-0 text-base flex items-center justify-center" style={{height:height, minWidth: labelMinWidth, lineHeight:height}}>{label}</span>
+      <span className="px-4 py-2 bg-[#295B5B] text-white font-bold rounded-l-xl border border-[#295B5B] border-r-0 text-base flex items-center justify-center" style={{ height: height, minWidth: labelMinWidth, lineHeight: height }}>{label}</span>
       <div className={`relative w-[${width}] md:w-[${mdWidth}]`}>
         <button
           ref={btnRef}
@@ -176,7 +189,7 @@ const InventoryList = () => {
 
   // Form states
   const [deletingInventory, setDeletingInventory] = useState(null);
-  
+
   const [formLoading, setFormLoading] = useState(false);
 
   // Sidebar collapse state
@@ -248,13 +261,13 @@ const InventoryList = () => {
       console.log('Fetched inventories:', res.data);
       const inventoriesData = Array.isArray(res.data.data.listData) ? res.data.data.listData : [];
       setInventories(inventoriesData);
-      
+
       // Extract pagination info from response - check both possible locations
       const pagination = res.data.pagination || res.data.data?.pagination || {};
       const pageLast = pagination.pageLast || 1;
-      
+
       setTotalPage(Math.max(1, pageLast)); // Ensure at least 1 page
-      
+
       console.log('Inventories set:', inventoriesData.length, 'items');
       console.log('Total pages:', pageLast);
       console.log('Current page:', goToPage);
@@ -295,7 +308,7 @@ const InventoryList = () => {
     setPage(1);
     setSearch(searchInput);
   };
-  
+
   const handlePageChange = (newPage) => {
     console.log('handlePageChange called with:', newPage, 'totalPage:', totalPage);
     if (newPage >= 1 && newPage <= totalPage) {
@@ -320,9 +333,9 @@ const InventoryList = () => {
     try {
       await deleteInventory(deletingInventory.iId);
       setShowDeleteModal(false);
-      
+
       const currentPageData = inventories.filter(inv => inv.iId !== deletingInventory.iId);
-      
+
       if (currentPageData.length === 0 && page > 1) {
         handlePageChange(page - 1);
       } else {
@@ -355,7 +368,7 @@ const InventoryList = () => {
 
   const handleTransferClick = (inventory) => {
     setTransferInventory(inventory);
-    
+
     // Tentukan kategori satuan berdasarkan satuan inventory
     let unitCategory = '';
     if (['meter', 'yard', 'kilometer'].includes(inventory.iUnit?.toLowerCase())) {
@@ -363,12 +376,12 @@ const InventoryList = () => {
     } else if (['biji', 'lusin', 'rim', 'gross', 'mass', 'kodi'].includes(inventory.iUnit?.toLowerCase())) {
       unitCategory = 'banyak';
     }
-    
-    setTransferForm({ 
-      iwId: '', 
-      unitCategory: unitCategory, 
-      unit: inventory.iUnit || '', 
-      amount: '' 
+
+    setTransferForm({
+      iwId: '',
+      unitCategory: unitCategory,
+      unit: inventory.iUnit || '',
+      amount: ''
     });
     setTransferResult({ irAmount: '', baseUnit: '' });
     setShowTransferModal(true);
@@ -377,7 +390,7 @@ const InventoryList = () => {
   const handleTransferFormChange = (field, value) => {
     const newForm = { ...transferForm, [field]: value };
     setTransferForm(newForm);
-    
+
     // Hitung hasil konversi hanya jika ada jumlah yang diinput
     if (newForm.unitCategory && newForm.unit && newForm.amount) {
       const selected = unitOptions[newForm.unitCategory].find(opt => opt.value === newForm.unit);
@@ -404,7 +417,7 @@ const InventoryList = () => {
     e.preventDefault();
     setTransferLoading(true);
     setTransferMessage('');
-    
+
     // Validasi value dengan lebih ketat
     const iId = parseInt(transferInventory?.iId, 10);
     const iCode = transferInventory?.iCode?.toString().trim();
@@ -445,10 +458,10 @@ const InventoryList = () => {
       iwIdTo: iwIdTo,
       irAmount: irAmount
     };
-    
+
     console.log('Final payload transfer:', payload);
     console.log('Payload JSON:', JSON.stringify(payload));
-    
+
     try {
       const response = await createInventoryRelocation(payload);
       console.log('Transfer response:', response);
@@ -503,13 +516,13 @@ const InventoryList = () => {
                     className={`bg-gray-100 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-secondaryColor transition-all duration-300 ease-in-out px-4 py-2 rounded-full text-black ${searchExpanded ? 'w-40 md:w-56 pl-10 pr-10' : 'w-0 px-0 border-transparent cursor-pointer'} min-w-0`}
                     style={{ zIndex: 1 }}
                   />
-                  <MagnifyingGlassIcon className={`absolute ml-3 w-5 h-5 text-[#E87722] pointer-events-none transition-opacity duration-300 ${searchExpanded ? 'opacity-100' : 'opacity-0'}`} style={{zIndex:2}} />
+                  <MagnifyingGlassIcon className={`absolute ml-3 w-5 h-5 text-[#E87722] pointer-events-none transition-opacity duration-300 ${searchExpanded ? 'opacity-100' : 'opacity-0'}`} style={{ zIndex: 2 }} />
                 </div>
                 <button
                   type={searchExpanded ? 'submit' : 'button'}
                   onClick={() => { if (!searchExpanded) setSearchExpanded(true); }}
                   className="flex items-center gap-2 bg-[#E87722] hover:bg-[#d96c1f] text-white px-7 py-3 rounded-full font-semibold shadow transition-all duration-300 relative"
-                  style={{marginLeft: searchExpanded ? '-2.5rem' : '0', zIndex: 4}}
+                  style={{ marginLeft: searchExpanded ? '-2.5rem' : '0', zIndex: 4 }}
                 >
                   <MagnifyingGlassIcon className="w-5 h-5" />
                   <span className={`${searchExpanded ? 'inline' : 'hidden'} md:inline`}>Search</span>
@@ -545,15 +558,17 @@ const InventoryList = () => {
               labelMinWidth="70px"
             />
             {/* Button Tambah Inventory */}
-            <button 
-              type="button" 
-              className="ml-auto bg-[#E87722] hover:bg-[#d96c1f] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2"
-              onClick={() => navigate('/admin/inventory/add')}
-              style={{minWidth:'200px'}}
-            >
-              <PlusIcon className="w-5 h-5" />
-              Tambah Inventory
-            </button>
+            {hasPermission('inventory.items.create') && (
+              <button
+                type="button"
+                className="ml-auto bg-[#E87722] hover:bg-[#d96c1f] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2"
+                onClick={() => navigate('/admin/inventory/add')}
+                style={{ minWidth: '200px' }}
+              >
+                <PlusIcon className="w-5 h-5" />
+                Tambah Inventory
+              </button>
+            )}
           </div>
 
           <div className="bg-gray-100 rounded-xl shadow p-4 mt-6 overflow-x-auto font-montserrat">
@@ -593,6 +608,9 @@ const InventoryList = () => {
                             onEdit={() => navigate(`/admin/inventory/edit/${inv.iId}`)}
                             onTransfer={() => handleTransferClick(inv)}
                             onDelete={() => handleDeleteClick(inv)}
+                            canEdit={hasPermission('inventory.items.edit')}
+                            canTransfer={hasPermission('inventory.relocation.create')}
+                            canDelete={hasPermission('inventory.items.delete')}
                           />
                         </td>
                       </tr>

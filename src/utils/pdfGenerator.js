@@ -3,6 +3,7 @@ import autoTable from 'jspdf-autotable';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 import { formatCurrency } from './index';
+import { getCurrentUser } from '../api/auth';
 import primaryLogo from '../assets/Logo/primary_logo.png';
 
 const COMPANY_INFO = {
@@ -14,7 +15,7 @@ const COMPANY_INFO = {
 };
 
 const COLORS = {
-  primary: '#14B8A6',
+  primary: '#245156',
   secondary: '#B2DFDB',
   text: '#000000',
   border: '#666666'
@@ -36,6 +37,72 @@ const setFont = (doc, size, weight = 'normal') => {
 
 const _safeValue = (value, fallback = '-') => value || fallback;
 const unknownValue = (value, fallback = 'Tidak diketahui') => value || fallback;
+
+// Universal print info section for all reports
+const addPrintInfo = (doc, startY) => {
+  // Get current user from JWT token
+  const currentUser = getCurrentUser();
+  const currentUserName = currentUser?.name || 'Admin';
+  
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  
+  doc.text(`Dicetak oleh: ${currentUserName}`, 20, startY);
+  doc.text(`Dicetak pada: ${format(new Date(), 'dd MMMM yyyy HH:mm', { locale: id })}`, 20, startY + 8);
+  
+  return startY + 10; // Return next Y position after print info
+};
+
+// Universal signature section for all reports (all landscape now)
+const addSignatureSection = (doc, startY) => {
+  // Calculate total height needed for signature section
+  const signatureHeight = 20 + 10 + 35 + 10 + 10 + 35 + 10; // spacing + text + box + spacing + text + box + final spacing = 130
+  const pageHeight = doc.internal.pageSize.height; // ~210mm for A4
+  const bottomMargin = 20; // Safe margin from bottom
+  
+  let yPos = startY + 0; // Add some spacing before signature
+  
+  // Check if signature section will fit on current page
+  if (yPos + signatureHeight > pageHeight - bottomMargin) {
+    // Not enough space, create new page
+    doc.addPage('landscape');
+    yPos = 20; // Start from top with some margin
+  }
+  
+  doc.setFontSize(12);
+  doc.setFont('helvetica', 'bold');
+  
+  // Define uniform box dimensions for landscape
+  const boxWidth = 75;
+  const boxHeight = 35;
+  
+  // Landscape positions (all reports are now landscape)
+  const leftBoxX = 50;
+  const rightBoxX = 180;
+  const centerBoxX = 115;
+  
+  // Top row - Dibuat Oleh and Diketahui Oleh (centered above boxes)
+  doc.text('DIBUAT OLEH', leftBoxX + boxWidth/2, yPos, { align: 'center' });
+  doc.text('DIKETAHUI OLEH', rightBoxX + boxWidth/2, yPos, { align: 'center' });
+  
+  yPos += 10;
+  
+  // Top row rectangles - uniform size
+  doc.rect(leftBoxX, yPos, boxWidth, boxHeight);  // Dibuat Oleh
+  doc.rect(rightBoxX, yPos, boxWidth, boxHeight); // Diketahui Oleh
+  
+  yPos += 45;
+  
+  // Bottom row - Disetujui Oleh (centered above box)
+  doc.text('DISETUJUI OLEH', centerBoxX + boxWidth/2, yPos, { align: 'center' });
+  
+  yPos += 10;
+  
+  // Bottom row rectangle - same uniform size
+  doc.rect(centerBoxX, yPos, boxWidth, boxHeight); // Disetujui Oleh
+  
+  return yPos + boxHeight + 10; // Return final Y position
+};
 
 const getFormattedDate = (() => {
   let cache = {};
@@ -108,16 +175,19 @@ const addCompanyHeader = (doc, reportTitle) => {
 
 // Function untuk generate dashboard report
 export const generateDashboardReport = (dashboardData, categoryData, dateRange) => {
-  const doc = new jsPDF();
+  const doc = new jsPDF('landscape');
   
   // Add header
   let yPos = addCompanyHeader(doc, 'Laporan Summary Dashboard');
+  
+  // Add print info
+  yPos = addPrintInfo(doc, yPos + 10);
   
   // Add date range
   const dateText = `Periode: ${format(new Date(dateRange.startDate), 'dd MMMM yyyy', { locale: id })} - ${format(new Date(dateRange.endDate), 'dd MMMM yyyy', { locale: id })}`;
   doc.setFontSize(12);
   doc.setFont('helvetica', 'normal');
-  doc.text(dateText, 20, yPos + 10);
+  doc.text(dateText, 20, yPos);
   
   yPos += 25;
   
@@ -141,7 +211,7 @@ export const generateDashboardReport = (dashboardData, categoryData, dateRange) 
     body: orderDetails,
     theme: 'grid',
     headStyles: {
-      fillColor: [20, 184, 166], 
+      fillColor: [36, 81, 86], 
       textColor: [255, 255, 255],
       fontStyle: 'bold'
     },
@@ -174,7 +244,7 @@ export const generateDashboardReport = (dashboardData, categoryData, dateRange) 
     body: revenueDetails,
     theme: 'grid',
     headStyles: {
-      fillColor: [20, 184, 166],
+      fillColor: [36, 81, 86],
       textColor: [255, 255, 255],
       fontStyle: 'bold'
     },
@@ -210,7 +280,7 @@ export const generateDashboardReport = (dashboardData, categoryData, dateRange) 
     body: profitDetails,
     theme: 'grid',
     headStyles: {
-      fillColor: [20, 184, 166],
+      fillColor: [36, 81, 86],
       textColor: [255, 255, 255],
       fontStyle: 'bold'
     },
@@ -241,7 +311,7 @@ export const generateDashboardReport = (dashboardData, categoryData, dateRange) 
     body: categoryDetails,
     theme: 'grid',
     headStyles: {
-      fillColor: [20, 184, 166],
+      fillColor: [36, 81, 86],
       textColor: [255, 255, 255],
       fontStyle: 'bold'
     },
@@ -251,6 +321,9 @@ export const generateDashboardReport = (dashboardData, categoryData, dateRange) 
     margin: { left: 20, right: 20 }
   });
   
+  // Add signature section
+  addSignatureSection(doc, doc.lastAutoTable.finalY);
+  
   // Save PDF
   const fileName = `Laporan_Dashboard_${getFormattedDate()}.pdf`;
   doc.save(fileName);
@@ -258,15 +331,17 @@ export const generateDashboardReport = (dashboardData, categoryData, dateRange) 
 
 
 export const generateInventoryReport = (inventoryData, filterInfo, categories = [], warehouses = []) => {
-  const doc = new jsPDF();
+  const doc = new jsPDF('landscape');
   
   // Add header
   let yPos = addCompanyHeader(doc, 'LAPORAN INVENTORY');
   
+  // Add print info
+  yPos = addPrintInfo(doc, yPos + 10);
+  
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
   
-
   let filterText = '';
   if (filterInfo.selectedCategory) {
     const categoryName = unknownValue(categories.find(cat => cat.icId === filterInfo.selectedCategory)?.icName);
@@ -281,10 +356,6 @@ export const generateInventoryReport = (inventoryData, filterInfo, categories = 
   }
   
   doc.text(`${filterText}`, 20, yPos + 10);
-  
-  // Tanggal generate dan user
-  const generateDate = format(new Date(), 'dd MMMM yyyy HH:mm', { locale: id });
-  doc.text(`Data Real-time: ${generateDate}`, 20, yPos + 18);
   
   yPos += 40;
   
@@ -349,6 +420,9 @@ export const generateInventoryReport = (inventoryData, filterInfo, categories = 
     margin: { left: 20, right: 20 }
   });
   
+  // Add signature section
+  addSignatureSection(doc, doc.lastAutoTable.finalY);
+  
   const fileName = `Laporan_Inventory_${getFormattedDate()}.pdf`;
   doc.save(fileName);
 };
@@ -358,6 +432,9 @@ export const generateInventoryRelocationReport = (relocationData, filterInfo, wa
   
   // Add header
   let yPos = addCompanyHeader(doc, 'LAPORAN TRANSFER INVENTORY');
+  
+  // Add print info
+  yPos = addPrintInfo(doc, yPos + 10);
   
   // Add filter info dan metadata di header
   doc.setFontSize(10);
@@ -386,10 +463,6 @@ export const generateInventoryRelocationReport = (relocationData, filterInfo, wa
   }
   
   doc.text(`${filterText}`, 20, yPos + 10);
-  
-  // Tanggal generate
-  const generateDate = format(new Date(), 'dd MMMM yyyy HH:mm', { locale: id });
-  doc.text(`Digenerate pada: ${generateDate}`, 20, yPos + 18);
   
   yPos += 35;
   
@@ -464,13 +537,17 @@ export const generateInventoryRelocationReport = (relocationData, filterInfo, wa
     margin: { left: 20, right: 20 }
   });
   
+  // Add signature section
+  addSignatureSection(doc, doc.lastAutoTable.finalY);
+  
   const fileName = `Laporan_Transfer_Inventory_${format(new Date(), 'yyyy-MM-dd_HH-mm')}.pdf`;
   doc.save(fileName);
 };
 
 export const generateOrderReport = (/* _orderData, _dateRange */) => {
-  const doc = new jsPDF();
-  addCompanyHeader(doc, 'Laporan Pesanan');
+  const doc = new jsPDF('landscape');
+  let yPos = addCompanyHeader(doc, 'Laporan Pesanan');
+  addPrintInfo(doc, yPos + 10);
   doc.save(`Laporan_Pesanan_${getFormattedDate('yyyy-MM-dd_HH-mm-ss')}.pdf`);
 };
 
@@ -479,6 +556,9 @@ export const generateCatalogueReport = async (catalogueData, filterInfo, categor
   
   // Add header
   let yPos = addCompanyHeader(doc, 'LAPORAN KATALOG');
+  
+  // Add print info
+  yPos = addPrintInfo(doc, yPos + 0);
   
   // Add filter info dan metadata di header
   doc.setFontSize(10);
@@ -500,11 +580,7 @@ export const generateCatalogueReport = async (catalogueData, filterInfo, categor
   
   doc.text(`${filterText}`, 20, yPos + 10);
   
-  // Tanggal generate
-  const generateDate = format(new Date(), 'dd MMMM yyyy HH:mm', { locale: id });
-  doc.text(`Data Real-time: ${generateDate}`, 20, yPos + 18);
-  
-  yPos += 40;
+  yPos += 20;
   
   // Summary
   const totalProducts = catalogueData.length;
@@ -527,7 +603,7 @@ export const generateCatalogueReport = async (catalogueData, filterInfo, categor
   yPos += 8;
   doc.text(`Total Sub Kategori: ${uniqueSubCategories}`, 20, yPos);
   
-  yPos += 20;
+  yPos += 8;
 
   // Optimized WeServ proxy for reliable image conversion
   const convertImageToBase64 = async (imageUrl) => {
@@ -743,7 +819,6 @@ export const generateCatalogueReport = async (catalogueData, filterInfo, categor
       4: { cellWidth: 32, halign: 'center', valign: 'middle' }  // Image column
     },
     margin: { left: 20, right: 20 },
-    pageBreak: 'avoid', 
     showFoot: 'never',
     tableWidth: 'auto',
     didDrawCell: function(data) {
@@ -774,6 +849,8 @@ export const generateCatalogueReport = async (catalogueData, filterInfo, categor
     }
   });
 
+  // Add signature section
+  addSignatureSection(doc, doc.lastAutoTable.finalY);
   
   const fileName = `Laporan_Katalog_${format(new Date(), 'yyyy-MM-dd_HH-mm')}.pdf`;
   doc.save(fileName);
@@ -783,38 +860,11 @@ export const generateCatalogueReport = async (catalogueData, filterInfo, categor
 export const generateOrderRecapReport = async (orderData, filterInfo) => {
   const doc = new jsPDF('landscape', 'mm', 'a4');
   
-  // Company header
-  const logoImg = new Image();
-  logoImg.src = primaryLogo;
+  // Use standard company header for consistency
+  let yPos = addCompanyHeader(doc, 'LAPORAN REKAP ORDER');
   
-  let yPos = 20;
-  
-  // Logo dan company info
-  doc.addImage(logoImg, 'PNG', 20, yPos, 20, 20);
-  
-  // Company title
-  doc.setFontSize(16);
-  doc.setFont('helvetica', 'bold');
-  doc.text('CV. ZUMAR', 45, yPos + 8);
-  
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Jl. Veteran No.12A, Ketawanggede, Kec. Lowokwaru, Kota Malang', 45, yPos + 14);
-  doc.text('Telp: 0812-3456-7890 | Email: info@cvzumar.com', 45, yPos + 18);
-  
-  // Horizontal line
-  const lineWidth = 277;
-  doc.setLineWidth(0.5);
-  doc.line(20, yPos + 25, 20 + lineWidth, yPos + 25);
-  
-  yPos += 35;
-  
-  // Report title
-  doc.setFontSize(18);
-  doc.setFont('helvetica', 'bold');
-  doc.text('LAPORAN REKAP ORDER', 20, yPos);
-  
-  yPos += 10;
+  // Add print info
+  yPos = addPrintInfo(doc, yPos + 10);
   
   // Filter info
   doc.setFontSize(10);
@@ -845,10 +895,6 @@ export const generateOrderRecapReport = async (orderData, filterInfo) => {
   }
   
   doc.text(`${filterText}`, 20, yPos + 10);
-  
-  // Tanggal generate
-  const generateDate = format(new Date(), 'dd MMMM yyyy HH:mm', { locale: id });
-  doc.text(`Data Real-time: ${generateDate}`, 20, yPos + 18);
   
   yPos += 40;
   
@@ -943,7 +989,7 @@ export const generateOrderRecapReport = async (orderData, filterInfo) => {
   // Generate table
   autoTable(doc, {
     startY: yPos,
-    head: [['No. PO', 'No. Order', 'Nama Pemesan', 'Harga', 'Deadline', 'Status Approval', 'Status Pembayaran', 'Telepon', 'Alamat']],
+    head: [['No. PO', 'No. Order', 'Nama Pemesan', 'Nilai PO', 'Deadline', 'Status Approval', 'Status Pembayaran', 'Telepon', 'Alamat']],
     body: tableData,
     theme: 'grid',
     showHead: 'everyPage',
@@ -1022,6 +1068,9 @@ export const generateOrderRecapReport = async (orderData, filterInfo) => {
     tableWidth: 'auto'
   });
 
+  // Add signature section
+  addSignatureSection(doc, doc.lastAutoTable.finalY);
+
   // Save PDF
   const fileName = `Laporan_Rekap_Order_${format(new Date(), 'yyyy-MM-dd_HH-mm')}.pdf`;
   doc.save(fileName);
@@ -1031,25 +1080,37 @@ export const generateOrderRecapReport = async (orderData, filterInfo) => {
 export const generateDisposisiReport = (disposisiData) => {
   const { orderData, progressMain, progressItems, stageName, users } = disposisiData;
   
-  const doc = new jsPDF();
+  const doc = new jsPDF('landscape');
   
-  let yPos = addCompanyHeader(doc, `DOKUMEN DISPOSISI - ${stageName}`);
+  let yPos = addCompanyHeader(doc, `DOKUMEN SPK - ${stageName}`);
   
-  // Add order info
-  doc.setFontSize(12);
-  doc.setFont('helvetica', 'bold');
-  doc.text('Informasi Pesanan:', 20, yPos + 10);
+  // Add print info and order info in the same row to save space
+  const currentUser = getCurrentUser();
+  const currentUserName = currentUser?.name || 'Admin';
   
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
-  doc.text(`No. Order: ${orderData?.oNumber || orderData?.oCode || '-'}`, 20, yPos + 20);
-  if (orderData?.oPoNumber) {
-    doc.text(`No. PO: ${orderData.oPoNumber}`, 20, yPos + 28);
-  }
-  doc.text(`Nama Pemesan: ${orderData?.oName || '-'}`, 20, yPos + 36);
-  doc.text(`Deadline Order: ${orderData?.oDeadlineAt ? format(new Date(orderData.oDeadlineAt), 'dd MMMM yyyy', { locale: id }) : '-'}`, 20, yPos + 44);
   
-  yPos += 60;
+  // Left side - Print info
+  doc.text(`Dicetak oleh: ${currentUserName}`, 20, yPos + 10);
+  doc.text(`Dicetak pada: ${format(new Date(), 'dd MMMM yyyy HH:mm', { locale: id })}`, 20, yPos + 18);
+  
+  // Right side - Order info
+  doc.setFont('helvetica', 'bold');
+  doc.text('Informasi Pesanan:', 200, yPos + 10);
+  
+  doc.setFont('helvetica', 'normal');
+  doc.text(`No. Order: ${orderData?.oNumber || orderData?.oCode || '-'}`, 200, yPos + 18);
+  if (orderData?.oPoNumber) {
+    doc.text(`No. PO: ${orderData.oPoNumber}`, 200, yPos + 26);
+    doc.text(`Nama Pemesan: ${orderData?.oName || '-'}`, 200, yPos + 34);
+    doc.text(`Deadline: ${orderData?.oDeadlineAt ? format(new Date(orderData.oDeadlineAt), 'dd/MM/yyyy', { locale: id }) : '-'}`, 200, yPos + 42);
+    yPos += 50;
+  } else {
+    doc.text(`Nama Pemesan: ${orderData?.oName || '-'}`, 200, yPos + 26);
+    doc.text(`Deadline: ${orderData?.oDeadlineAt ? format(new Date(orderData.oDeadlineAt), 'dd/MM/yyyy', { locale: id }) : '-'}`, 200, yPos + 34);
+    yPos += 42;
+  }
   
   // Add stage info
   doc.setFontSize(12);
@@ -1124,101 +1185,43 @@ export const generateDisposisiReport = (disposisiData) => {
     yPos += 25;
   }
   
+  // Add single finished items table
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
-  doc.text('Finished Item Per Pekerja:', 20, yPos);
+  doc.text('Laporan Progress Selesai:', 20, yPos);
   
   yPos += 15;
   
-  // Generate grouped record section Worker
-  if (progressItems && progressItems.length > 0) {
-    progressItems.forEach((assignment, index) => {
-      // Worker header section
-      doc.setFontSize(11);
-      doc.setFont('helvetica', 'bold');
-      const workerName = getUserName(assignment.uId);
-      doc.text(`${index + 1}. ${workerName} - Target: ${assignment.opAmount || 0} pcs`, 20, yPos);
-      
-      doc.setFontSize(9);
-      doc.setFont('helvetica', 'normal');
-      doc.text(`Produk: ${assignment.cpName || '-'} | Size: ${assignment.sName || '-'} | Fee: ${formatCurrency(assignment.opFee || 0)}/pcs`, 20, yPos + 8);
-      if (assignment.opDeadlineAt) {
-        doc.text(`Deadline: ${format(new Date(assignment.opDeadlineAt), 'dd/MM/yyyy')}`, 20, yPos + 16);
-      }
-      
-      yPos += 25;
-      
-      const emptyRows = [];
-      for (let i = 0; i < 4; i++) {
-        emptyRows.push([`${i + 1}`, '', '', '']);
-      }
-      
-      autoTable(doc, {
-        startY: yPos,
-        head: [['No', 'Tanggal Selesai', 'Jumlah Selesai', 'Keterangan']],
-        body: emptyRows,
-        theme: 'grid',
-        headStyles: {
-          fillColor: [20, 184, 166],
-          textColor: [255, 255, 255],
-          fontStyle: 'bold',
-          fontSize: 9
-        },
-        bodyStyles: {
-          fontSize: 8,
-          minCellHeight: 15
-        },
-        columnStyles: {
-          0: { cellWidth: 15 }, // No
-          1: { cellWidth: 30 }, // Tanggal
-          2: { cellWidth: 25 }, // Jumlah
-          3: { cellWidth: 80 }  // Keterangan
-        },
-        margin: { left: 20, right: 20 }
-      });
-      
-      yPos = doc.lastAutoTable.finalY + 15;
-      
-      if (yPos > 250 && index < progressItems.length - 1) {
-        doc.addPage();
-        yPos = 20;
-      }
-    });
-  } else {
-    doc.setFontSize(10);
-    doc.setFont('helvetica', 'italic');
-    doc.text('Belum ada assignment pekerja - Template finished item kosong:', 20, yPos);
-    yPos += 15;
-    
-    const emptyRows = [];
-    for (let i = 0; i < 5; i++) {
-      emptyRows.push([`${i + 1}`, '', '', '']);
-    }
-    
-    autoTable(doc, {
-      startY: yPos,
-      head: [['No', 'Tanggal Selesai', 'Jumlah Selesai', 'Keterangan']],
-      body: emptyRows,
-      theme: 'grid',
-      headStyles: {
-        fillColor: [20, 184, 166],
-        textColor: [255, 255, 255],
-        fontStyle: 'bold',
-        fontSize: 9
-      },
-      bodyStyles: {
-        fontSize: 8,
-        minCellHeight: 15
-      },
-      columnStyles: {
-        0: { cellWidth: 15 }, // No
-        1: { cellWidth: 30 }, // Tanggal
-        2: { cellWidth: 25 }, // Jumlah
-        3: { cellWidth: 80 }  // Keterangan
-      },
-      margin: { left: 20, right: 20 }
-    });
+  // Single table for finished items tracking
+  const emptyRows = [];
+  for (let i = 0; i < 8; i++) {
+    emptyRows.push([`${i + 1}`, '', '', '', '']);
   }
+  
+  autoTable(doc, {
+    startY: yPos,
+    head: [['No', 'Tanggal Selesai', 'Pekerja', 'Jumlah Selesai', 'Keterangan']],
+    body: emptyRows,
+    theme: 'grid',
+    headStyles: {
+      fillColor: [20, 184, 166],
+      textColor: [255, 255, 255],
+      fontStyle: 'bold',
+      fontSize: 9
+    },
+    bodyStyles: {
+      fontSize: 8,
+      minCellHeight: 15
+    },
+    columnStyles: {
+      0: { cellWidth: 15 }, // No
+      1: { cellWidth: 30 }, // Tanggal
+      2: { cellWidth: 35 }, // Pekerja
+      3: { cellWidth: 25 }, // Jumlah
+      4: { cellWidth: 80 }  // Keterangan
+    },
+    margin: { left: 20, right: 20 }
+  });
   
   // Add footer info
   yPos = doc.lastAutoTable.finalY + 20;
@@ -1228,13 +1231,11 @@ export const generateDisposisiReport = (disposisiData) => {
     yPos = 20;
   }
   
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  doc.text(`Dicetak pada: ${format(new Date(), 'dd MMMM yyyy HH:mm', { locale: id })}`, 20, yPos);
-  doc.text('Catatan: Dokumen ini untuk keperluan disposisi produksi.', 20, yPos + 8);
+  // Add signature section
+  addSignatureSection(doc, yPos + 20);
   
   const orderNumber = orderData?.oNumber || orderData?.oCode || 'Unknown';
-  const fileName = `Laporan_Disposisi_${stageName}_${orderNumber}_${format(new Date(), 'yyyy-MM-dd_HH-mm')}.pdf`;
+  const fileName = `Laporan_SPK_${stageName}_${orderNumber}_${format(new Date(), 'yyyy-MM-dd_HH-mm')}.pdf`;
   doc.save(fileName);
 };
 
@@ -1247,23 +1248,28 @@ export const generateProgressLengkapReport = (progressLengkapData) => {
   // Add header
   let yPos = addCompanyHeader(doc, `LAPORAN PROGRESS`);
   
+  // Add print info using universal function
+  yPos = addPrintInfo(doc, yPos + 5);
+  
   // Add order info
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
-  doc.text('Informasi Pesanan:', 20, yPos + 10);
+  doc.text('Informasi Pesanan:', 20, yPos);
   
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
-  doc.text(`No. Order: ${orderData?.oNumber || orderData?.oCode || '-'}`, 20, yPos + 20);
+  doc.text(`No. Order: ${orderData?.oNumber || orderData?.oCode || '-'}`, 20, yPos + 10);
+  let nextYPos = yPos + 18;
   if (orderData?.oPoNumber) {
-    doc.text(`No. PO: ${orderData.oPoNumber}`, 20, yPos + 28);
+    doc.text(`No. PO: ${orderData.oPoNumber}`, 20, nextYPos);
+    nextYPos += 8;
   }
-  doc.text(`Nama Pemesan: ${orderData?.oName || '-'}`, 20, yPos + 36);
-  doc.text(`Deadline Order: ${orderData?.oDeadlineAt ? format(new Date(orderData.oDeadlineAt), 'dd MMMM yyyy', { locale: id }) : '-'}`, 20, yPos + 44);
-  doc.text(`Progress Overall: ${orderData?.oProgress || 0}%`, 200, yPos + 20);
-  doc.text(`Total Proses: ${orderProgressMain?.length || 0}`, 200, yPos + 28);
+  doc.text(`Nama Pemesan: ${orderData?.oName || '-'}`, 20, nextYPos);
+  doc.text(`Deadline Order: ${orderData?.oDeadlineAt ? format(new Date(orderData.oDeadlineAt), 'dd MMMM yyyy', { locale: id }) : '-'}`, 20, nextYPos + 8);
+  doc.text(`Progress Overall: ${(orderData?.oProgress || 0).toFixed(1)} %`, 200, yPos + 10);
+  doc.text(`Total Proses: ${orderProgressMain?.length || 0}`, 200, yPos + 18);
   
-  yPos += 60;
+  yPos += 40;
   
   // Helper function untuk get user name
   const getUserName = (uId) => {
@@ -1299,10 +1305,10 @@ export const generateProgressLengkapReport = (progressLengkapData) => {
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
     doc.text(`${index + 1}. ${stageName}`, 20, yPos);
-    doc.text(`Progress: ${stageProgress}%`, 200, yPos);
+    doc.text(`Progress: ${stageProgress} %`, 200, yPos);
     doc.text(`Target: ${progressMain.opmAmountTotal || 0} pcs`, 250, yPos);
     
-    yPos += 15;
+    yPos += 5;
     
     if (progressItems.length > 0) {
       const stageTableData = [];
@@ -1310,47 +1316,39 @@ export const generateProgressLengkapReport = (progressLengkapData) => {
       progressItems.forEach((progress, pIndex) => {
         const details = orderProgressDetails[progress.opId] || [];
         
-        stageTableData.push([
-          `Assignment ${pIndex + 1}`,
-          progress.cpName || '-',
-          progress.sName || '-',
-          getUserName(progress.uId),
-          `${progress.opAmount || 0}`,
-          formatCurrency(progress.opFee || 0),
-          progress.opDeadlineAt ? format(new Date(progress.opDeadlineAt), 'dd/MM/yyyy') : '-',
-          '',
-          '',
-          'ASSIGNMENT'
-        ]);
-        
-        // Add finished item rows
         if (details.length > 0) {
+          // For each finished item, create one row with all data
           details.forEach((detail, dIndex) => {
+            const target = progress.opAmount || 0;
+            const qtySelesai = detail.opdAmount || 0;
+            const status = qtySelesai === target ? 'FINISHED' : 'NOT FINISHED';
+            
             stageTableData.push([
-              `  └ Finished ${dIndex + 1}`,
-              '',
-              '',
-              '',
-              '',
-              '',
-              '',
-              detail.opdFinishedAt ? format(new Date(detail.opdFinishedAt), 'dd/MM/yyyy HH:mm') : '-',
-              `${detail.opdAmount || 0}`,
-              'FINISHED'
+              `Assignment ${pIndex + 1}`,
+              progress.cpName || '-',
+              progress.sName || '-',
+              getUserName(progress.uId),
+              `${target}`,
+              formatCurrency(progress.opFee || 0),
+              progress.opDeadlineAt ? format(new Date(progress.opDeadlineAt), 'dd/MM/yyyy') : '-',
+              detail.opdFinishedAt ? format(new Date(detail.opdFinishedAt), 'dd/MM/yyyy') : '-',
+              `${qtySelesai}`,
+              status
             ]);
           });
         } else {
+          // No finished items - show assignment with empty finished data
           stageTableData.push([
-            '  └ Belum ada finished items',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            'NO_FINISHED'
+            `Assignment ${pIndex + 1}`,
+            progress.cpName || '-',
+            progress.sName || '-',
+            getUserName(progress.uId),
+            `${progress.opAmount || 0}`,
+            formatCurrency(progress.opFee || 0),
+            progress.opDeadlineAt ? format(new Date(progress.opDeadlineAt), 'dd/MM/yyyy') : '-',
+            '-',
+            '0',
+            'NOT FINISHED'
           ]);
         }
       });
@@ -1361,6 +1359,7 @@ export const generateProgressLengkapReport = (progressLengkapData) => {
         head: [['Item', 'Produk', 'Size', 'Pekerja', 'Target', 'Fee/pcs', 'Deadline', 'Tgl Selesai', 'Qty Selesai', 'Type']],
         body: stageTableData,
         theme: 'grid',
+        showHead: 'firstPage',
         headStyles: {
           fillColor: [20, 184, 166],
           textColor: [255, 255, 255],
@@ -1369,6 +1368,18 @@ export const generateProgressLengkapReport = (progressLengkapData) => {
         },
         bodyStyles: {
           fontSize: 8
+        },
+        columnStyles: {
+          0: { cellWidth: 35 }, // Item column wider
+          1: { cellWidth: 25 },
+          2: { cellWidth: 15 },
+          3: { cellWidth: 25 },
+          4: { cellWidth: 20 },
+          5: { cellWidth: 20 },
+          6: { cellWidth: 25 },
+          7: { cellWidth: 30, halign: 'center' }, // Tanggal Selesai - center aligned
+          8: { cellWidth: 20, halign: 'center' }, // Qty Selesai - center aligned
+          9: { cellWidth: 'auto', minCellWidth: 20 }
         },
         alternateRowStyles: {
           fillColor: [178, 223, 219]
@@ -1389,18 +1400,6 @@ export const generateProgressLengkapReport = (progressLengkapData) => {
             }
           }
         },
-        columnStyles: {
-          0: { cellWidth: 35 }, // Item
-          1: { cellWidth: 25 }, // Produk
-          2: { cellWidth: 15 }, // Size
-          3: { cellWidth: 25 }, // Pekerja
-          4: { cellWidth: 18 }, // Target
-          5: { cellWidth: 20 }, // Fee
-          6: { cellWidth: 22 }, // Deadline
-          7: { cellWidth: 30 }, // Tgl Selesai
-          8: { cellWidth: 20 }, // Qty Selesai
-          9: { cellWidth: 0 }   // Type (hidden)
-        },
         margin: { left: 20, right: 20 }
       });
       
@@ -1419,15 +1418,62 @@ export const generateProgressLengkapReport = (progressLengkapData) => {
     yPos = 20;
   }
   
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  doc.text(`Dicetak pada: ${format(new Date(), 'dd MMMM yyyy HH:mm', { locale: id })}`, 20, yPos);
-  doc.text('Laporan progress lengkap - Semua proses produksi', 20, yPos + 8);
+  // Add signature section
+  addSignatureSection(doc, yPos);
   
   // Save PDF
   const orderNumber = orderData?.oNumber || orderData?.oCode || 'Unknown';
   const fileName = `Laporan_Progress_${orderNumber}_${format(new Date(), 'yyyy-MM-dd_HH-mm')}.pdf`;
   doc.save(fileName);
+};
+
+// Helper function to generate Acuan Order table only
+const generateAcuanOrderTable = (doc, chunk, startY) => {
+  const acuanOrderHeaders = [
+    'KALKULASI',
+    ...chunk.map(item => item.productName || 'ITEM'),
+    'TOTAL'
+  ];
+
+  const sizeRow = [
+    'SIZE',
+    ...chunk.map(item => item.sizeGroup || '-'),
+    ''
+  ];
+
+  const qtyRow = [
+    'QTY', 
+    ...chunk.map(item => item.quantity || 0),
+    chunk.reduce((sum, item) => sum + (item.quantity || 0), 0)
+  ];
+
+  const acuanOrderData = [sizeRow, qtyRow];
+
+  autoTable(doc, {
+    startY: startY,
+    head: [acuanOrderHeaders],
+    body: acuanOrderData,
+    theme: 'grid',
+    styles: { fontSize: 8, cellPadding: 1.5 },
+    headStyles: { 
+      fillColor: [20, 184, 166], 
+      textColor: [255, 255, 255],
+      fontStyle: 'bold'
+    },
+    columnStyles: {
+      0: { cellWidth: 30, fontStyle: 'bold' },
+      ...Object.fromEntries(
+        chunk.map((_, i) => [i + 1, { 
+          cellWidth: (240 - 30 - 25) / chunk.length,
+          halign: 'center' 
+        }])
+      ),
+      [chunk.length + 1]: { cellWidth: 25, halign: 'center', fontStyle: 'bold' }
+    },
+    margin: { left: 20, right: 20 }
+  });
+
+  return doc.lastAutoTable.finalY + 10;
 };
 
 // Helper function untuk generate RABP chunk page
@@ -1437,42 +1483,53 @@ const generateRABPChunkPage = (doc, chunk, pageNumber, orderData, isFirstPage) =
   if (isFirstPage) {
     yPos = addCompanyHeader(doc, 'RENCANA ANGGARAN BIAYA PRODUKSI (RABP)');
     
+    // Add print info
+    yPos = addPrintInfo(doc, yPos + 10);
+    
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
-    doc.text('DATA ORDER', 20, yPos + 10);
+    doc.text('DATA ORDER', 20, yPos);
     
     const orderInfoData = [
       [
         orderData.customerName || '-',
         orderData.orderDate || '-', 
         orderData.deadline || '-',
-        orderData.orderNumber || '-'
+        orderData.orderNumber || '-',
+        orderData.poNumber || '-'
       ]
     ];
     
     autoTable(doc, {
       startY: yPos + 15,
-      head: [['NAMA CUSTOMER', 'TANGGAL ORDER', 'DEADLINE', 'ORDER NUMBER']],
+      head: [['NAMA CUSTOMER', 'TANGGAL ORDER', 'DEADLINE', 'ORDER NUMBER', 'PO NUMBER']],
       body: orderInfoData,
       theme: 'grid',
-      styles: { fontSize: 9, cellPadding: 2 },
+      styles: { fontSize: 8, cellPadding: 1.5 },
       headStyles: {
-        fillColor: [20, 184, 166],
+        fillColor: [36, 81, 86],
         textColor: [255, 255, 255],
         fontStyle: 'bold'
       },
       columnStyles: {
-        0: { cellWidth: 60 },
-        1: { cellWidth: 50 },
-        2: { cellWidth: 50 },
-        3: { cellWidth: 50 }
+        0: { cellWidth: 60 },   // NAMA CUSTOMER
+        1: { cellWidth: 45 },   // TANGGAL ORDER  
+        2: { cellWidth: 40 },   // DEADLINE
+        3: { cellWidth: 50 },   // ORDER NUMBER
+        4: { cellWidth: 45 }    // PO NUMBER
       },
       margin: { left: 20, right: 20 }
     });
     
     yPos = doc.lastAutoTable.finalY + 15;
   } else {
-    yPos = 20;
+    // For continuation pages, start with minimal spacing
+    yPos = 30;
+    
+    // Add minimal header for continuation
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`RABP - Lanjutan Halaman ${pageNumber}`, 20, 20);
   }
 
   doc.setFontSize(12);
@@ -1507,7 +1564,7 @@ const generateRABPChunkPage = (doc, chunk, pageNumber, orderData, isFirstPage) =
     theme: 'grid',
     styles: { fontSize: 8, cellPadding: 1.5 },
     headStyles: { 
-      fillColor: [20, 184, 166], 
+      fillColor: [36, 81, 86], 
       textColor: [255, 255, 255],
       fontStyle: 'bold'
     },
@@ -1605,7 +1662,7 @@ const generateKalkulasiBahanSection = (doc, chunkItems, startY) => {
     theme: 'grid',
     styles: { fontSize: 8, cellPadding: 1.5 },
     headStyles: { 
-      fillColor: [20, 184, 166], 
+      fillColor: [36, 81, 86], 
       textColor: [255, 255, 255],
       fontStyle: 'bold'
     },
@@ -1676,7 +1733,7 @@ const generateOperationalSection = (doc, chunk, startY) => {
     theme: 'grid',
     styles: { fontSize: 8, cellPadding: 1.5 },
     headStyles: { 
-      fillColor: [20, 184, 166], 
+      fillColor: [36, 81, 86], 
       textColor: [255, 255, 255],
       fontStyle: 'bold'
     },
@@ -1749,7 +1806,7 @@ const generateUtilitiesSection = (doc, chunk, startY) => {
     theme: 'grid',
     styles: { fontSize: 8, cellPadding: 1.5 },
     headStyles: { 
-      fillColor: [20, 184, 166], 
+      fillColor: [36, 81, 86], 
       textColor: [255, 255, 255],
       fontStyle: 'bold'
     },
@@ -1842,7 +1899,7 @@ const generateHPPSection = (doc, chunk, startY) => {
     theme: 'grid',
     styles: { fontSize: 8, cellPadding: 1.5 },
     headStyles: { 
-      fillColor: [20, 184, 166], 
+      fillColor: [36, 81, 86], 
       textColor: [255, 255, 255],
       fontStyle: 'bold'
     },
@@ -1864,33 +1921,35 @@ const generateHPPSection = (doc, chunk, startY) => {
 };
 
 // Generate Final Summary Page
-const generateFinalSummaryPage = (doc, grandTotals, summary, profitAllocation) => {
+const generateFinalSummaryPage = (doc, totals, summary, profitAllocation, nilaiUntung, totalUntung, selisihUntung, percent) => {
   let yPos = 20;
   
   // Title section
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
-  doc.text('REKAP RAB - SUMMARY LAPORAN', 20, yPos);
+  doc.text('REKAP RABP - SUMMARY LAPORAN', 20, yPos);
   yPos += 15;
   
-  // Rekap RAB Section
+  // Rekap RABP Section
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
-  doc.text('REKAP RAB', 20, yPos + 10);
+  doc.text('REKAP RABP', 20, yPos + 10);
 
   const rekapRABData = [
-    ['TOTAL BAHAN', formatCurrency(grandTotals.totalBahan)],
-    ['TOTAL OPERASIONAL', formatCurrency(grandTotals.totalJasaOperasional)],
-    ['TOTAL UNTUNG', formatCurrency(grandTotals.totalMargin + grandTotals.totalSisaUntung)],
-    ['NILAI UNTUNG', formatCurrency(grandTotals.totalMargin)],
-    ['SELISIH UNTUNG', formatCurrency(grandTotals.totalSisaUntung)],
-    ['NILAI PO', formatCurrency(grandTotals.nilaiPO)],
-    ['TOTAL MARGIN', formatCurrency(grandTotals.totalMargin)],
-    ['TOTAL SISA UNTUNG', formatCurrency(grandTotals.totalSisaUntung)]
+    ['TOTAL BAHAN', formatCurrency(totals.totalBahan)],
+    ['TOTAL OPERASIONAL', formatCurrency(totals.totalJasaOperasional)],
+    ['TOTAL UTILITIES & BEKAKAS', formatCurrency(totals.totalUtilitiesDanBekakas)],
+    ['TOTAL UNTUNG', formatCurrency(totalUntung)],
+    ['PERCENT', `${Number.isFinite(percent) ? percent.toFixed(2) : 0}%`],
+    ['TOTAL MARGIN', formatCurrency(totals.totalMargin)],
+    ['TOTAL SISA UNTUNG', formatCurrency(totals.totalSisaUntung)],
+    ['NILAI PO', formatCurrency(totals.nilaiPO)],
+    ['NILAI UNTUNG', formatCurrency(nilaiUntung)],
+    ['SELISIH UNTUNG', selisihUntung === 0 ? 'BALANCE' : formatCurrency(selisihUntung)]
   ];
 
-  const leftColumn = rekapRABData.slice(0, 4);
-  const rightColumn = rekapRABData.slice(4);
+  const leftColumn = rekapRABData.slice(0, 5);
+  const rightColumn = rekapRABData.slice(5);
 
   autoTable(doc, {
     startY: yPos + 15,
@@ -1945,39 +2004,17 @@ const generateFinalSummaryPage = (doc, grandTotals, summary, profitAllocation) =
 
   yPos = doc.lastAutoTable.finalY + 20;
 
-  // Percent Keuntungan Tergerus
-  const percentageEroded = summary.ocbpsSettingMainDevelopPercentage + summary.ocbpsSettingIncentivePercentage + summary.ocbpsSettingMarketingPercentage;
+  // Percent Keuntungan Tergerus - calculated like edit-rab-order.jsx
+  const percentageEroded = (summary.ocbpsSettingMainDevelopPercentage || 0) + (summary.ocbpsSettingIncentivePercentage || 0) + (summary.ocbpsSettingMarketingPercentage || 0);
+  const percentKeuntunganTergerus = ((totals.totalMargin + profitAllocation.sisaUntungBersih) / (totals.totalBahan + totals.totalJasaOperasional + totals.totalUtilitiesDanBekakas)) * 100;
+  
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
-  doc.text(`PERCENT KEUNTUNGAN TERGERUS: ${percentageEroded}%`, 20, yPos);
+  doc.text(`PERCENT KEUNTUNGAN TERGERUS: ${percentageEroded.toFixed(2)}%`, 20, yPos);
+  doc.text(`PERCENT KEUNTUNGAN AKHIR: ${Number.isFinite(percentKeuntunganTergerus) ? percentKeuntunganTergerus.toFixed(2) : 0}%`, 20, yPos + 10);
 
-  yPos += 25;
-
-  if (yPos > 150) {
-    doc.addPage('landscape');
-    yPos = 20;
-  }
-
-  // Approval Section
-  doc.setFontSize(12);
-  doc.setFont('helvetica', 'bold');
-  doc.text('DIBUAT OLEH', 35, yPos);
-  doc.text('DISETUJUI OLEH', 120, yPos);
-  doc.text('DIKETAHUI OLEH', 205, yPos);
-
-  yPos += 10;
-
-  doc.rect(35, yPos, 75, 35);
-  doc.rect(120, yPos, 75, 35);
-  doc.rect(205, yPos, 55, 35);
-
-  yPos += 40;
-
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'bold');
-  doc.text('( STAFF )', 60, yPos);
-  doc.text('( LINDA )', 145, yPos);
-  doc.text('( NAEN )', 220, yPos);
+  // Add signature section
+  addSignatureSection(doc, yPos);
 
   return yPos;
 };
@@ -1986,7 +2023,7 @@ const generateFinalSummaryPage = (doc, grandTotals, summary, profitAllocation) =
 export const generateRABPReport = async (summary, orderId) => {
   try {
     if (!summary || !summary.ocbpItems || summary.ocbpItems.length === 0) {
-      throw new Error("Data RAB tidak tersedia untuk generate laporan");
+      throw new Error("Data RABP tidak tersedia untuk generate laporan");
     }
 
     const { getOrderDetail } = await import('../api/Order/order');
@@ -2029,59 +2066,85 @@ export const generateRABPReport = async (summary, orderId) => {
         format(new Date(), 'dd MMM yyyy'),
       deadline: (orderDetailData?.oDeadlineAt || summary.oDeadlineAt) ? 
         format(new Date(orderDetailData?.oDeadlineAt || summary.oDeadlineAt), 'dd MMM yyyy') : '-',
-      orderNumber: orderDetailData?.oNumber || orderDetailData?.oCode || summary.oNumber || summary.oCode || orderId || '-'
+      orderNumber: orderDetailData?.oNumber || orderDetailData?.oCode || summary.oNumber || summary.oCode || orderId || '-',
+      poNumber: orderDetailData?.oPoNumber || summary.oPoNumber || '-'
     };
 
-    // Calculate grand totals
-    const grandTotals = allSizeGroupings.reduce(
+    // Calculate totals using same logic as edit-rab-order.jsx
+    const { calculateRABItemValues } = await import('../utils');
+    
+    const totals = summary.ocbpItems.reduce(
       (acc, item) => {
-        const materialCost = (item.materialNeed || 0) * (item.quantity || 0) * (item.materialPrice || 0);
-        const operationalCost = (item.operationalServices?.values || []).reduce((sum, val) => sum + (val || 0), 0);
-        const utilitiesCost = (item.utilities?.values || []).reduce((sum, val) => sum + (val || 0), 0);
-        const totalOff = (item.priceOff || 0) * (item.quantity || 0);
-        const hpp = materialCost + operationalCost + utilitiesCost;
-        const margin = totalOff - hpp;
-        
+        const rabItemValues = calculateRABItemValues(item);
         return {
-          totalBahan: acc.totalBahan + materialCost,
-          totalJasaOperasional: acc.totalJasaOperasional + operationalCost,
-          totalUtilitiesDanBekakas: acc.totalUtilitiesDanBekakas + utilitiesCost,
-          totalOff: acc.totalOff + totalOff,
-          totalMargin: acc.totalMargin + margin,
-          totalSisaUntung: acc.totalSisaUntung + 0,
-          nilaiPO: acc.nilaiPO + totalOff
+          totalBahan: acc.totalBahan + rabItemValues.grandTotalHargaBahan,
+          totalJasaOperasional: acc.totalJasaOperasional + rabItemValues.totalJasaOperasional,
+          totalUtilitiesDanBekakas: acc.totalUtilitiesDanBekakas + rabItemValues.totalUtilitiesDanBekakas,
+          totalOff: acc.totalOff + rabItemValues.totalOff,
+          totalMargin: acc.totalMargin + rabItemValues.totalMargin,
+          totalSisaUntung: acc.totalSisaUntung + rabItemValues.totalSisaUntung,
+          nilaiPO: acc.nilaiPO + rabItemValues.totalOff,
         };
       },
       {
         totalBahan: 0,
-        totalJasaOperasional: 0, 
+        totalJasaOperasional: 0,
         totalUtilitiesDanBekakas: 0,
         totalOff: 0,
         totalMargin: 0,
         totalSisaUntung: 0,
-        nilaiPO: 0
+        nilaiPO: 0,
       }
     );
 
-    // Calculate profit allocation
-    const totalSisaUntung = grandTotals.totalMargin;
-    const biayaMainDanDevelop = ((summary.ocbpsSettingMainDevelopPercentage || 0) * totalSisaUntung) / 100;
-    const biayaInsentif = ((summary.ocbpsSettingIncentivePercentage || 0) * totalSisaUntung) / 100;
-    const biayaMarketing = ((summary.ocbpsSettingMarketingPercentage || 0) * totalSisaUntung) / 100;
-    const sisaUntungBersih = totalSisaUntung - (biayaMainDanDevelop + biayaInsentif + biayaMarketing);
+    // Calculate additional values using same formula as edit-rab-order.jsx
+    const nilaiUntung = totals.nilaiPO - totals.totalBahan - totals.totalJasaOperasional - totals.totalUtilitiesDanBekakas;
+    const totalUntung = totals.totalMargin + totals.totalSisaUntung;
+    const selisihUntung = nilaiUntung - totalUntung;
+    const percent = (totalUntung / (totals.totalBahan + totals.totalJasaOperasional + totals.totalUtilitiesDanBekakas)) * 100;
 
-    // Update grand totals
-    grandTotals.totalSisaUntung = sisaUntungBersih;
+    // Calculate profit allocation using same formula as edit-rab-order.jsx
+    const biayaMainDanDevelop = ((summary.ocbpsSettingMainDevelopPercentage || 0) * totals.totalSisaUntung) / 100;
+    const biayaInsentif = ((summary.ocbpsSettingIncentivePercentage || 0) * totals.totalSisaUntung) / 100;
+    const biayaMarketing = ((summary.ocbpsSettingMarketingPercentage || 0) * totals.totalSisaUntung) / 100;
+    const sisaUntungBersih = totals.totalSisaUntung - (biayaMainDanDevelop + biayaInsentif + biayaMarketing);
+
+    // Profit allocation object
+    const profitAllocation = {
+      biayaMainDanDevelop,
+      biayaInsentif,
+      biayaMarketing,
+      sisaUntungBersih
+    };
 
     // Generate PDF
     const doc = new jsPDF("landscape", "mm", "a4");
     const chunkSize = 10;
     let pageNumber = 1;
 
-    // Generate chunked pages
+    // Generate chunks with continuous layout for paper efficiency
+    let currentYPos = 0;
+    
     for (let i = 0; i < allSizeGroupings.length; i += chunkSize) {
       const chunk = allSizeGroupings.slice(i, i + chunkSize);
-      let yPos = generateRABPChunkPage(doc, chunk, pageNumber, orderData, i === 0);
+      let yPos;
+      
+      if (i === 0) {
+        // First chunk - full header
+        yPos = generateRABPChunkPage(doc, chunk, pageNumber, orderData, true);
+      } else {
+        // Subsequent chunks - continue from current position with spacing
+        yPos = currentYPos + 20; // Add spacing between chunks
+        
+        // Add section header for next chunk
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'bold');
+        doc.text('ACUAN ORDER', 20, yPos);
+        yPos += 5;
+        
+        // Generate acuan order table for this chunk
+        yPos = generateAcuanOrderTable(doc, chunk, yPos);
+      }
       
       yPos = generateKalkulasiBahanSection(doc, chunk, yPos);
       
@@ -2091,20 +2154,19 @@ export const generateRABPReport = async (summary, orderId) => {
         yPos = generateHPPSection(doc, chunk, yPos);
       }
       
-      if (i + chunkSize < allSizeGroupings.length) {
+      currentYPos = yPos;
+      
+      // Only add page break if we're running out of space AND there are more chunks
+      if (i + chunkSize < allSizeGroupings.length && currentYPos > 200) {
         doc.addPage();
         pageNumber++;
+        currentYPos = 20; // Reset position for new page
       }
     }
 
     // Generate final summary page
     doc.addPage();
-    generateFinalSummaryPage(doc, grandTotals, summary, {
-      biayaMainDanDevelop,
-      biayaInsentif, 
-      biayaMarketing,
-      sisaUntungBersih
-    });
+    generateFinalSummaryPage(doc, totals, summary, profitAllocation, nilaiUntung, totalUntung, selisihUntung, percent);
 
     const timestamp = format(new Date(), 'yyyy-MM-dd_HH-mm');
     const fileName = `Laporan_RABP_${orderId || 'Order'}_${timestamp}.pdf`;

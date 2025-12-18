@@ -15,9 +15,89 @@ import {
   createUser,
   updateUser,
 } from "../../../api/user/user";
+import { getRolesForSelection, getAllRoles } from "../../../api/role/role";
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
 import BackgroundImage from '../../../assets/background/bg-zumar.png';
+
+// Custom Role Dropdown Component
+function RoleDropdown({ roles = [], value, onSelect, placeholder = "Pilih role..." }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Sync display with selected value
+  useEffect(() => {
+    if (value !== undefined && value !== null && Array.isArray(roles)) {
+      const selected = roles.find((role) => role.rId === value);
+      setSearchTerm(selected ? selected.rName : "");
+    }
+  }, [value, roles]);
+
+  // Filter roles based on search
+  const filteredRoles = Array.isArray(roles)
+    ? roles.filter((role) =>
+      String(role.rName).toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    : [];
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleInputChange = (e) => {
+    setSearchTerm(e.target.value);
+    setIsOpen(true);
+  };
+
+  const handleSelect = (role) => {
+    setIsOpen(false);
+    setSearchTerm(role.rName);
+    if (onSelect) onSelect(role);
+  };
+
+  return (
+    <div className="relative w-full" ref={dropdownRef}>
+      <input
+        type="text"
+        placeholder={placeholder}
+        className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-secondaryColor"
+        value={searchTerm}
+        onChange={handleInputChange}
+        onFocus={() => setIsOpen(true)}
+        required
+      />
+
+      {/* Dropdown */}
+      {isOpen && (
+        <ul className="absolute z-10 w-full max-h-60 overflow-y-auto border border-gray-300 bg-white shadow-lg rounded-md mt-1">
+          {filteredRoles.length > 0 ? (
+            filteredRoles.map((role) => (
+              <li
+                key={role.rId}
+                className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-sm"
+                onClick={() => handleSelect(role)}
+              >
+                {role.rName}
+              </li>
+            ))
+          ) : (
+            <li className="px-4 py-2 text-gray-500 text-sm">
+              Role tidak ditemukan
+            </li>
+          )}
+        </ul>
+      )}
+    </div>
+  );
+}
 
 function ActionDropdown({ onEditUser, onDelete }) {
   const [open, setOpen] = useState(false);
@@ -88,6 +168,7 @@ export default function UserList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [users, setUsers] = useState([]);
+  const [roles, setRoles] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const navigate = useNavigate();
@@ -107,7 +188,7 @@ export default function UserList() {
     uPhone: "",
     uAddress: "",
     uPassword: "",
-    uRole: "OWNER",
+    rId: 5,
   });
   const [editUser, setEditUser] = useState({
     uId: "",
@@ -116,7 +197,7 @@ export default function UserList() {
     uPhone: "",
     uAddress: "",
     uPassword: "",
-    uRole: "OWNER",
+    rId: 5,
   });
 
   const handleAddUser = async (e) => {
@@ -132,7 +213,7 @@ export default function UserList() {
         uPhone: newUser.uPhone,
         uAddress: newUser.uAddress,
         uPassword: newUser.uPassword,
-        uRole: newUser.uRole,
+        rId: newUser.rId,
       });
 
       await fetchData();
@@ -158,7 +239,7 @@ export default function UserList() {
       uPhone: user.uPhone || "",
       uAddress: user.uAddress || "",
       uPassword: "",
-      uRole: "OWNER",
+      rId: user.rId,
     });
     setShowEditModal(true);
   };
@@ -174,7 +255,7 @@ export default function UserList() {
         uPhone: editUser.uPhone,
         uAddress: editUser.uAddress,
         uPassword: editUser.uPassword,
-        uRole: editUser.uRole,
+        rId: editUser.rId,
       });
 
       await fetchData();
@@ -271,6 +352,39 @@ export default function UserList() {
       setActionLoading(false);
     }
   };
+
+  // Fetch roles for dropdown
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const response = await getAllRoles({
+          pageLimit: -1,  // Get all roles
+          pageNumber: 1
+        });
+        console.log("Roles API Response:", response);
+        console.log("Response data:", response.data);
+
+        // Try different response structures
+        let rolesData = [];
+        if (response.data?.data?.listData) {
+          rolesData = response.data.data.listData;
+        } else if (response.data?.data) {
+          rolesData = Array.isArray(response.data.data) ? response.data.data : [];
+        } else if (response.data?.listData) {
+          rolesData = response.data.listData;
+        } else if (Array.isArray(response.data)) {
+          rolesData = response.data;
+        }
+
+        console.log("Parsed roles data:", rolesData);
+        setRoles(rolesData);
+      } catch (error) {
+        console.error("Error fetching roles:", error);
+        setRoles([]);
+      }
+    };
+    fetchRoles();
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -400,6 +514,9 @@ export default function UserList() {
                         <th className="px-3 py-3 whitespace-nowrap text-sm font-semibold min-w-[80px]">
                           Telepon
                         </th>
+                        <th className="px-3 py-3 whitespace-nowrap text-sm font-semibold min-w-[80px]">
+                          Role
+                        </th>
                         <th className="px-3 py-3 whitespace-nowrap text-sm font-semibold min-w-[120px]">
                           Alamat
                         </th>
@@ -422,6 +539,9 @@ export default function UserList() {
                           </td>
                           <td className="px-3 py- whitespace-nowrap ">
                             {user.uPhone}
+                          </td>
+                          <td className="px-3 py- whitespace-nowrap ">
+                            {user.rName}
                           </td>
                           <td className="px-3 py- whitespace-nowrap">
                             {user.uAddress}
@@ -450,30 +570,30 @@ export default function UserList() {
 
           {/* Pagination */}
           <div className="flex justify-center items-center gap-2 mt-6">
-          <button
-            className="px-3 py-1 rounded border border-gray-300 text-primaryColor disabled:opacity-50"
-          onClick={() => handlePageChange(page - 1)}
-          disabled={page === 1}
-          >
-            {'<'}
-          </button>
-          {Array.from({ length: totalPage }, (_, i) => i + 1).map((p) => (
             <button
-              key={p}
-              className={`px-3 py-1 rounded border text-primaryColor font-semibold ${p === page ? 'bg-primaryColor text-white' : 'border-gray-300'}`}
-            onClick={() => handlePageChange(p)}
+              className="px-3 py-1 rounded border border-gray-300 text-primaryColor disabled:opacity-50"
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 1}
             >
-              {p}
+              {'<'}
             </button>
-          ))}
-          <button
-            className="px-3 py-1 rounded border border-gray-300 text-primaryColor disabled:opacity-50"
-          onClick={() => handlePageChange(page + 1)}
-          disabled={page === totalPage}
-          >
-            {'>'}
-          </button>
-        </div>
+            {Array.from({ length: totalPage }, (_, i) => i + 1).map((p) => (
+              <button
+                key={p}
+                className={`px-3 py-1 rounded border text-primaryColor font-semibold ${p === page ? 'bg-primaryColor text-white' : 'border-gray-300'}`}
+                onClick={() => handlePageChange(p)}
+              >
+                {p}
+              </button>
+            ))}
+            <button
+              className="px-3 py-1 rounded border border-gray-300 text-primaryColor disabled:opacity-50"
+              onClick={() => handlePageChange(page + 1)}
+              disabled={page === totalPage}
+            >
+              {'>'}
+            </button>
+          </div>
 
           {/* Action Confirmation Modal */}
           {showActionModal && modalAction && (
@@ -503,11 +623,10 @@ export default function UserList() {
                   </button>
                   <button
                     onClick={handleConfirmAction}
-                    className={`w-full rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-sm ${
-                      modalAction.type === "delete"
-                        ? "bg-red-500 hover:bg-red-600"
-                        : "bg-primaryColor hover:bg-primaryColor/90"
-                    }`}
+                    className={`w-full rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-sm ${modalAction.type === "delete"
+                      ? "bg-red-500 hover:bg-red-600"
+                      : "bg-primaryColor hover:bg-primaryColor/90"
+                      }`}
                     disabled={actionLoading}
                   >
                     {actionLoading ? "Memproses..." : "Konfirmasi"}
@@ -521,9 +640,9 @@ export default function UserList() {
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
               <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
                 <h2 className="text-xl font-bold mb-4 text-primaryColor">Tambah Owner</h2>
-                
+
                 <form onSubmit={handleAddUser}>
-                  {["uName", "uEmail", "uPhone", "uAddress", "uPassword"].map((field) => (
+                  {["uName", "uEmail", "uPhone"].map((field) => (
                     <div key={field} className="mb-4">
                       <label
                         htmlFor={field}
@@ -532,27 +651,19 @@ export default function UserList() {
                         {field === "uName"
                           ? "Nama"
                           : field === "uEmail"
-                          ? "Email"
-                          : field === "uPhone"
-                          ? "Telepon"
-                          : field === "uAddress"
-                          ? "Alamat"
-                          : "Password"}
+                            ? "Email"
+                            : "Telepon"}
                         <span className="text-red-500 ml-1">*</span>
                       </label>
                       <input
                         id={field}
-                        type={field === "uPassword" ? "password" : "text"}
+                        type="text"
                         placeholder={
                           field === "uName"
                             ? "Budi"
                             : field === "uEmail"
-                            ? "budi@email.com"
-                            : field === "uPhone"
-                            ? "081234567890"
-                            : field === "uAddress"
-                            ? "Jl. Pegangsaan Timur No. 17"
-                            : "********"
+                              ? "budi@email.com"
+                              : "081234567890"
                         }
                         className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-secondaryColor"
                         value={newUser[field]}
@@ -561,6 +672,53 @@ export default function UserList() {
                       />
                     </div>
                   ))}
+
+                  {/* Role Dropdown */}
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Role<span className="text-red-500 ml-1">*</span>
+                    </label>
+                    <RoleDropdown
+                      roles={roles}
+                      value={newUser.rId}
+                      onSelect={(role) => {
+                        setNewUser({ ...newUser, rId: role.rId });
+                      }}
+                      placeholder="Pilih role..."
+                    />
+                  </div>
+
+                  {/* Address */}
+                  <div className="mb-4">
+                    <label htmlFor="uAddress" className="block text-sm font-medium text-gray-700 mb-1">
+                      Alamat<span className="text-red-500 ml-1">*</span>
+                    </label>
+                    <input
+                      id="uAddress"
+                      type="text"
+                      placeholder="Jl. Pegangsaan Timur No. 17"
+                      className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-secondaryColor"
+                      value={newUser.uAddress}
+                      onChange={(e) => setNewUser({ ...newUser, uAddress: e.target.value })}
+                      required
+                    />
+                  </div>
+
+                  {/* Password */}
+                  <div className="mb-4">
+                    <label htmlFor="uPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                      Password<span className="text-red-500 ml-1">*</span>
+                    </label>
+                    <input
+                      id="uPassword"
+                      type="password"
+                      placeholder="********"
+                      className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-secondaryColor"
+                      value={newUser.uPassword}
+                      onChange={(e) => setNewUser({ ...newUser, uPassword: e.target.value })}
+                      required
+                    />
+                  </div>
 
                   <div className="flex justify-end gap-2">
                     <button
@@ -628,6 +786,21 @@ export default function UserList() {
                       onChange={(e) => setEditUser({ ...editUser, uPhone: e.target.value })}
                       className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-secondaryColor"
                       required
+                    />
+                  </div>
+
+                  {/* Role Dropdown */}
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Role<span className="text-red-500 ml-1">*</span>
+                    </label>
+                    <RoleDropdown
+                      roles={roles}
+                      value={editUser.rId}
+                      onSelect={(role) => {
+                        setEditUser({ ...editUser, rId: role.rId });
+                      }}
+                      placeholder="Pilih role..."
                     />
                   </div>
 

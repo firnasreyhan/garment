@@ -107,7 +107,7 @@ export default function UserList() {
     uPhone: "",
     uAddress: "",
     uPassword: "",
-    uRole: "TAYLOR",
+    uRole: "STAFF",
   });
   const [editUser, setEditUser] = useState({
     uId: "",
@@ -116,7 +116,7 @@ export default function UserList() {
     uPhone: "",
     uAddress: "",
     uPassword: "",
-    uRole: "TAYLOR",
+    uRole: "STAFF",
   });
 
   const handleAddUser = async (e) => {
@@ -158,7 +158,7 @@ export default function UserList() {
       uPhone: user.uPhone || "",
       uAddress: user.uAddress || "",
       uPassword: "",
-      uRole: "TAYLOR",
+      uRole: "STAFF",
     });
     setShowEditModal(true);
   };
@@ -203,7 +203,7 @@ export default function UserList() {
       const response = await getUserList({
         pageLimit: 10,
         pageNumber: page,
-        filterURole: "TAYLOR",
+        filterURole: "STAFF",
       });
 
       const data = response.data.data.listData;

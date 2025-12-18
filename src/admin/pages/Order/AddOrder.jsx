@@ -757,19 +757,9 @@ const AddOrder = () => {
 
             {/* Order Items */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-primaryColor">
-                  Item Pesanan
-                </h2>
-                <button
-                  type="button"
-                  onClick={addOrderItem}
-                  className="flex items-center gap-2 px-4 py-2 bg-primaryColor text-white rounded-lg hover:bg-primaryColor/90"
-                >
-                  <PlusIcon className="w-4 h-4" />
-                  Tambah Item
-                </button>
-              </div>
+              <h2 className="text-xl font-bold text-primaryColor mb-4">
+                Item Pesanan
+              </h2>
 
               <div className="space-y-4">
                 {formData.oItems.map((item, itemIndex) => (
@@ -1083,6 +1073,17 @@ const AddOrder = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+              
+              <div className="mt-4">
+                <button
+                  type="button"
+                  onClick={addOrderItem}
+                  className="flex items-center gap-2 px-4 py-2 bg-primaryColor text-white rounded-lg hover:bg-primaryColor/90"
+                >
+                  <PlusIcon className="w-4 h-4" />
+                  Tambah Item
+                </button>
               </div>
             </div>
 

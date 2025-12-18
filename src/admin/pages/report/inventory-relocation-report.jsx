@@ -7,7 +7,7 @@ import DateRangeFilterReport from "../../../components/date-range-filter-report"
 import { generateInventoryRelocationReport } from "../../../utils/pdfGenerator";
 import { getInventoryRelocations } from "../../../api/Inventory/inventoryRelocation";
 import { getWarehouses } from "../../../api/Inventory/inventoryWarehouse";
-import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import { ChevronDownIcon, PrinterIcon } from "@heroicons/react/24/solid";
 
 const PAGE_LIMIT = 10;
 
@@ -330,7 +330,8 @@ const InventoryRelocationReport = () => {
               onClick={handleGeneratePDF}
               className="bg-primaryColor hover:bg-secondaryColor text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-colors shadow-lg"
             >
-              Buat Laporan PDF
+              <PrinterIcon className="w-4 h-4" />
+              Print Relokasi
             </button>
           </div>
 

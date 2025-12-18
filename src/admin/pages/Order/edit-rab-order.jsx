@@ -2,7 +2,7 @@ import {
   ArrowLeftIcon,
   CheckIcon,
   ChevronDownIcon,
-  DocumentIcon,
+  PrinterIcon,
   PlusIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
@@ -22,6 +22,7 @@ import { calculateRABItemValues, formatCurrency } from "../../../utils";
 import { generateRABPReport } from "../../../utils/pdfGenerator";
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
+import { hasPermission } from '../../../api/auth';
 import { LockableInput } from "../../components/lockable-input";
 import BackgroundImage from '../../../assets/background/bg-zumar.png';
 
@@ -158,6 +159,7 @@ const getName = (
   return "Unknown";
 };
 
+
 const RABItemsSection = ({
   summary,
   inventories,
@@ -185,13 +187,12 @@ const RABItemsSection = ({
             return (
               <button
                 key={item.ocbpId}
-                className={`${tabStyles.tabButton} whitespace-nowrap ${
-                  activeItemTab === item.ocbpId
-                    ? tabStyles.activeTabButton
-                    : ((item.ocbpMaterialNeedPriceTotal !== null) && (item.ocbpTotalOff  !== null) && (item.ocbpsMarginTotal  !== null))
-                      ? tabStyles.filledTabButton 
-                      : tabStyles.inactiveTabButton
-                }`}
+                className={`${tabStyles.tabButton} whitespace-nowrap ${activeItemTab === item.ocbpId
+                  ? tabStyles.activeTabButton
+                  : ((item.ocbpMaterialNeedPriceTotal !== null) && (item.ocbpTotalOff !== null) && (item.ocbpsMarginTotal !== null))
+                    ? tabStyles.filledTabButton
+                    : tabStyles.inactiveTabButton
+                  }`}
                 onClick={() => handleTabChange(item)}
               >
                 {`${item.cpName} - Size ${item.sGroup} (${item.ocbpAmount})`}
@@ -243,9 +244,9 @@ const RABItem = ({
   const [selectedInventory, setSelectedInventory] = useState(null);
   const [isFieldLocked, setIsFieldLocked] = useState(
     !!item.ocbpMaterialNeed ||
-      !!item.ocbpMaterialPrice ||
-      !!item.ocbpPriceOff ||
-      !!item.ocbpSettingMarginPercentage,
+    !!item.ocbpMaterialPrice ||
+    !!item.ocbpPriceOff ||
+    !!item.ocbpSettingMarginPercentage,
   );
 
   const handleNumericInput = (value, allowEmpty = false) => {
@@ -317,20 +318,22 @@ const RABItem = ({
       <form ref={formRef}>
         {/* Material Info */}
         <div className="flex w-full justify-end pr-4">
-          <button
-            type="button"
-            onClick={() => {
-              setIsFieldLocked((prev) => !prev);
-            }}
-            className={isFieldLocked ? "bg-primaryColor text-white px-4 py-1 rounded-lg text-sm hover:bg-primaryColor-700 inline-flex gap-2 items-center" : "bg-secondaryColor text-white px-4 py-1 rounded-lg text-sm hover:bg-secondaryColor-700 inline-flex gap-2 items-center"}
-          >
-            {isFieldLocked ? (
-              <LockIcon className="w-4 h-4 inline" />
-            ) : (
-              <UnlockIcon className="w-4 h-4 inline" />
-            )}{" "}
-            {isFieldLocked ? "View Mode" : "Edit Mode"}
-          </button>
+          {hasPermission('rab.lock', 'rab.unlock') && (
+            <button
+              type="button"
+              onClick={() => {
+                setIsFieldLocked((prev) => !prev);
+              }}
+              className={isFieldLocked ? "bg-primaryColor text-white px-4 py-1 rounded-lg text-sm hover:bg-primaryColor-700 inline-flex gap-2 items-center" : "bg-secondaryColor text-white px-4 py-1 rounded-lg text-sm hover:bg-secondaryColor-700 inline-flex gap-2 items-center"}
+            >
+              {isFieldLocked ? (
+                <LockIcon className="w-4 h-4 inline" />
+              ) : (
+                <UnlockIcon className="w-4 h-4 inline" />
+              )}{" "}
+              {isFieldLocked ? "View Mode" : "Edit Mode"}
+            </button>
+          )}
         </div>
         <div className="grid grid-cols-2 gap-x-4 bg-white rounded-xl p-4 mb-4">
           <div className="space-y-2">
@@ -405,16 +408,16 @@ const RABItem = ({
                     />
                     <ChevronDownIcon className="w-4 h-4 absolute right-2 top-2 text-gray-400 pointer-events-none" />
                   </>
-                ) 
-                : (
-                  <input
-                    type="text"
-                    value={item.ocbpMaterialName}
-                    readOnly
-                    className="w-48 px-2 py-1 border border-gray-300 rounded text-black bg-gray-50 text-sm"
-                    placeholder="Kode akan terisi otomatis"
-                  />
-                )}
+                )
+                  : (
+                    <input
+                      type="text"
+                      value={item.ocbpMaterialName}
+                      readOnly
+                      className="w-48 px-2 py-1 border border-gray-300 rounded text-black bg-gray-50 text-sm"
+                      placeholder="Kode akan terisi otomatis"
+                    />
+                  )}
               </div>
             </div>
             <div className="flex justify-between items-center">
@@ -507,7 +510,7 @@ const RABItem = ({
             </div>
             {!isFieldLocked && (
               <div className="flex justify-between items-center">
-                <span className="text-black text-sm">Template RAB</span>
+                <span className="text-black text-sm">Template RABP</span>
                 <div className="relative w-48">
                   <SearchableDropdown
                     data={templates}
@@ -973,16 +976,18 @@ const RABItem = ({
 
         {/* Submit Button */}
         <div className="flex justify-end mt-6">
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            disabled={isSaving}
-            // className="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            className={((item.ocbpMaterialNeedPriceTotal !== null) && (item.ocbpTotalOff  !== null) && (item.ocbpsMarginTotal  !== null)) ? "bg-secondaryColor text-white px-6 py-2 rounded-lg hover:bg-secondaryColor disabled:opacity-50 disabled:cursor-not-allowed" : "bg-primaryColor text-white px-6 py-2 rounded-lg hover:bg-primaryColor disabled:opacity-50 disabled:cursor-not-allowed"}
-          >
-            {isSaving ? "Menyimpan..." : ((item.ocbpMaterialNeedPriceTotal !== null) && (item.ocbpTotalOff  !== null) && (item.ocbpsMarginTotal  !== null)) ? "Update RABP" : "Simpan RABP"}
-            {/* {isSaving ? "Menyimpan..." : "Simpan RABP"} */}
-          </button>
+          {hasPermission('rab.edit') && (
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              disabled={isSaving}
+              // className="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className={((item.ocbpMaterialNeedPriceTotal !== null) && (item.ocbpTotalOff !== null) && (item.ocbpsMarginTotal !== null)) ? "bg-secondaryColor text-white px-6 py-2 rounded-lg hover:bg-secondaryColor disabled:opacity-50 disabled:cursor-not-allowed" : "bg-primaryColor text-white px-6 py-2 rounded-lg hover:bg-primaryColor disabled:opacity-50 disabled:cursor-not-allowed"}
+            >
+              {isSaving ? "Menyimpan..." : ((item.ocbpMaterialNeedPriceTotal !== null) && (item.ocbpTotalOff !== null) && (item.ocbpsMarginTotal !== null)) ? "Update RABP" : "Simpan RABP"}
+              {/* {isSaving ? "Menyimpan..." : "Simpan RABP"} */}
+            </button>
+          )}
         </div>
       </form>
     </div>
@@ -1094,7 +1099,7 @@ export default function EditRabOrder() {
       console.error("Error updating percentage:", error);
       setErrorMessage(
         "Gagal mengupdate persentase: " +
-          (error.response?.data?.message || error.message),
+        (error.response?.data?.message || error.message),
       );
     } finally {
       setIsUpdatingPercentage(false);
@@ -1297,7 +1302,7 @@ export default function EditRabOrder() {
           <div className="text-center py-8">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primaryColor mx-auto mb-4"></div>
             <p className="text-primaryColor font-semibold">
-              Memuat data simulasi rab...
+              Memuat data simulasi RABP...
             </p>
           </div>
         ) : (
@@ -1312,31 +1317,33 @@ export default function EditRabOrder() {
                   <ArrowLeftIcon className="w-5 h-5" />
                   Kembali
                 </button>
-                
-                {/* RABP Report Button */}
-                <button
-                  onClick={async () => {
-                    try {
-                      const result = await generateRABPReport(summary, orderId);
-                      if (result && result.success) {
-                        toast.success(`Laporan RABP berhasil di-generate: ${result.fileName}`);
-                      }
-                    } catch (error) {
-                      console.error("Error generating RABP report:", error);
-                      toast.error("Gagal generate laporan RABP: " + error.message);
-                    }
-                  }}
-                  disabled={!summary || !summary.ocbpItems || summary.ocbpItems.length === 0}
-                  className="flex items-center gap-2 px-4 py-2 bg-secondaryColor hover:bg-secondaryColor-700 text-white rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <DocumentIcon className="w-5 h-5" />
-                  Cetak Laporan RABP
-                </button>
-                
-                <div>
+
+                <div className="flex items-center justify-between flex-1">
                   <h1 className="text-3xl font-bold text-primaryColor">
-                    Edit RAB Pesanan
+                    Edit RABP Pesanan
                   </h1>
+
+                  {/* RABP Report Button */}
+                  {hasPermission('reports.rabp') && (
+                    <button
+                      onClick={async () => {
+                        try {
+                          const result = await generateRABPReport(summary, orderId);
+                          if (result && result.success) {
+                            toast.success(`Laporan RABP berhasil di-generate: ${result.fileName}`);
+                          }
+                        } catch (error) {
+                          console.error("Error generating RABP report:", error);
+                          toast.error("Gagal generate laporan RABP: " + error.message);
+                        }
+                      }}
+                      disabled={!summary || !summary.ocbpItems || summary.ocbpItems.length === 0}
+                      className="flex items-center gap-2 px-4 py-2 bg-secondaryColor hover:bg-secondaryColor-700 text-white rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <PrinterIcon className="w-4 h-4" />
+                      Print RABP
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -1363,7 +1370,7 @@ export default function EditRabOrder() {
                 {/* REKAP RABP Card */}
                 <div className="bg-white rounded-xl p-6 shadow-md">
                   <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-bold">REKAP RAB</h2>
+                    <h2 className="text-xl font-bold">REKAP RABP</h2>
                   </div>
                   <div className="space-y-3">
                     <div className="flex justify-between border-t pt-2">

@@ -8,13 +8,13 @@ export const getUserList = ({
   search,
   orderBy,
   ordering,
-  filterURole,
+  filterRId = null,
 } = {
-  pageLimit: 1,
-  pageNumber: 1,
-  search: "",
-  filterURole: "ADMIN",
-}) => {
+    pageLimit: 1,
+    pageNumber: 1,
+    search: "",
+    filterRId: null,
+  }) => {
   return api.get(USER_ENDPOINT, {
     params: {
       pageLimit,
@@ -22,7 +22,7 @@ export const getUserList = ({
       search,
       orderBy,
       ordering,
-      filterURole,
+      filterRId,
     }
   });
 };
