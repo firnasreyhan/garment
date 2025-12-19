@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from '../utils/tokenManager';
 
 const api = axios.create({
-  baseURL: 'https://api-garment.devtestingapps.my.id',
+  baseURL: 'https://api.zumar.co.id',
   // headers: {
   //   'Content-Type': 'application/json',
   // },
